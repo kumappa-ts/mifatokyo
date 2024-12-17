@@ -1,22 +1,58 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import { siteConfig } from '../config/site';
+import 'modern-normalize';
+import '../styles/global.scss';
+import Navigation from '../components/navigation/Navigation.astro';
+interface Props {
+  title: string;
+  description: string;
+}
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+const { title, description } = Astro.props;
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={siteConfig.ogImage} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={siteConfig.fcImage} />
+  </head>
+  <body>
+    <!-- <Navigation /> -->
+    <main>
+			<div class="main-container">
+				<div class="main-container__header">
+					<Navigation />
+				</div>
+				<div class="main-container__body">
+					<slot />
+				</div>
+			</div>
+    </main>
+  </body>
+</html>
+<style lang="scss">
+  @use '../styles/_variables' as *;
+  @use '../styles/_mixins' as *;
+  .main-container{
+		display: grid;
+		grid-template-columns: 4fr 6fr;
+		padding: 4rem;
+	}
+  .main-container__header{
+		height: 100vh;
+		position: relative;
+	}
+  .main-container__body{
+		border-radius: 1.2rem;
+		border: 6px solid $black;
+		background:  $white;
 	}
 </style>

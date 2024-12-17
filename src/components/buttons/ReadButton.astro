@@ -1,0 +1,124 @@
+<!-- // src/components/buttons/ReadButton.astro -->
+
+---
+interface Props {
+  href: string;
+  text?: string;
+}
+
+const { href, text = "Read More" } = Astro.props;
+---
+
+<a href={href} class="read-button">
+  <span class="read-button__text">{text}</span>
+  <span class="read-button__icon">
+    <span class="button-eye"></span>
+    <span class="button-eye"></span>
+  </span>
+</a>
+
+<style lang="scss">
+  @use '../../styles/_variables' as *;
+  @use '../../styles/_mixins' as *;
+  .read-button {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border: 2px solid currentColor;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    background: $white;
+    transition: all 0.3s easing('in-out-sine');
+
+    @include hover{
+      background: $black;
+      .button-eye{
+        &:before{
+          left:30% ;
+          animation: animBlinkBlack .3s forwards;
+        }
+        &:after{
+          animation: animBlinkWhiet .3s forwards;
+        }
+      }
+      .read-button__text{
+        color: $white;
+
+      }
+    }
+  }
+  .read-button__text{
+    font-size: 1.6rem;
+    transition: color 0.3s easing('in-out-sine');
+  }
+  .read-button__icon{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.1rem;
+    align-items: center;
+  }
+  .button-eye{
+    min-block-size: 0;
+    position: relative;
+    aspect-ratio: 14/20;
+    height: 2rem;
+    overflow: hidden;
+    border-radius: 50%;
+    &::before{
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: auto;
+      left: -10%;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      width: 80%;
+      height: 55%;
+      background: $black;
+      transition: left 0.3s easing('in-out-sine');
+      z-index: 2;
+    }
+    &:after{
+      background: $white;;
+      position: absolute;inset: 0;
+      margin: auto;
+      border: 1px solid;
+      border-radius: 50%;
+      content: '';
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+  }
+  @keyframes animBlinkWhiet {
+    0%{
+      height: 100%;
+    }
+    50%{
+      height: 0;
+    }
+    100%{
+      height: 100%;
+    }
+
+  }
+  @keyframes animBlinkBlack {
+    0%{
+      height: 55%;
+    }
+    50%{
+      height: 0;
+    }
+    100%{
+      height: 55%;
+    }
+
+  }
+</style>

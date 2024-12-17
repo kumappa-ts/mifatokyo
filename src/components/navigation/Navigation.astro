@@ -1,0 +1,43 @@
+<!-- // src/components/navigation/Navigation.astro -->
+---
+import { Image } from 'astro:assets';
+import { getNavigationItems } from '../../config/site.ts';
+const navItems = getNavigationItems();
+import logo from '../../assets/images/common/mifa.svg';
+---
+
+<nav class="navigation">
+  <Image src={logo} alt="logo" />
+  <ul class="navigation-list">
+    {navItems.map(item => (
+      <li>
+        <a class="navigation-item" href={item.href}>{item.jaLabel} - {item.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style lang="scss">
+  @use '../../styles/_variables' as *;
+  @use '../../styles/_mixins' as *;
+  .navigation{
+    width: fit-content;
+    position: sticky;
+		top: 4rem;
+    border-radius: 1.2rem;
+    background: rgba($white, .5);
+    padding: 4rem 8rem 4rem 4rem;
+    backdrop-filter: blur(10px);
+    height: 100%;
+    max-height: 720px;
+  }
+  .navigation-list{
+    display: grid;
+    gap: 3.2rem;
+    list-style: none;
+    margin-top: 7.2rem;
+  }
+  .navigation-item{
+    font-size: 1.6rem;
+  }
+</style>

@@ -9,6 +9,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.0.9"
+    "astro": "^5.0.9",
+    "microcms-js-sdk": "^3.1.2",
+    "modern-normalize": "^3.0.1"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.0.5",
+    "sass": "^1.83.0"
   }
 }
