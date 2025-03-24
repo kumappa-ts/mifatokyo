@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import figure from '../assets/images/notfound/img-404.png';
+import Page from '../components/common/page.astro';
+import { generateMetadata } from '../config/site';
+const metadata = generateMetadata('notFound');
+---
+<Page title="404 Not Found" pageName="notFound">
+	<div class="inner">
+		<div class="face-figure">
+			<Image src={figure} alt="40433344421344533314" />
+		</div>
+		<p class="lead-text">ページが...ページが
+			見つからなかったようです。</p>
+
+	</div>
+
+</Page>
+<style lang="scss">
+  @use '../styles/_variables' as *;
+  @use '../styles/_mixins' as *;
+	.lead-text{
+		font-size: $text32;
+		letter-spacing: 0.04em;
+		white-space: pre-line;
+	}
+	.face-figure{
+		img{
+			animation:faceApproaching 1s steps(3) infinite;
+			@keyframes faceApproaching {
+				0%{
+					scale: 0;
+				}
+				25%{
+					scale: .25;
+				}
+				50%{
+					scale: .5;
+				}
+				75%{
+					scale: .75;
+				}
+				100%{
+					scale: 1;
+				}
+			}
+		}
+	}
+</style>

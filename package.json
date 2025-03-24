@@ -6,15 +6,29 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint:style": "stylelint \"src/**/*.{css,scss,astro}\"",
+    "lint:style:fix": "stylelint \"src/**/*.{css,scss,astro}\" --fix"
   },
   "dependencies": {
-    "astro": "^5.0.9",
+    "@qwik.dev/partytown": "^0.11.0",
+    "@studio-freight/lenis": "^1.0.42",
+    "astro": "^5.1.1",
+    "cheerio": "^1.0.0",
+    "gsap": "^3.12.5",
+    "highlight.js": "^11.11.1",
     "microcms-js-sdk": "^3.1.2",
-    "modern-normalize": "^3.0.1"
+    "modern-normalize": "^3.0.1",
+    "newt-client-js": "^3.3.8",
+    "split-type": "^0.3.4",
+    "web-vitals": "^4.2.4"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.0.5",
-    "sass": "^1.83.0"
+    "@astrojs/partytown": "^2.1.2",
+    "@astrojs/sitemap": "^3.2.1",
+    "sass": "^1.83.0",
+    "stylelint": "^16.12.0",
+    "stylelint-config-recess-order": "^5.1.1",
+    "stylelint-config-standard-scss": "^14.0.0"
   }
 }

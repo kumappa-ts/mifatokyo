@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import Page from '../../components/common/page.astro';
+import PageHeader from '../../components/common/PageHeader.astro';
+import MemoBlock from '../../components/block/memoBlock.astro';
+import { getBlogs, type Post } from '../../library/microcms';
+import { siteConfig } from '../../config/site';
+interface Props {
+  title?: string;
+  enLabel?: string;
+  jaLabel?: string;
+  currentTitle?: string;
+  pageName?: keyof typeof siteConfig.pages;
+}
+const posts = await getBlogs();
+---
+<Page>
+  <div class="">
+    <PageHeader >
+  </div>
+  <div class="page-lead text-edging">
+    <p class="text">技術系の話や生活の中での気づきなど、
+      後で見返せるようにいろいろ書き残していきます。</p>
+  </div>
+  <!-- <div class="page-header">
+    <h1 class="page-header__en" data-text="memo">memo</h1>
+    <div class="page-header__ja">
+      <p>備忘録</p>
+    </div>
+  </div> -->
+  <div class="post-list">
+    {posts.map((post,index) => (
+      <MemoBlock
+        title={post.title}
+        dateString={post.datepick}
+        thumbnail={post.thumbnail}
+        id={post.id}
+        isEven={index % 2 === 0}
+      />
+    ))}
+  </div>
+
+</Page>
+<style lang="scss">
+  @use '../../styles/_variables' as *;
+  @use '../../styles/_mixins' as *;
+  .page-lead{
+    padding: 0 5cqi;
+  }
+  .post-list{
+    display: grid;
+    gap: 6cqi;
+  }
+</style>

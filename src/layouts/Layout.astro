@@ -3,6 +3,8 @@ import { siteConfig } from '../config/site';
 import 'modern-normalize';
 import '../styles/global.scss';
 import Navigation from '../components/navigation/Navigation.astro';
+import Footer from '../components/common/Footer.astro';
+import WebVitals from '../components/WebVitals.astro';
 interface Props {
   title: string;
   description: string;
@@ -13,8 +15,16 @@ const { title, description } = Astro.props;
 
 <html lang="ja">
   <head>
+    <!-- Google Tag Manager -->
+    <script type="text/partytown">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PK2MVWB');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <!-- サイト情報 -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
@@ -22,37 +32,120 @@ const { title, description } = Astro.props;
     <meta property="og:image" content={siteConfig.ogImage} />
     <meta property="og:site_name" content={siteConfig.name} />
     <meta property="twitter:card" content="summary_large_image" />
+    <!-- テーマカラー -->
+    <meta name="theme-color" content="#030014">
+    <!-- フォント読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- ファビコン -->
     <link rel="icon" href={siteConfig.fcImage} />
   </head>
   <body>
-    <!-- <Navigation /> -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PK2MVWB"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <main>
 			<div class="main-container">
 				<div class="main-container__header">
-					<Navigation />
+          <div class="container-header">
+            <Navigation />
+          </div>
 				</div>
 				<div class="main-container__body">
 					<slot />
+          <Footer />
+          <WebVitals />
 				</div>
 			</div>
     </main>
+    <script>
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      // プラグインを登録
+      gsap.registerPlugin(ScrollTrigger);
+      import SplitType from "split-type";
+      import Lenis from '@studio-freight/lenis';
+      const splitType = document.querySelectorAll(".split-type");
+      // const lenis = new Lenis();
+
+      // function raf(time) {
+      //   lenis.raf(time);
+      //   requestAnimationFrame(raf);
+      // }
+
+      // requestAnimationFrame(raf);
+      const initializeSpanWrap = () => {
+        splitType.forEach((type) => {
+          new SplitType(type);
+        });
+      };
+      document.addEventListener('DOMContentLoaded', () => {
+        initializeSpanWrap();
+        console.log('ページが読み込まれました');
+        // 初期化処理など
+      });
+    </script>
+
   </body>
 </html>
 <style lang="scss">
   @use '../styles/_variables' as *;
   @use '../styles/_mixins' as *;
   .main-container{
-		display: grid;
-		grid-template-columns: 4fr 6fr;
-		padding: 4rem;
+    background: $black;
+    @include mq {
+      background: $white;
+      display: grid;
+      // padding: 4rem;
+      grid-template-columns: 1fr 1fr;
+
+    }
 	}
   .main-container__header{
-		height: 100vh;
-		position: relative;
+    display: block;
+    @include mq {
+      padding: 4rem;
+      display: grid;
+      height: 100%;
+      position: relative;
+    }
 	}
+  .container-header{
+    position: fixed;
+    width: 90%;
+    left: 50%;
+    translate: -50% 0;
+    bottom: 0;
+    bottom: 3cqi;
+    z-index: 5;
+    @include mq {
+      left: auto;
+      translate: unset;
+      width: 100%;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+  }
   .main-container__body{
-		border-radius: 1.2rem;
-		border: 6px solid $black;
+    overflow: hidden;
+    position: relative;
+    container-type: inline-size;
+		border-radius: 2rem;
+		border: 8px solid $black ;
 		background:  $white;
+    @include mq {
+      border-bottom: none;
+      border-top: none;
+      border-radius: 0;
+      max-width: 550px;
+      display: flex;
+      flex-direction: column;
+      // max-width: 660px;
+
+    }
 	}
 </style>

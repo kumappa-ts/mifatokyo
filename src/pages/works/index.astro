@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import Page from '../../components/common/page.astro';
+import PageHeader from '../../components/common/PageHeader.astro';
+import WorkBlock from '../../components/block/WorkBlock.astro';
+import { siteConfig } from '../../config/site';
+import { getArticles } from '../../library/newt';
+const articles = await getArticles();
+const recentNewtPosts = articles
+---
+<Page>
+  <div class="">
+    <PageHeader >
+  </div>
+  <div class="page-lead text-edging">
+    <p class="text">これまで個人でつくったもの、
+      携わらせて頂いた案件の一部を載せていきます。
+      ※所属企業での案件は記載していません。</p>
+  </div>
+  <!-- <div class="page-header">
+    <h1 class="page-header__en" data-text="memo">memo</h1>
+    <div class="page-header__ja">
+      <p>備忘録</p>
+    </div>
+  </div> -->
+  <div class="post-list">
+    {recentNewtPosts.map((article) => (
+      <WorkBlock article={article} />
+    ))}
+  </div>
+</Page>
+<style lang="scss">
+  @use '../../styles/_variables' as *;
+  @use '../../styles/_mixins' as *;
+  .page-lead{
+    padding: 0 5cqi;
+  }
+  .post-list{
+    display: grid;
+    gap: 6cqi;
+  }
+</style>

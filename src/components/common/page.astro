@@ -1,0 +1,69 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/common/Breadcrumb.astro';
+import { generateMetadata, siteConfig } from '../../config/site';
+
+interface Props {
+  title?: string;
+  currentTitle?: string;
+  pageName?: keyof typeof siteConfig.pages;
+}
+
+const { title, currentTitle, pageName } = Astro.props;
+
+// 現在のパスを取得
+const pathname = Astro.url.pathname;
+// ルートパスの場合は "index"、それ以外は最初のパスセグメントを取得
+const firstSegment = pathname === '/' ? 'index' : pathname.split('/').filter(Boolean)[0];
+
+// firstSegmentがsiteConfig.pagesのキーとして存在するか確認
+// 存在する場合はそれを使用、存在しない場合は指定されたpageNameまたはデフォルト'index'を使用
+const pageKey = (firstSegment in siteConfig.pages)
+  ? firstSegment
+  : (pageName || 'index');
+
+const metadata = generateMetadata(pageKey as keyof typeof siteConfig.pages);
+---
+<Layout title={title || metadata.title} description={metadata.description}>
+  <div class="page">
+    <!-- <div class="page-label">{metadata.label}</div> -->
+    <div class="page-label">{siteConfig.pages[pageKey as keyof typeof siteConfig.pages].label}</div>
+    <Breadcrumb currentTitle={currentTitle} />
+    <div class="page-content">
+      <slot />
+    </div>
+  </div>
+</Layout>
+<style lang="scss">
+  @use '../../styles/_variables' as *;
+  @use '../../styles/_mixins' as *;
+  .page{
+    position: relative;
+    flex: 1;
+  }
+  .page-label{
+    writing-mode: vertical-lr;
+    height: fit-content;
+    width: fit-content;
+    margin: 0;
+    line-height: 0.6;
+    // filter: opacity(.2);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 36cqi;
+    color: $black;
+    // opacity:.15;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    font-weight: 900;
+    -webkit-text-stroke: 8px $black;
+
+  }
+  .page-content{
+    position: relative;
+    // padding: 8cqi 0 14cqi ;
+    display: grid;
+    gap: 8cqi ;
+  }
+</style>

@@ -1,0 +1,37 @@
+---
+interface Props {
+  label: string;
+  title?: string;
+}
+
+const { label, title = "other More" } = Astro.props;
+---
+
+<hgroup class="index-headline">
+  <p class="index-headline-label">{label}</p>
+  <h2 class="index-headline-title">{title}</h2>
+</hgroup>
+
+<style lang="scss">
+  @use '../../styles/_variables' as *;
+  @use '../../styles/_mixins' as *;
+  .index-headline{
+    display: grid;
+    align-items: baseline;
+  }
+  .index-headline-label{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    font-size: $text96;
+    color: $gray;
+    opacity: .3;
+    letter-spacing: 0.1em;
+    -webkit-text-stroke: 2px $white;
+  }
+  .index-headline-title{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    font-size: $text32;
+    letter-spacing: 0.1em;
+  }
+</style>

@@ -4,6 +4,11 @@ html {
   min-height: 100vh;
   font-size: 62.5%;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
+  -moz-tab-size: 2;
+  tab-size: 2;
+  word-break: normal;
 }
 
 body {
@@ -15,24 +20,21 @@ body {
   /* フォントレンダリング設定: 1x解像度ではsubpixel、2x以上の解像度ではgrayscale */
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: unset;
-  font-family: 'comfortaa', 'kosugimaru';
+  font-family: 'comfortaa', 'M PLUS Rounded 1c';
+  margin-block: calc((1em - 1lh) / 2);
 }
 
 a {
   color: currentColor;
   text-decoration: none;
 }
-html {
-  -webkit-text-size-adjust: 100%;
-  box-sizing: border-box;
-  -moz-tab-size: 4;
-  tab-size: 4;
-  word-break: normal;
-}
+
 *,
 :after,
 :before {
   background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
   box-sizing: inherit;
 }
 :after,
@@ -40,10 +42,7 @@ html {
   text-decoration: inherit;
   vertical-align: inherit;
 }
-* {
-  margin: 0;
-  padding: 0;
-}
+
 hr {
   color: inherit;
   height: 0;
@@ -209,6 +208,13 @@ legend {
 }
 img {
   border-style: none;
+}
+img,
+video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 progress {
   vertical-align: baseline;

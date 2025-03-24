@@ -6,8 +6,20 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'kosugimaru';
-  src: url('../assets/fonts/kosugimaru.woff2') format('woff2');
+  font-family: 'Comfortaa-Regular';
+  src: url('../assets/fonts/comfortaa-regular.woff2') format('woff2');
   font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ZenMaruGothic-Bold';
+  src: url('../assets/fonts/ZenMaruGothic-Bold.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ZenMaruGothic-Regular';
+  src: url('../assets/fonts/ZenMaruGothic-Regular.woff2') format('woff2');
+  font-weight: 400;
   font-display: swap;
 }

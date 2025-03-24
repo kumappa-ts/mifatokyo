@@ -4,6 +4,7 @@ export const siteConfig = {
   siteDomain: 'https://mifa.tokyo',
   ogImage: '/assets/images/common/ogp.jpg',
   fcImage: '/favicon.svg',
+  siteCopy: `©mifa all right reserved.`,
 
   pages: {
     index: {
@@ -33,11 +34,11 @@ export const siteConfig = {
       inNav: true,
       order: 3,
     },
-    jornal: {
-      path: '/jornal',
-      jaLabel: '書き残し',
-      label: 'Jornal',
-      title: 'Jornal',
+    memo: {
+      path: '/memo',
+      jaLabel: '備忘録',
+      label: 'memo',
+      title: 'memo',
       description: 'My thoughts and articles',
       inNav: true,
       order: 4,
@@ -51,6 +52,22 @@ export const siteConfig = {
       inNav: true,
       order: 5,
     },
+    notFound: {
+      path: '/404',
+      jaLabel: 'Page Not Found',
+      label: '404',
+      title: '35152424221132244345251142113311251144441154344514154345',
+      description: 'Get in touch with me',
+      inNav: false,
+      order: 6,
+    },
+  },
+  // SNSリンク
+  socialLinks: {
+    twitter: 'https://x.com/_________mashi',
+    github: 'https://github.com/youraccount',
+    note: 'https://github.com/youraccount',
+    // 他のSNSリンク
   },
 } as const;
 
@@ -74,5 +91,7 @@ export function generateMetadata(pageName: keyof typeof siteConfig.pages) {
     description: page.description,
     ogImage: siteConfig.ogImage,
     fcImage: siteConfig.fcImage,
+    label: page.label,
+    siteCopy: siteConfig.siteCopy,
   };
 }

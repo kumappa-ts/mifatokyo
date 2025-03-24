@@ -1,0 +1,78 @@
+---
+import { siteConfig } from '../../config/site';
+
+interface Props {
+  jaLabel?: string;
+  enLabel?: string;
+  pageName?: keyof typeof siteConfig.pages;
+}
+
+const { jaLabel, enLabel, pageName } = Astro.props;
+
+// 現在のパスを取得
+const pathname = Astro.url.pathname;
+// ルートパスの場合は "index"、それ以外は最初のパスセグメントを取得
+const firstSegment = pathname === '/' ? 'index' : pathname.split('/').filter(Boolean)[0];
+
+// firstSegmentがsiteConfig.pagesのキーとして存在するか確認
+const pageKey = (firstSegment in siteConfig.pages)
+  ? firstSegment
+  : (pageName || 'index');
+
+// siteConfigから情報を取得
+const pageInfo = siteConfig.pages[pageKey as keyof typeof siteConfig.pages];
+
+// propsが提供されていればそれを使用、なければページ情報から取得
+const displayJaLabel = jaLabel || pageInfo.jaLabel;
+const displayEnLabel = enLabel || pageInfo.label;
+---
+
+<div class="page-header">
+  <h1 class="page-header__en" data-text={displayEnLabel}>{displayEnLabel}</h1>
+  <div class="page-header__ja">
+    <p>{displayJaLabel}</p>
+  </div>
+</div>
+
+<style lang="scss">
+  @use '../../styles/_variables' as *;
+  @use '../../styles/_mixins' as *;
+  .page-header {
+    position: relative;
+    padding-left: 5cqi;
+    margin-top: 20cqi;
+  }
+  .page-header__ja {
+    background: $black;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 32cqi;
+    padding: 2cqi 2cqi 1cqi;
+    text-align: center;
+    border-radius: 10cqi 0 0 10cqi;
+    p {
+      font-size: $text24;
+      color:$white;
+      margin-block: calc((1em - 1lh) / 2);
+    }
+  }
+  .page-header__en{
+    margin-block: calc((1em - 1lh) / 2);
+    font-weight: 900;
+    font-size: 22cqi;
+    letter-spacing: 0;
+    color: $white;
+    position: relative;
+    line-height: 1;
+    -webkit-text-stroke: 14px $black;
+    paint-order: stroke;
+  }
+  .page-lead{
+    padding: 0 5cqi;
+  }
+  .post-list{
+    display: grid;
+    gap: 6cqi;
+  }
+</style>

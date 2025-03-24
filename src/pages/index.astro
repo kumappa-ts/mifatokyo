@@ -1,18 +1,345 @@
 ---
+import type { GetStaticPaths } from "astro";
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-import Welcome from '../components/Welcome.astro';
+// import Welcome from '../components/Welcome.astro';
+import MemoBlock from '../components/block/memoBlock.astro';
+import WorkBlock from '../components/block/WorkBlock.astro';
 import ReadButton from '../components/buttons/ReadButton.astro';
 import OtherButton from '../components/buttons/OtherButton.astro';
-
+import IndexHeadline from '../components/headline/IndexHeadline.astro';
+import logo from '../assets/images/common/mifa.svg';
+import columnImg01 from '../assets/images/index/column_img01.jpg';
+import columnImg02 from '../assets/images/index/column_img02.jpg';
+import columnImg03 from '../assets/images/index/column_img03.jpg';
 
 import { generateMetadata } from '../config/site';
+import { getBlogs, type Post, formatDate } from '../library/microcms';
+const posts = await getBlogs();
+const recentPosts = posts.slice(0, 3); // 最新3件を取得
+import { getArticles } from '../library/newt';
+const articles = await getArticles();
+const recentNewtPosts = articles.slice(0, 3); // 最新3件を取得
 
 const metadata = generateMetadata('index');
 ---
 
 <Layout title={metadata.title} description={metadata.description}>
-	<ReadButton href="/works" text="続きを読む" />
-	<OtherButton href="/works" text="他の記事も見てみる" />
-	<Welcome />
+	<!-- kv -->
+	 <section class="index-kv">
+		<div class="index-kv-plate">
+			<div class="index-kv-plate__label">Seeking
+				a sweet spot
+				of simplicity</div>
+			<div class="index-kv-plate__logo">
+				<Image src={logo} alt="logo" />
+			</div>
+		</div>
+	 </section>
+	<!-- // kv -->
+	<!-- latest -->
+	<!-- <section class="index-latest">
+		<div class="index-latest__label">
+			<p class="latest-text text">topics</p>
+		</div>
+		<div class="index-latest__content">
+			<time class="latest-date text">2025/3/1</time>
+			<p class="latest-content text">サイトリニューアルを行いました。</p>
+		</div>
+	</section> -->
+	<!-- // latest -->
+	<!-- index lead -->
+	<section class="index-lead">
+		<div class="index-lead__inner">
+			<div class="index-lead-text">
+				<p class="text white">
+					<span>はじめまして、いまいです。</span>
+					足元の悪い中、ようこそいらっしゃいました。
+
+					フロントエンド実装を中心に
+					さまざまな制作活動を小さく行っています。
+
+					何かご一緒できる機会があれば嬉しいです。
+					不束者ですが、何卒。</p>
+				<p class="index-lead-label">about</p>
+			</div>
+		</div>
+		<div class="index-lead-button">
+			<OtherButton href="/about" text="VIEW MORE" />
+		</div>
+	</section>
+	<!-- // index lead -->
+	<div class="bg-wrapper">
+		<!-- <div class="motif-circle border-block">
+
+		</div> -->
+		<!-- works -->
+		<section class="index-section index-section--works">
+			<div class="">
+				<IndexHeadline label="works" title="作ったもの" class='white'>
+			</div>
+
+		</section>
+		<!-- // works -->
+		<!-- <ReadButton href="/works" text="続きを読む" /> -->
+		<section class="index-section index-section--work">
+			<div class="works-wrap">
+				{recentNewtPosts.map((article) => (
+					<WorkBlock article={article} />
+				))}
+			</div>
+			<OtherButton href="/works" text="VIEW MORE" />
+		</section>
+		<!-- つなぎの写真 -->
+		<div class="column-img-wrap">
+			<div class="column-bubble">I'll snap some pictures too! </div>
+			<div class="column-img">
+				<Image src={columnImg01} alt="logo" class="image-fit-cover" />
+			</div>
+			<div class="column-img">
+				<Image src={columnImg02} alt="logo" class="image-fit-cover" />
+			</div>
+			<div class="column-img">
+				<Image src={columnImg03} alt="logo" class="image-fit-cover" />
+			</div>
+		</div>
+
+	</div>
+	<section class="index-section index-section--memo">
+		<div class="">
+			<IndexHeadline label="memo" title='備忘録'>
+			</div>
+			<div class="post-list">
+				{recentPosts.map((post,index) => (
+				<MemoBlock
+					title={post.title}
+					dateString={post.datepick}
+					thumbnail={post.thumbnail}
+					id={post.id}
+					isEven={index % 2 === 0}
+				/>
+			))}
+		</div>
+		<OtherButton href="/memo/" text="VIEW MORE" />
+	</section>
+	<!-- <div class="threshold-fig">
+
+	</div> -->
 </Layout>
+<style lang="scss">
+  @use '../styles/_variables' as *;
+  @use '../styles/_mixins' as *;
+	.index-kv{
+		display: grid;
+		place-content: center;
+		height: 100dvh;
+	}
+	.index-kv-plate{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4cqi;
+	}
+	.index-kv-plate__label{
+		font-size: $text28;
+		font-weight: 900;
+		white-space: pre-line;
+	}
+	.index-kv-plate__logo{
+		width: 34cqi;
+	}
+	// Latest
+	.index-latest{
+		background: $black;
+		display: grid;
+		grid-template-columns:  auto 1fr;
+		align-items: center;
+		padding: 2cqi 0;
+	}
+	.index-latest__label{
+		padding: 0 2cqi ;
+	}
+	.latest-text{
+		color: $white;
+		&:first-letter{
+			text-transform: uppercase;
+		}
+	}
+	.index-latest__content{
+		border-radius: 10cqi 0 0 10cqi;
+		padding: 2cqi 4cqi;
+		display: grid;
+		justify-content: end;
+		grid-template-columns:  auto 1fr;
+		gap: 6cqi;
+		background: $white;
+	}
+	.latest-date{
+
+	}
+	.latest-content{
+
+	}
+	// // Latest
+	// about
+	.index-lead {
+	}
+	.index-lead__inner{
+		background: $black;
+		position: relative;
+		z-index: 1;
+		display: grid;
+		padding: 3cqi 2cqi;
+		border-radius:4cqi ;
+		&:before{
+			content: '';
+			background: $black;
+			border-radius:3cqi;
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			top: 6cqi;
+			z-index: -1;
+		}
+	}
+	.index-lead-text {
+		// text-align: center;
+		padding: 6cqi;
+		border: 6px solid $white;
+		border-radius:3cqi ;
+		overflow: hidden;
+	}
+	.index-lead-label{
+		font-weight: 900;
+		letter-spacing: -.05em;
+		font-size: 25cqi;
+		color: $white;
+		line-height: .8;
+		width: fit-content;
+		margin: 8cqi -6cqi -9cqi auto;
+		filter: drop-shadow(2px 4px 0px #aaa);
+	}
+	.index-lead-button {
+		// margin-top:8cqi;
+		position: relative;
+		z-index: 2;
+	}
+	.index-lead-bg{
+		display: block;
+		width: 100%;
+	}
+	.index-lead-bg__path{
+		display: block;
+		width: 100%;
+		height: fit-content;
+		rotate: 45deg;
+		scale: 1.2;
+	}
+	// // about
+	// works
+	.works-wrap{
+		position: relative;
+		z-index: 2;
+		display: grid;
+	}
+
+	// // works
+	.threshold-fig{
+		overflow: hidden;
+
+		border-radius:  100cqi 0 0 100cqi ;
+		border: 8px solid #030014;
+		border-right: none;
+		margin: 8cqi 0 20cqi;
+		margin-left: auto;
+		aspect-ratio: 2/1;
+		width: 90cqi;
+	}
+	.index-section{
+		padding: 6cqi 0;
+	}
+	.index-section--memo,
+	.index-section--work{
+		display: grid;
+		gap: 8cqi;
+	}
+	.post-list{
+    display: grid;
+    gap: 8cqi;
+  }
+	.index-section-button{
+		display: grid;
+		justify-content: center;
+		margin-top:8cqi;
+	}
+	.column-img-wrap{
+		display: grid;
+		grid-template-columns: repeat(3,1fr);
+		margin: 18cqi -4px 20cqi;
+		position: relative;
+	}
+	.column-bubble{
+		position: absolute;
+		font-size: $text14;
+		color: $black;
+		background: $white;
+		border-radius: 1.2rem;
+		padding: 2cqi 3cqi 1.4cqi;
+		z-index: 4;
+		// border: 4px solid ;
+		left: auto;
+		right: 4cqi;
+		top: -10cqi;
+		letter-spacing: .1em;
+		-webkit-text-stroke: .5px $black;
+		@include mq {
+			-webkit-text-stroke: 1.5px $black;
+
+		}
+		&:before{
+			content: '';
+			clip-path: polygon(0 0, 50% 100%, 100% 0);
+			background: $white;
+			aspect-ratio: 1;
+			position: absolute;
+			width: 3cqi;
+			top: 97%;
+			right: 4cqi;
+		}
+	}
+	.column-img{
+		aspect-ratio: 210/300;
+		border: var(--default-border);
+		margin: 0 -1px;
+		rotate: 15deg;
+		border-radius: 2rem;
+		overflow: hidden;
+		position: relative;
+		background: $white;
+		background: $black;
+		img{
+			transform-origin: left center;
+			scale: 1.05;
+		}
+	}
+	.bg-wrapper{
+		margin-top: 16cqi;
+		position: relative;
+		&:before{
+			content: '';
+			width: 100%;
+			height: 100%;
+			background: $black;
+			z-index: 0;
+			position: absolute;
+			height: 100%;
+    	top: -30cqi;
+		}
+	}
+	.motif-circle{
+		aspect-ratio: 1;
+		border-radius: 50%;
+		margin-bottom: 6cqi;
+		background: $white;
+	}
+</style>

@@ -1,0 +1,25 @@
+---
+---
+<script>
+  import { onCLS, onFID, onLCP, onFCP, onTTFB } from 'web-vitals';
+
+  function logMetric({ name, value, rating }) {
+    console.log(`${name}: ${value} (${rating})`);
+  }
+
+  // 各メトリクスの測定と記録
+  onCLS(logMetric);  // Cumulative Layout Shift
+  onFID(logMetric);  // First Input Delay
+  onLCP(logMetric);  // Largest Contentful Paint
+  onFCP(logMetric);  // First Contentful Paint
+  onTTFB(logMetric); // Time to First Byte
+
+  // より詳細なログが必要な場合
+  onCLS((metric) => {
+    console.group('CLS Detail:');
+    console.log('Value:', metric.value);
+    console.log('Rating:', metric.rating);
+    console.log('Entries:', metric.entries);
+    console.groupEnd();
+  });
+</script>

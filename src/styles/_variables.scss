@@ -48,8 +48,22 @@ $white: #fbfef9;
 $black: #030014;
 $gray: #7c7c7c;
 
-// イージング
-// https://easings.net/
+// フォントサイズ
+$text10: 2cqi; // 10pxくらいのサイズ
+$text12: 2.4cqi; // 12pxくらいのサイズ
+$text14: 2.7cqi; // 14pxくらいのサイズ
+$text16: 3cqi; // 16pxくらいのサイズ
+$text18: 3.5cqi; // 18pxくらいのサイズ
+$text20: 3.6cqi; // 32pxくらいのサイズ
+$text22: 3.9cqi; // 32pxくらいのサイズ
+$text24: 4.2cqi; // 32pxくらいのサイズ
+$text26: 4.5cqi; // 32pxくらいのサイズ
+$text28: 4.8cqi; // 32pxくらいのサイズ
+$text30: 5.1cqi; // 32pxくらいのサイズ
+$text32: 5.5cqi; // 32pxくらいのサイズ
+$text96: 15.5cqi; // 32pxくらいのサイズ
+
+// イージング https://easings.net/
 $easings: (
   'in-sine': cubic-bezier(0.47, 0, 0.745, 0.715),
   'out-sine': cubic-bezier(0.39, 0.575, 0.565, 1),
@@ -76,7 +90,6 @@ $easings: (
   'out-back': cubic-bezier(0.175, 0.885, 0.32, 1.275),
   'in-out-back': cubic-bezier(0.68, -0.55, 0.265, 1.55),
 );
-
 // イージング取得用関数
 @function easing($name) {
   @return map.get($easings, $name);
@@ -85,3 +98,10 @@ $easings: (
 // .element {
 //   transition: all 0.3s easing('out-expo');
 // }
+
+//
+
+:root {
+  --black: #{$black};
+  --default-border: 8px solid #{$black};
+}

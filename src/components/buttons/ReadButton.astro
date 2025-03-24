@@ -9,25 +9,26 @@ interface Props {
 const { href, text = "Read More" } = Astro.props;
 ---
 
-<a href={href} class="read-button">
-  <span class="read-button__text">{text}</span>
+<div class="read-button">
+  <span class="read-button__text text">{text}</span>
   <span class="read-button__icon">
     <span class="button-eye"></span>
     <span class="button-eye"></span>
   </span>
-</a>
+</div>
 
 <style lang="scss">
   @use '../../styles/_variables' as *;
   @use '../../styles/_mixins' as *;
+
   .read-button {
     width: fit-content;
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.8rem 1.6rem;
-    border: 2px solid currentColor;
+    padding: 1cqi 3cqi;
+    border: 4px solid currentColor;
     text-decoration: none;
     transition: all 0.3s ease;
     border-radius: 1.2rem;
@@ -35,26 +36,12 @@ const { href, text = "Read More" } = Astro.props;
     background: $white;
     transition: all 0.3s easing('in-out-sine');
 
-    @include hover{
-      background: $black;
-      .button-eye{
-        &:before{
-          left:30% ;
-          animation: animBlinkBlack .3s forwards;
-        }
-        &:after{
-          animation: animBlinkWhiet .3s forwards;
-        }
-      }
-      .read-button__text{
-        color: $white;
-
-      }
-    }
   }
   .read-button__text{
-    font-size: 1.6rem;
+    // font-size: 1.6rem;
     transition: color 0.3s easing('in-out-sine');
+    font-weight: 700;
+    font-family: "M PLUS Rounded 1c", serif;
   }
   .read-button__icon{
     position: relative;
@@ -87,9 +74,10 @@ const { href, text = "Read More" } = Astro.props;
     }
     &:after{
       background: $white;;
-      position: absolute;inset: 0;
+      position: absolute;
+      inset: 0;
       margin: auto;
-      border: 1px solid;
+      border: 2px solid;
       border-radius: 50%;
       content: '';
       width: 100%;

@@ -1,0 +1,394 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Image } from 'astro:assets';
+import "highlight.js/styles/vs2015.css";
+import Page from '../../components/common/page.astro';
+import { getArticle, getArticles, formatDate } from '../../library/newt';
+
+export async function getStaticPaths() {
+  const articles = await getArticles();
+
+  return articles.map((article) => {
+    // article.slugがあればそれを使用、なければIDを使用
+    const urlParam = article.slug || article._id;
+
+    return {
+      params: { id: urlParam },
+      props: { articleId: article._id } // 実際の記事IDをpropsとして渡す
+    };
+  });
+}
+
+// URLパラメータ
+const { id } = Astro.params;
+// 実際に記事を取得するためのID
+const { articleId } = Astro.props;
+
+const article = await getArticle(articleId);
+const publishedAt = article._sys.raw.publishedAt;
+
+// 変数宣言を追加
+const isClose = Boolean(article.close);
+---
+
+
+<Page currentTitle={article.title}>
+  <article class="article">
+    {article.thumbnail && (
+      <div class="article-thumbnail">
+        <Image
+          src={article.thumbnail.src}
+          width={article.thumbnail.width}
+          height={article.thumbnail.height}
+          alt={article.thumbnail.altText || article.title}
+        />
+        <a href={`/works/category/${encodeURIComponent(article.category)}`} class="article-category text" target="_blank" rel="noopener noreferrer">{article.category}</a>
+      </div>
+    )}
+    <header class="article-header border-block">
+      <div class="article-block-label">Overview</div>
+      <div class="article-meta">
+        <h1 class="article-title">{article.title}</h1>
+        {article.url && (
+          <>
+            {!isClose ? (
+              <div class="article-url article-url--close">
+                <p class="text">{article.url}</p>
+                <span class="close-icon">Already Closed</span>
+              </div>
+            ) : (
+              <a href={`${article.url}`} target="_blank" rel="noopener noreferrer" class="article-url">
+                <p class="text">{article.url}</p>
+              </a>
+            )}
+          </>
+        )}
+        {article.tag && article.tag.length > 0 && (
+          <div class="article-tags">
+            {article.tag.map((tagName) => (
+              <span class="article-tag text">{tagName}</span>
+            ))}
+          </div>
+        )}
+      </div>
+
+    </header>
+
+
+    <div class="border-block">
+      <div class="article-block-label">Content</div>
+      <div class="article-content" set:html={article.content} />
+    </div>
+
+  </article>
+</Page>
+
+<style lang="scss">
+  @use '../../styles/variables' as *;
+  @use '../../styles/_mixins' as *;
+
+  .article-thumbnail {
+    margin-bottom: -.8rem;
+    aspect-ratio: 530/295;
+    width: 94cqi;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0 4rem 4rem 0;
+    border-top: var(--default-border);
+    border-right: var(--default-border);
+    border-bottom: var(--default-border);
+    background: $white;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+  .article-block-label{
+    position: absolute;
+    z-index: 8;
+    background: $black;
+    font-size: $text24;
+    border-radius: 0 0 4rem 0;
+    color: $white;
+    font-weight: 900;
+    padding: 1cqi 8cqi 1cqi 4cqi;
+  }
+  .page-headline{
+    font-weight: 900;
+    -webkit-text-stroke: 10px $black;
+    paint-order: stroke;
+    writing-mode: vertical-rl;
+    font-size: 22cqi;
+    color: $white;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: -4cqi;
+    line-height: 1;
+    opacity: .8;
+  }
+  .article {
+    position: relative;
+    min-inline-size: 0;
+    display: grid;
+  }
+  .article-inner{
+    min-inline-size: 0;
+  }
+  .article-url{
+    text-decoration: underline;
+    display: flex;
+    gap: 1rem;
+    &:before{
+      content: '';
+      background: url(../../assets/images/common/icon_link.svg) center center /contain no-repeat;
+      aspect-ratio: 1;
+      width: 4cqi;
+      height: 4cqi;
+      filter: contrast(0);
+      display: flex;
+    }
+  }
+  .article-url--close{
+    text-decoration: line-through;
+    position: relative;
+    width: fit-content;
+  }
+  .close-icon{
+    background:$black;
+    color: $white;
+    text-decoration: none;
+    position: absolute;
+    top: -1cqi;
+    left: calc(100% + 2cqi);
+    font-weight: bold;
+    width: fit-content;
+    white-space: pre;
+    display: flex;
+    align-items: center;
+    font-size: $text10;
+    padding: .8cqi 2cqi .8cqi;
+    gap: 1cqi;
+    border-radius: 4rem;
+    &:after{
+      content: '';
+      background: url(../../assets/images/common/icon_sad.svg) center center /contain no-repeat;
+      aspect-ratio: 1;
+      width: 4cqi;
+      height: 4cqi;
+      display: flex;
+    }
+  }
+  .article-header{
+    position: relative;
+    z-index: 3;
+    padding: 12cqi 6cqi 6cqi;
+    background: rgba($white, .95);
+    // border: var(--default-border);
+    display: grid;
+    gap: 1rem;
+  }
+  .article-meta{
+    display: grid;
+    gap: 3cqi;
+  }
+  .article-category{
+    position: absolute;
+    bottom: 0;
+    z-index: 9;
+    background: $black;
+    color: $white;
+    padding: 1cqi 3cqi .6cqi;
+    border-radius: 2rem;
+    display: block;
+    bottom: 1rem;
+    left: 1rem;
+    line-height: 1;
+  }
+  // .article-date {
+  //   display: block;
+  //   font-size: $text14;
+  //   font-weight: 900;
+  // }
+  .article-title {
+    font-size: $text24;
+    font-weight: 500;
+  }
+  .article-tags{
+    display: flex;
+    gap: 1rem;
+    &:before{
+      content: '';
+      background: url(../../assets/images/common/icon_tag.svg) center center /contain no-repeat;
+      aspect-ratio: 1;
+      width: 4cqi;
+      height: 4cqi;
+      filter: contrast(0);
+      display: flex;
+    }
+  }
+  .article-tag{
+    position: relative;
+    display: flex;
+    align-items: center;
+    &:before{
+      content: '#';
+
+    }
+  }
+  .article {
+    display: grid;
+    gap: 6cqi;
+    padding-top: 14cqi;
+    line-height: 1.75;
+    .article-content {
+      background: rgba($white, .95);
+      position: relative;
+      z-index: 5;
+      padding: 14cqi 6cqi 6cqi;
+      margin-top:-.8rem;
+      :global(h2) {
+        font-size: $text24;
+        margin: 3rem 0 2rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        // padding: 0 2em;
+        &:first-letter{
+          font-size: 1.6em;
+        }
+        // &:before{
+        //   content: '';
+        //   aspect-ratio: 1;
+        //   border-radius: 50%;
+        //   background: $black;
+        //   display: block;
+        //   width: 1.5em;
+        //   height: 1.5em;
+        //   position: absolute;
+        //   left: 0;
+        //   bottom: 0;
+        // }
+        // &:after{
+        //   content: '';
+        //   background: $black;
+        //   position: absolute;
+        //   bottom: 0;
+        //   right: 0;
+        //   height: 2px;
+        //   width: calc(100% - .9em);
+        // }
+      }
+      :global(h3) {
+        font-size: $text20;
+        margin: 3rem 0 2rem;
+        position: relative;
+        // padding-left: 1.2em;
+        // &:before{
+        //   content: '';
+        //   aspect-ratio: 1;
+        //   clip-path: polygon(0 0, 0% 100%, 100% 0);
+        //   background: $gray;
+        //   display: block;
+        //   position: absolute;
+        //   left: 0;
+        //   top: 0;
+        //   width: 1em;
+        //   height: 1em;
+        // }
+      }
+      :global(p) {
+        margin: 1em 0 ;
+        font-size: $text16;
+      }
+      :global(p a){
+        color: #F9A620;
+        text-decoration: underline;
+      }
+      :global(ul) {
+        background: $white;
+        padding: 1em 1em 1em 2.5em;
+        border: 2px dotted;
+        border-radius: 0.5rem;
+      }
+      :global(code) {
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        user-select: text;
+        display: block;
+      }
+      :global(code::selection) {
+        background: $white;
+        color: $black;
+      }
+      :global(img) {
+        max-width: 100%;
+        height: auto;
+      }
+      :global(blockquote) {
+        padding: 0.8em 1em;
+        background: rgba($gray,.1);
+        position: relative;
+        &:before,
+        &:after{
+          content: '';
+          position: absolute;
+          aspect-ratio: 1;
+          width: $text16;
+          background: $gray;
+
+        }
+        &:before{
+          clip-path: polygon(0 0, 0% 100%, 100% 0);
+          top: 1cqi;
+          left: 1cqi;
+        }
+        &:after{
+          clip-path: polygon(100% 100%, 0% 100%, 100% 0);
+          bottom: 1cqi;
+          right: 1cqi;
+        }
+      }
+    }
+  }
+  .aside-articles{
+    position: relative;
+    z-index: 0;
+    padding: 6cqi 0 ;
+    margin-top: -1rem;
+    background: $black;
+    .treat svg{
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+  }
+  .aside-title{
+    position: relative;
+    text-align: center;
+    display: grid;
+    align-items: baseline;
+    margin: 4cqi 0;
+  }
+  .aside-title__en{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    line-height: 1;
+    font-size: 12cqi;
+    color: $white;
+  }
+  .aside-title__ja{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    background: $black;
+    width: fit-content;
+    margin: 0 auto;
+    color: $white;
+    font-size: $text18;
+    font-weight: bold;
+    -webkit-text-stroke: .5px $black;
+
+  }
+</style>

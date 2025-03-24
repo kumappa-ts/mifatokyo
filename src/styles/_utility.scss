@@ -1,0 +1,60 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'mixins' as *;
+.text {
+  font-size: $text18;
+  line-height: 1.75;
+  font-weight: 500;
+  margin-block: calc((1em - 1lh) / 2);
+  white-space: pre-line;
+  letter-spacing: 0.04em;
+  font-size: $text16;
+  @include mq {
+  }
+}
+.hover-item {
+  @include hover {
+    .read-button {
+      background: $black;
+      .button-eye {
+        &:before {
+          left: 30%;
+          animation: animBlinkBlack 0.3s forwards;
+        }
+        &:after {
+          animation: animBlinkWhiet 0.3s forwards;
+        }
+      }
+      .read-button__text {
+        color: $white;
+      }
+    }
+  }
+}
+.white {
+  color: $white;
+}
+.image-fit-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+.border-block {
+  border: var(--default-border);
+  margin: 0 -8px;
+  border-radius: 3cqi;
+  position: relative;
+  overflow: hidden;
+}
+.text-edging {
+  font-weight: 700;
+  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px -1px 0 #fff, 0px 1px 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff, 1px 0 0 #fff;
+  @include mq {
+    text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, -2px 2px 0 #fff,
+      2px -2px 0 #fff, 0px 2px 0 #fff, 0 -2px 0 #fff, -2px 0 0 #fff,
+      2px 0 0 #fff;
+  }
+}
