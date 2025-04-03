@@ -7,11 +7,16 @@ const metadata = generateMetadata('notFound');
 ---
 <Page title="404 Not Found" pageName="notFound">
 	<div class="inner">
-		<div class="face-figure">
+		<div class="num">404</div>
+		<!-- <div class="face-figure">
 			<Image src={figure} alt="40433344421344533314" />
-		</div>
-		<p class="lead-text">ページが...ページが
-			見つからなかったようです。</p>
+		</div> -->
+		<div class="border-block">
+			<p class="lead-text">ページが...ページが
+				見つからなかったようです...。</p>
+			<p class="text">アクセスしたページのURLが間違っているか、
+				すでにページが削除されてしまった可能性があります。</p>
+		</xdiv>
 
 	</div>
 
@@ -19,10 +24,30 @@ const metadata = generateMetadata('notFound');
 <style lang="scss">
   @use '../styles/_variables' as *;
   @use '../styles/_mixins' as *;
+	.num{
+		font-size: 65cqi;
+		letter-spacing: -.06em;
+		color: $white;
+		font-weight: bold;
+    line-height: 1;
+		z-index: 3;
+    -webkit-text-stroke: 12px $black;
+    paint-order: stroke;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%) rotate(-15deg);
+	}
+	.border-block{
+		margin-top:50cqi;
+		padding: 16cqi 5cqi 8cqi;
+    background: $white;
+	}
 	.lead-text{
 		font-size: $text32;
+		font-weight: bold;
 		letter-spacing: 0.04em;
 		white-space: pre-line;
+		margin-bottom: 5cqi;
 	}
 	.face-figure{
 		img{
