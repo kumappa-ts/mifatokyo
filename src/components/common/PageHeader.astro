@@ -28,20 +28,22 @@ const displayEnLabel = enLabel || pageInfo.label;
 ---
 
 <div class="page-header">
-  <h1 class="page-header__en" data-text={displayEnLabel}>{displayEnLabel}</h1>
+  <h1 class="page-header__en split-type" data-text={displayEnLabel}>{displayEnLabel}</h1>
   <div class="page-header__ja">
     <p>{displayJaLabel}</p>
   </div>
 </div>
 
-<style lang="scss">
+<style lang="scss" is:global>
   @use '../../styles/_variables' as *;
   @use '../../styles/_mixins' as *;
+
   .page-header {
     position: relative;
     padding-left: 5cqi;
     margin-top: 20cqi;
   }
+
   .page-header__ja {
     background: $black;
     position: absolute;
@@ -51,13 +53,16 @@ const displayEnLabel = enLabel || pageInfo.label;
     padding: 2cqi 2cqi 1cqi;
     text-align: center;
     border-radius: 10cqi 0 0 10cqi;
+    opacity: 0;
+    translate: 0 -10cqi;
     p {
       font-size: $text24;
-      color:$white;
+      color: $white;
       margin-block: calc((1em - 1lh) / 2);
     }
   }
-  .page-header__en{
+
+  .page-header__en {
     margin-block: calc((1em - 1lh) / 2);
     font-weight: 900;
     font-size: 22cqi;
@@ -67,12 +72,124 @@ const displayEnLabel = enLabel || pageInfo.label;
     line-height: 1;
     -webkit-text-stroke: 14px $black;
     paint-order: stroke;
+    opacity: 0;
   }
-  .page-lead{
+
+  /* SplitTypeによって動的に生成される要素のスタイル */
+  .page-header__en .char {
+    display: inline-block;
+    transform-origin: left center;
+    opacity: 0;
+    // transform: rotateY(90deg) scale(0);
+    // background: linear-gradient(
+    //   0deg,
+    //   $black 0%
+    //   $black 50%,
+    //   rgba(255, 255, 255, 1) 50%,
+    //   rgba(255, 255, 255, 1) 100%,
+    // );
+    // background-size: 50% 200%;
+    // background-position: 50% 0%;
+    // background-clip: text;
+    // -webkit-background-clip: text;
+    // color: transparent;
+    // -webkit-text-stroke: 14px $black;
+    // paint-order: stroke;
+  }
+
+  .page-lead {
     padding: 0 5cqi;
   }
-  .post-list{
+
+  .post-list {
     display: grid;
     gap: 6cqi;
   }
 </style>
+
+<script>
+  import { gsap } from "gsap";
+  import SplitType from 'split-type';
+
+  // SplitTypeの適用とアニメーションのセットアップ
+  function initializeAnimation() {
+    // 要素の取得
+    const headingEn = document.querySelector(".page-header__en");
+    const headingJa = document.querySelector(".page-header__ja");
+
+    if (!headingEn || !headingJa) {
+      console.warn("Required elements not found for animation, retrying in 100ms");
+      setTimeout(initializeAnimation, 100);
+      return;
+    }
+
+    // SplitTypeを適用
+    // すでに適用済みかチェック
+    if (!headingEn.querySelector('.char')) {
+      console.log("Applying SplitType to:", headingEn);
+      new SplitType(headingEn, {
+        types: 'chars',
+        tagName: 'span'
+      });
+    }
+
+    // 文字要素を取得
+    const letters = headingEn.querySelectorAll(".char");
+    console.log("Letters found:", letters.length, letters);
+
+    if (letters.length > 0) {
+      // 初期状態を明示的に設定
+      gsap.set(letters, {
+        rotateY: "90deg",
+        // scale: 0,
+        opacity: 0,
+        // backgroundPosition: "50% 0%"
+      });
+
+      // アニメーションタイムライン
+      const tl = gsap.timeline();
+
+      // 文字のアニメーション
+      tl
+      .to(headingEn,{
+        opacity:1
+      })
+      .to(letters, {
+        rotateY: "0deg",
+        // scale: 1,
+        opacity: 1,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: "power2.out"
+      })
+      // 日本語ラベルのアニメーション
+      .to(
+        headingJa,
+        {
+          opacity:1,
+          translate:'0 0',
+          duration: 0.6,
+          ease: "power2.inOut",
+        }
+      )
+    } else {
+      console.error("No letters found for animation after SplitType application");
+    }
+  }
+
+  // 複数のタイミングで初期化を試行
+  // 1. 即時実行（早期ロード用）
+  setTimeout(initializeAnimation, 10);
+
+  // 2. DOMContentLoaded時（標準ロード用）
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded fired");
+    initializeAnimation();
+  });
+
+  // 3. window.load時（遅延ロード用）
+  window.addEventListener("load", () => {
+    console.log("Window load fired");
+    initializeAnimation();
+  });
+</script>

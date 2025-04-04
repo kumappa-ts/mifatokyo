@@ -11,4 +11,8 @@ export default defineConfig({
       entrypoint: 'astro/assets/services/sharp',
     },
   },
+  viewTransitions: true, // この設定が古くなっている可能性
+  // experimental: {
+  //   // 他の実験的機能
+  // },
 });
