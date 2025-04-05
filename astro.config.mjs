@@ -5,7 +5,13 @@ import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [partytown()],
+  integrations: [
+    partytown({
+      config: {
+        forward: ['dataLayer.push'],
+      },
+    }),
+  ],
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp',
