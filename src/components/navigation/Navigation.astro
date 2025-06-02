@@ -15,7 +15,9 @@ import logo from '../../assets/images/common/mifa.svg';
   <ul class="navigation-list">
     {navItems.map(item => (
       <li class="navigation-list__item">
-        <a class=`navigation-item navigation-item--${item.label}` href={item.href} data-text={item.jaLabel}>{item.label}</a>
+        <a class=`navigation-item navigation-item--${item.label}` href={item.href} data-text={item.jaLabel}>
+          <p class="navigation-item__text">{item.label}</p>
+        </a>
         {/* <a class="navigation-item" href={item.href}>{item.jaLabel} - {item.label}</a> */}
       </li>
     ))}
@@ -61,7 +63,7 @@ import logo from '../../assets/images/common/mifa.svg';
     gap: 2cqi;
     list-style: none;
     @include mq {
-      border-left: 4px solid $black;
+      // border-left: 4px solid $black;
       padding-left: 1cqi;
       padding-top: 1cqi;
       padding-bottom: 1cqi;
@@ -70,28 +72,38 @@ import logo from '../../assets/images/common/mifa.svg';
       margin-top: 4rem;
       width: fit-content;
     }
+    &:has(.navigation-list__item:hover) .navigation-list__item:not(.navigation-list__item:hover){
+      .navigation-item__text{
+        filter: opacity(.35);
+      }
+    }
   }
   .navigation-list__item{
     text-align: center;
     position: relative;
     @include mq {
       text-align: left;
+      &:before{
+        content: '';
+        background: $black;
+        position: absolute;
+        aspect-ratio: 1;
+        height: 1rem;
+        width: 1rem;
+        left: -1cqi;
+        position: absolute;
+        top: 50%;
+        translate:0 -50% ;
+        scale: 0;
+        border-radius: 50%;
+        transition: all 0.3s easing('in-out-sine');
+      }
     }
-    // &:before{
-    //   content: '';
-    //   background: $black;
-    //   position: absolute;
-    //   height: 100%;
-    //   width: 50%;
-    //   left: -1cqi;
-    //   clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-    // }
-    // @include hover{
-    //   &:before{
-    //     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    //   }
-
-    // }
+    @include hover{
+      &:before{
+        scale: 1;
+      }
+    }
   }
   .navigation-item--Home{
     &:before{
@@ -121,14 +133,10 @@ import logo from '../../assets/images/common/mifa.svg';
   .navigation-item{
     display: grid;
     gap: 1cqi;
-    font-weight: 500;
-    font-size: $text16;
+
     @include mq {
-      font-size: 1.6rem;
-      -webkit-text-stroke:1px $black;
       display: flex;
       gap: .5cqi;
-
       &:after{
         -webkit-text-stroke:0px $black;
         transition: all 0.3s easing('in-out-sine');
@@ -136,34 +144,49 @@ import logo from '../../assets/images/common/mifa.svg';
         filter: opacity(0);
         translate: -20% 0;
         display: block;
+        font-size: 1.4rem;
       }
     }
-    &:before{
-      content: '';
-      aspect-ratio: 1;
-      display: block;
-      width: 5cqi;
-      margin: auto;
-      @include mq {
-        aspect-ratio: unset;
-        position: absolute;
-        bottom: 0;
-        width: calc(100% + 1cqi);
-        background: $black;
-        height: 3px;
-        left: -1cqi;
-        transition: all 0.3s easing('in-out-sine');
-        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-      }
-    }
+    // &:before{
+    //   content: '';
+    //   aspect-ratio: 1;
+    //   display: block;
+    //   width: 5cqi;
+    //   margin: auto;
+    //   @include mq {
+    //     aspect-ratio: unset;
+    //     position: absolute;
+    //     bottom: 0;
+    //     width: calc(100% + 1cqi);
+    //     background: $black;
+    //     height: 3px;
+    //     left: -1cqi;
+    //     transition: all 0.3s easing('in-out-sine');
+    //     clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+    //   }
+    // }
     @include hover{
       &:after{
         filter: opacity(1);
-        translate: 10% 0;
+        translate: 2% 0;
       }
-      &:before{
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      .navigation-item__text{
+        letter-spacing: .15em;
       }
+      // &:before{
+      //   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      // }
     }
   }
+  .navigation-item__text{
+    font-weight: 500;
+
+    font-size: $text16;
+    @include mq {
+      transition: all 0.3s easing('in-out-sine');
+      font-size: 1.6rem;
+      -webkit-text-stroke:1px $black;
+    }
+  }
+
 </style>

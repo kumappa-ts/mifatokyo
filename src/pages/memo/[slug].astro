@@ -37,7 +37,7 @@ post.contents = $.html();
 ---
 
 <Page title={post.title} currentTitle={post.title}>
-  <div class="page-headline">memo</div>
+  <!-- <div class="page-headline">memo</div> -->
   <div class="article">
     <article class="article-inner">
       {post.thumbnail && (
@@ -105,6 +105,8 @@ post.contents = $.html();
   }
   .article-inner{
     min-inline-size: 0;
+    position: relative;
+    z-index: 5;
   }
 
   .article-header{
@@ -119,9 +121,10 @@ post.contents = $.html();
   .article-date {
     display: block;
     font-size: $text14;
+    font-weight: 800;
   }
   .article-title {
-    font-size: $text24;
+    font-size: $text28;
     font-weight: 500;
   }
   .article {

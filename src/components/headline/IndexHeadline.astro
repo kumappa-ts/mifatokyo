@@ -9,7 +9,7 @@ const { label, title = "other More" , class: className} = Astro.props;
 
 <hgroup class=`index-headline ${className}`>
   <p class="index-headline-label split-type">{label}</p>
-  <h2 class="index-headline-title">{title}</h2>
+  <h2 class="index-headline-title split-type">{title}</h2>
 </hgroup>
 
 <style lang="scss">
@@ -48,3 +48,33 @@ const { label, title = "other More" , class: className} = Astro.props;
     }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+  import SplitType from 'split-type';
+  const headingLabel = document.querySelectorAll(".index-headline-label");
+  const headingTitle = document.querySelectorAll(".index-headline-title");
+
+  new SplitType(headingLabel, {
+    types: 'chars',
+    tagName: 'span'
+  });
+  new SplitType(headingTitle, {
+    types: 'chars',
+    tagName: 'span'
+  });
+  const indexSectionTitleTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger:".index-headline",//この要素が画面内に入ったときに再生
+      markers:true, //startとendの位置を確認できるデバッグ用マーカー
+    }
+  })
+  indexSectionTitleTimeline
+  .to(headingLabel, {
+    opacity:1,
+    duration: 0.6,
+    ease: "power2.inOut",
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+
+  });
+</script>

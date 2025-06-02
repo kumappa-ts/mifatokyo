@@ -116,6 +116,7 @@ const displayEnLabel = enLabel || pageInfo.label;
     // 要素の取得
     const headingEn = document.querySelector(".page-header__en");
     const headingJa = document.querySelector(".page-header__ja");
+    const pageLabel = document.querySelector(".page-label");
 
     if (!headingEn || !headingJa) {
       console.warn("Required elements not found for animation, retrying in 100ms");
@@ -168,9 +169,9 @@ const displayEnLabel = enLabel || pageInfo.label;
         {
           opacity:1,
           translate:'0 0',
-          duration: 0.6,
+          duration: 1,
           ease: "power2.inOut",
-        }
+        },"<"
       )
     } else {
       console.error("No letters found for animation after SplitType application");
