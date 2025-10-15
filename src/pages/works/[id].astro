@@ -42,7 +42,7 @@ const isClose = Boolean(article.close);
           height={article.thumbnail.height}
           alt={article.thumbnail.altText || article.title}
         />
-        <a href={`/works/category/${encodeURIComponent(article.category)}`} class="article-category text" target="_blank" rel="noopener noreferrer">{article.category}</a>
+        <p class="article-category text">{article.category}</p>
       </div>
     )}
     <header class="article-header border-block">
@@ -100,8 +100,9 @@ const isClose = Boolean(article.close);
     background: $white;
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
+      object-position: center;
     }
   }
   .article-block-label{

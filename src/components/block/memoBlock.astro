@@ -15,19 +15,21 @@ interface Props {
  }
 const { title, dateString, thumbnail, id ,isEven = true} = Astro.props;
 
-const optimizedImageUrl = `${thumbnail.url}?w=800&fm=webp&q=80`;
+const optimizedImageUrl = thumbnail ? `${thumbnail.url}?w=800&fm=webp&q=80` : '';
 ---
 
 <a href={`/memo/${id}`} class={`memo-block hover-item ${isEven ? 'memo-block--even' : 'memo-block--odd'}`}>
-  <div class="memo-block-figure">
-    <Image
-      src={`${thumbnail.url}?fm=webp&q=80`}
-      width={thumbnail.width}
-      height={thumbnail.height}
-      alt={title}
-      class="image-fit-cover"
-    />
-  </div>
+  {thumbnail && (
+    <div class="memo-block-figure">
+      <Image
+        src={optimizedImageUrl}
+        width={thumbnail.width}
+        height={thumbnail.height}
+        alt={title}
+        class="image-fit-cover"
+      />
+    </div>
+  )}
   <div class="memo-block-detail">
     <div class="memo-block-detail__inner">
       <time class="memo-block-date" datetime={dateString}>
@@ -88,6 +90,12 @@ const optimizedImageUrl = `${thumbnail.url}?w=800&fm=webp&q=80`;
     padding: $text32;
     width: 75%;
     margin-top: -16cqi;
+  }
+  .memo-block:not(:has(.memo-block-figure)) .memo-block-detail{
+    border-radius: 6cqi;
+    border: var(--default-border);
+    width: 100%;
+    margin-top: 0;
   }
   .memo-block-detail__inner{
     position: relative;

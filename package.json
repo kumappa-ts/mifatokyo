@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@qwik.dev/partytown": "^0.11.0",
-    "@studio-freight/lenis": "^1.0.42",
+    "lenis": "^1.1.20",
     "astro": "^5.6.0",
     "cheerio": "^1.0.0",
     "gsap": "^3.12.7",
