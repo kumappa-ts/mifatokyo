@@ -78,8 +78,8 @@ const { title, description } = Astro.props;
       // プラグインを登録
       gsap.registerPlugin(ScrollTrigger);
       import SplitType from "split-type";
-      import Lenis from 'lenis';
-      const splitType = document.querySelectorAll(".split-type");
+      // import Lenis from 'lenis';
+      const splitType = document.querySelectorAll(".split-type") as NodeListOf<HTMLElement>;
       // const lenis = new Lenis();
 
       // function raf(time) {
@@ -95,7 +95,7 @@ const { title, description } = Astro.props;
       };
       document.addEventListener('DOMContentLoaded', () => {
         initializeSpanWrap();
-        console.log('ページが読み込まれました');
+        // console.log('ページが読み込まれました');
         // 初期化処理など
       });
     </script>
@@ -162,7 +162,7 @@ const { title, description } = Astro.props;
 </style>
 <script>
   import SplitType from 'split-type'
-  const splitType = document.querySelectorAll(".split-type");
+  const splitType = document.querySelectorAll(".split-type") as NodeListOf<HTMLElement>;
   const initializeSpanWrap = () => {
   splitType.forEach((type) => {
     new SplitType(type);
