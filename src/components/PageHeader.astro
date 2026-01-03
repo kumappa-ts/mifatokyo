@@ -175,7 +175,7 @@ const displayEnLabel = enLabel || pageInfo.label;
     // SplitTypeを適用
     // すでに適用済みかチェック
     if (!headingEn.querySelector(".char")) {
-      console.log("Applying SplitType to:", headingEn);
+      // console.log("Applying SplitType to:", headingEn);
       new SplitType(headingEn, {
         types: "chars",
         tagName: "span",
@@ -184,7 +184,7 @@ const displayEnLabel = enLabel || pageInfo.label;
 
     // 文字要素を取得
     const letters = headingEn.querySelectorAll(".char");
-    console.log("Letters found:", letters.length, letters);
+    // console.log("Letters found:", letters.length, letters);
 
     if (letters.length > 0) {
       // 初期状態を明示的に設定
@@ -242,9 +242,9 @@ const displayEnLabel = enLabel || pageInfo.label;
           "<=.5",
         );
     } else {
-      console.error(
-        "No letters found for animation after SplitType application",
-      );
+      // console.error(
+      //   "No letters found for animation after SplitType application",
+      // );
     }
   }
 
@@ -254,13 +254,13 @@ const displayEnLabel = enLabel || pageInfo.label;
 
   // 2. DOMContentLoaded時（標準ロード用）
   document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOMContentLoaded fired");
+    // console.log("DOMContentLoaded fired");
     initializeAnimation();
   });
 
   // 3. window.load時（遅延ロード用）
   window.addEventListener("load", () => {
-    console.log("Window load fired");
+    // console.log("Window load fired");
     initializeAnimation();
   });
 </script>

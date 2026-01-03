@@ -24,6 +24,7 @@ export default defineConfig({
   // Viteの設定をカスタマイズ
   vite: {
     css: {
+      transformer: 'lightningcss',
       preprocessorOptions: {
         scss: {
           additionalData: `

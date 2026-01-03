@@ -94,36 +94,7 @@ const { title, description } = Astro.props;
         </footer>
       </div>
     </main>
-    <script type="module">
-      import { gsap } from "gsap";
-      import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-      // プラグインを登録
-      gsap.registerPlugin(ScrollTrigger);
-      import SplitType from "split-type";
-      // import Lenis from 'lenis';
-      const splitType = document.querySelectorAll(
-        ".split-type",
-      ) as NodeListOf<HTMLElement>;
-      // const lenis = new Lenis();
-
-      // function raf(time) {
-      //   lenis.raf(time);
-      //   requestAnimationFrame(raf);
-      // }
-
-      // requestAnimationFrame(raf);
-      const initializeSpanWrap = () => {
-        splitType.forEach((type) => {
-          new SplitType(type);
-        });
-      };
-      document.addEventListener("DOMContentLoaded", () => {
-        initializeSpanWrap();
-        // console.log('ページが読み込まれました');
-        // 初期化処理など
-      });
-    </script>
   </body>
 </html>
 <style lang="scss">
@@ -244,10 +215,9 @@ const { title, description } = Astro.props;
   }
 </style>
 <script>
-  import SplitType from "split-type";
   const splitType = document.querySelectorAll(
-    ".split-type",
-  ) as NodeListOf<HTMLElement>;
+  ".split-type",
+) as NodeListOf<HTMLElement>;
   const initializeSpanWrap = () => {
     splitType.forEach((type) => {
       new SplitType(type);
@@ -256,4 +226,35 @@ const { title, description } = Astro.props;
       initializeSpanWrap();
     });
   };
+</script>
+<script type="module">
+  import { gsap } from "gsap";
+  import SplitType from "split-type";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // プラグインを登録
+  gsap.registerPlugin(ScrollTrigger);
+  import SplitType from "split-type";
+  // import Lenis from 'lenis';
+  const splitType = document.querySelectorAll(
+    ".split-type",
+  ) as NodeListOf<HTMLElement>;
+  // const lenis = new Lenis();
+
+  // function raf(time) {
+  //   lenis.raf(time);
+  //   requestAnimationFrame(raf);
+  // }
+
+  // requestAnimationFrame(raf);
+  const initializeSpanWrap = () => {
+    splitType.forEach((type) => {
+      new SplitType(type);
+    });
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    initializeSpanWrap();
+    // console.log('ページが読み込まれました');
+    // 初期化処理など
+  });
 </script>
