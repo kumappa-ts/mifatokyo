@@ -4,7 +4,7 @@ interface Props {
   title?: string;
   class: string;
 }
-const { label, title = "other More" , class: className} = Astro.props;
+const { label, title = "other More", class: className } = Astro.props;
 ---
 
 <hgroup class=`index-headline ${className}`>
@@ -13,14 +13,14 @@ const { label, title = "other More" , class: className} = Astro.props;
 </hgroup>
 
 <style lang="scss">
-  @use '../../styles/_variables' as *;
-  @use '../../styles/_mixins' as *;
-  .index-headline{
+  @use "../../styles/_variables" as *;
+  @use "../../styles/_mixins" as *;
+  .index-headline {
     display: grid;
     align-items: baseline;
     // margin-bottom: 6cqi;
   }
-  .index-headline-label{
+  .index-headline-label {
     font-size: 25cqi;
     font-weight: bold;
     line-height: 1;
@@ -31,16 +31,16 @@ const { label, title = "other More" , class: className} = Astro.props;
       -webkit-text-stroke: 6px $black;
     }
   }
-  .index-headline-title{
-    font-size: $text24;
+  .index-headline-title {
+    font-size: $size-md24;
     font-weight: 500;
     letter-spacing: 0.2em;
     position: relative;
     display: flex;
     gap: 2cqi;
     align-items: center;
-    &:before{
-      content: '';
+    &:before {
+      content: "";
       display: block;
       width: 12cqi;
       height: 2px;
@@ -48,33 +48,30 @@ const { label, title = "other More" , class: className} = Astro.props;
     }
   }
 </style>
-<script>
+<script type="module">
   import { gsap } from "gsap";
-  import SplitType from 'split-type';
+  import SplitType from "split-type";
   const headingLabel = document.querySelectorAll(".index-headline-label");
   const headingTitle = document.querySelectorAll(".index-headline-title");
 
   new SplitType(headingLabel, {
-    types: 'chars',
-    tagName: 'span'
+    types: "chars",
+    tagName: "span",
   });
   new SplitType(headingTitle, {
-    types: 'chars',
-    tagName: 'span'
+    types: "chars",
+    tagName: "span",
   });
   const indexSectionTitleTimeline = gsap.timeline({
     scrollTrigger: {
-      trigger:".index-headline",//この要素が画面内に入ったときに再生
-      markers:true, //startとendの位置を確認できるデバッグ用マーカー
-    }
-  })
-  indexSectionTitleTimeline
-  .to(headingLabel, {
-    opacity:1,
+      trigger: ".index-headline", //この要素が画面内に入ったときに再生
+      markers: true, //startとendの位置を確認できるデバッグ用マーカー
+    },
+  });
+  indexSectionTitleTimeline.to(headingLabel, {
+    opacity: 1,
     duration: 0.6,
     ease: "power2.inOut",
   });
-  document.addEventListener("DOMContentLoaded", () => {
-
-  });
+  document.addEventListener("DOMContentLoaded", () => {});
 </script>

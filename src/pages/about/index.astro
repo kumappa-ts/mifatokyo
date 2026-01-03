@@ -1,0 +1,201 @@
+---
+import { Image } from "astro:assets";
+import Page from "../../components/page.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { generateMetadata } from "../../config/site";
+
+// const metadata = generateMetadata('about');
+const toolsData = {
+  design: "Figma / DaVinci Resolve / Adobe AE / Adobe XD / blender",
+  development: "HTML5 / CSS3 / JavaScript",
+  framework: "Vue.js / React.js / astro.js",
+  cms: "STUDIO / WordPress / microCMS / Newt",
+  compose: "Logic Pro / M-Audio / Volt",
+};
+---
+
+<Page>
+  <div class="">
+    <PageHeader />
+    <div class="about-wrap">
+      <section class="about-block">
+        <div class="about-headline">
+          <div class="about-headline__text">
+            <p class="about-headline-en">profile</p>
+            <h2 class="about-headline-label">プロフィール</h2>
+          </div>
+        </div>
+        <div class="text about-text-wrap">
+          <p>
+            通販事業会社を2社経て職業訓練校に入校。<br />
+            ウェブデザイン関連の表面を撫でたのち、制作会社にてフロントエンド実務へ。
+          </p>
+          <p>
+            現在は、都内の企業でコーダーとして働いています。<br />
+            cssやLottie、GSAPアニメーションが好きです。
+          </p>
+          <p>
+            実務外では、デザインや音楽制作、2Dアニメーションや<br />
+            3DCGなどの制作活動を行っています。
+          </p>
+          <p>
+            過去4年ほど兵庫県に住んでいたので、<br />
+            少し会話の中で関西弁が出ることがあります。
+          </p>
+        </div>
+      </section>
+      <section class="about-block">
+        <div class="about-headline">
+          <div class="about-headline__text">
+            <p class="about-headline-en">tools</p>
+            <h2 class="about-headline-label">制作環境</h2>
+          </div>
+        </div>
+
+        <div class="about-text-wrap">
+          {
+            Object.entries(toolsData).map(([key, value]) => (
+              <section class="tool-block">
+                <h3 class="about-tool-title">{key}</h3>
+                <p class="text">{value}</p>
+              </section>
+            ))
+          }
+        </div>
+      </section>
+      <!-- <section class="border-block">
+      <div class="about-headline">
+        <span class="about-headline__circle"></span>
+        <div class="about-headline__text">
+          <p class="about-headline-en">likes & ..</p>
+          <h2 class="about-headline-label">好きなもの</h2>
+        </div>
+      </div>
+      <div class="about-text-wrap">
+        <section class="text-block">
+          <h3 class="about-section-title">フロントエンド開発</h3>
+          <p class="text">HTML/CSS/JavaScript等の言語を使用してのWebサイト実装をはじめ、必要に応じてWordPressやSTUDIO、microCMS等のCMSを使用します。
+            フレームワーク系にも力を入れていきます。</p>
+        </section>
+        <section class="text-block">
+          <h3 class="about-section-title">デザイン、アニメーション制作</h3>
+          <p class="text">バナーやLP、会報誌や名刺のデザインなどの制作や、
+            Aeを使用したアニメーション作成や3DCG、動画編集を行っています。
+            Lottieアニメーション、楽しいです。</p>
+        </section>
+        <section class="text-block">
+          <h3 class="about-section-title">音楽制作</h3>
+          <p class="text">学生自体に楽器を甘噛みしていたこともあり、
+            BGMや細々場面に応じた音楽の制作も小さく行っています。
+            ちいさく。</p>
+        </section>
+      </div>
+    </section> -->
+    </div>
+  </div>
+</Page>
+<style lang="scss">
+  .about-wrap {
+    display: grid;
+    gap: $size-md88;
+    margin-top: 16cqi;
+  }
+  .about-block {
+    // padding: 12cqi 5cqi 8cqi;
+    background: $white;
+    overflow: visible;
+  }
+  .about-headline {
+    display: grid;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    &:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 100%;
+      height: 2px;
+      background: $black;
+      z-index: -1;
+    }
+  }
+  .about-headline__text {
+    background: $black;
+    display: flex;
+    gap: $size-md24;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 2cqi 6cqi 1cqi;
+    width: fit-content;
+    border-radius: 0.8rem;
+  }
+  .about-headline-en {
+    color: $white;
+    font-size: $size-smp16;
+    font-weight: 600;
+    @include mq {
+      font-size: $size-md24;
+    }
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .about-headline-label {
+    color: $white;
+    font-size: $size-smp10;
+    @include mq {
+      font-size: $size-md16;
+    }
+  }
+  .about-text-wrap {
+    display: grid;
+    gap: 5cqi;
+    padding: $size-md40 $size-md24;
+    margin-top: $size-md40;
+  }
+
+  .about-section-title {
+    font-size: $size-smp24;
+    margin-bottom: 3.6cqi;
+    @include mq {
+      font-size: $size-md18;
+    }
+  }
+  .tool-block {
+    display: grid;
+    justify-content: flex-start;
+    // align-items: baseline;
+    align-items: anchor-center;
+    grid-template-columns: 1fr;
+    gap: 1.5cqi;
+    @include mq {
+      gap: 2.5cqi;
+      grid-template-columns: 1fr 4fr;
+    }
+  }
+  .about-tool-title {
+    position: relative;
+    z-index: 2;
+    font-size: $size-smp14;
+    padding: 1.5cqi 0 1cqi;
+    border-bottom: 2px solid $gray;
+    margin-block: calc((1em - 1lh) / 2);
+    @include mq {
+      font-size: $size-md20;
+      padding: 0;
+    }
+    &::first-letter {
+      text-transform: uppercase;
+    }
+    & + .text {
+      padding: 2cqi 0;
+      @include mq {
+        border-bottom: 2px solid #ccc;
+        padding: 0;
+      }
+    }
+  }
+</style>

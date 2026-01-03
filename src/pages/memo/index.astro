@@ -1,10 +1,10 @@
 ---
-import { Image } from 'astro:assets';
-import Page from '../../components/common/page.astro';
-import PageHeader from '../../components/common/PageHeader.astro';
-import MemoBlock from '../../components/block/memoBlock.astro';
-import { getBlogs, type Post } from '../../library/microcms';
-import { siteConfig } from '../../config/site';
+import { Image } from "astro:assets";
+import Page from "../../components/page.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import MemoBlock from "../../components/memoBlock.astro";
+import { getBlogs, type Post } from "../../library/microcms";
+import { siteConfig } from "../../config/site";
 interface Props {
   title?: string;
   enLabel?: string;
@@ -14,41 +14,50 @@ interface Props {
 }
 const posts = await getBlogs();
 ---
+
 <Page>
   <div class="">
-    <PageHeader >
-  </div>
-  <div class="page-lead text-edging">
-    <p class="text">技術系の話や生活の中での気づきなど、
-      後で見返せるようにいろいろ書き残していきます。</p>
-  </div>
-  <!-- <div class="page-header">
+    <PageHeader />
+    <div class="page-lead text-edging">
+      <p class="text">
+        技術系の話や生活の中での気づきなど、<br
+        />後で見返せるようにいろいろ書き残していきます。
+      </p>
+    </div>
+    <!-- <div class="page-header">
     <h1 class="page-header__en" data-text="memo">memo</h1>
     <div class="page-header__ja">
       <p>備忘録</p>
     </div>
   </div> -->
-  <div class="post-list">
-    {posts.map((post,index) => (
-      <MemoBlock
-        title={post.title}
-        dateString={post.datepick}
-        thumbnail={post.thumbnail}
-        id={post.id}
-        isEven={index % 2 === 0}
-      />
-    ))}
+    <div class="post-list">
+      {
+        posts.map((post, index) => (
+          <MemoBlock
+            title={post.title}
+            dateString={post.datepick}
+            thumbnail={post.thumbnail}
+            id={post.id}
+            isEven={index % 2 === 0}
+          />
+        ))
+      }
+    </div>
   </div>
-
+  <style lang="scss">
+    .post-list {
+      margin-top: 10cqi;
+      display: grid;
+      gap: $size-smp32;
+      gap: 1rem;
+      // padding: 0 $size-smp24;
+      padding: 0 1rem;
+      // grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
+      @include mq {
+        gap: $size-md40 $size-md24;
+        padding: 0 $size-md24;
+      }
+    }
+  </style>
 </Page>
-<style lang="scss">
-  @use '../../styles/_variables' as *;
-  @use '../../styles/_mixins' as *;
-  .page-lead{
-    padding: 0 5cqi;
-  }
-  .post-list{
-    display: grid;
-    gap: 6cqi;
-  }
-</style>

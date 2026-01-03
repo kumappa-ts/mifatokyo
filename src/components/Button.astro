@@ -1,0 +1,118 @@
+---
+interface Props {
+  // href: string;
+  text?: string;
+}
+
+const { text = "Read More" } = Astro.props;
+---
+
+<div class="read-button">
+  <span class="read-button__text text">{text}</span>
+  <span class="read-button__icon">
+    <span class="button-eye"></span>
+    <span class="button-eye"></span>
+  </span>
+</div>
+
+<style lang="scss">
+  .read-button {
+    height: fit-content;
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: $size-smp12;
+    padding: 1.5cqi 3cqi;
+    border: 2px solid currentColor;
+    text-decoration: none;
+    border-radius: 0.4rem;
+    overflow: hidden;
+    background: $white;
+    @include mq {
+      padding: 1cqi 3cqi;
+      border-radius: 0.8rem;
+      gap: $size-md20;
+      border: 3px solid currentColor;
+      transition: all 0.3s easing("in-out-sine");
+    }
+    @include mq {
+    }
+  }
+  .read-button__text {
+    transition: color 0.3s easing("in-out-sine");
+    font-weight: 500;
+    font-family: "M PLUS Rounded 1c", serif;
+  }
+  .read-button__icon {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.1rem;
+    align-items: center;
+  }
+  .button-eye {
+    min-block-size: 0;
+    position: relative;
+    aspect-ratio: 14/20;
+    height: 1.4rem;
+    overflow: hidden;
+    border-radius: 50%;
+    @include mq {
+      height: 2rem;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: auto;
+      left: -10%;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      width: 65%;
+      height: 45%;
+      background: $black;
+      transition: left 0.3s easing("in-out-sine");
+      z-index: 2;
+      @include mq {
+        width: 80%;
+        height: 55%;
+      }
+    }
+    &:after {
+      background: $white;
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      border: 2px solid;
+      border-radius: 50%;
+      content: "";
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+  }
+  @keyframes animBlinkWhiet {
+    0% {
+      height: 100%;
+    }
+    50% {
+      height: 0;
+    }
+    100% {
+      height: 100%;
+    }
+  }
+  @keyframes animBlinkBlack {
+    0% {
+      height: 55%;
+    }
+    50% {
+      height: 0;
+    }
+    100% {
+      height: 55%;
+    }
+  }
+</style>

@@ -1,66 +1,156 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { Image } from 'astro:assets';
-import Layout from '../layouts/Layout.astro';
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/Button.astro";
 // import Welcome from '../components/Welcome.astro';
-import MemoBlock from '../components/block/memoBlock.astro';
-import WorkBlock from '../components/block/WorkBlock.astro';
-import ReadButton from '../components/buttons/ReadButton.astro';
-import OtherButton from '../components/buttons/OtherButton.astro';
-import IndexHeadline from '../components/headline/IndexHeadline.astro';
-import logo from '../assets/images/common/mifa.svg';
-import columnImg01 from '../assets/images/index/column_img01.jpg';
-import columnImg02 from '../assets/images/index/column_img02.jpg';
-import columnImg03 from '../assets/images/index/column_img03.jpg';
+// import MemoBlock from "../components/block/memoBlock.astro";
+// import WorkBlock from "../components/block/WorkBlock.astro";
+import MoreButton from "../components/MoreButton.astro";
+// import OtherButton from "../components/buttons/OtherButton.astro";
+// import IndexHeadline from "../components/headline/IndexHeadline.astro";
+import logo from "../../public/mifa.svg";
+import aboutPath from "../../public/icon_about.svg";
 
-import { generateMetadata } from '../config/site';
-import { getBlogs, type Post, formatDate } from '../library/microcms';
-const posts = await getBlogs();
-const recentPosts = posts.slice(0, 3); // 最新3件を取得
-import { getArticles } from '../library/newt';
+import { generateMetadata } from "../config/site";
+// import { getBlogs, type Post, formatDate } from "../library/microcms";
+// const posts = await getBlogs();
+// const recentPosts = posts.slice(0, 3); // 最新3件を取得
+import { getArticles } from "../library/newt";
 const articles = await getArticles();
 const recentNewtPosts = articles.slice(0, 3); // 最新3件を取得
 
-const metadata = generateMetadata('index');
+const metadata = generateMetadata("index");
 ---
 
 <Layout title={metadata.title} description={metadata.description}>
 	<!-- kv -->
-	 <section class="index-kv">
+	<section class="index-kv">
 		<div class="index-kv-plate">
-			<div class="index-kv-plate__label">Seeking
-				a sweet spot
-				of simplicity</div>
+			<div class="index-kv-plate__label">
+				Seeking<br /> a sweet spot<br />of simplicity
+			</div>
 			<div class="index-kv-plate__logo">
-				<Image src={logo} alt="logo" />
+				<Image src={logo} alt="mifa" />
 			</div>
 		</div>
-	 </section>
-	<!-- // kv -->
-	<!-- latest -->
-	<!-- <section class="index-latest">
-		<div class="index-latest__label">
-			<p class="latest-text text">topics</p>
+	</section>
+	<!-- <div class="section-divider">
+		<svg viewBox="0 0 1440 440" preserveAspectRatio="none">
+			<path d="M0,0 Q720,450 1440,0 L1440,440 L0,440 Z" fill="#000"></path>
+		</svg>
+	</div> -->
+	<section class="index-works">
+		<svg viewBox="0 0 1440 280" preserveAspectRatio="none">
+			<path
+				d="M0,280 
+				 C160,80 480 ,0 720 ,0 
+				 C960,0 1280,80 1440,280 
+				 L1440,0 L0,0 Z"
+				fill="#fff"></path>
+		</svg>
+		<div class="index-works__inner">
+			<hgroup class="index-section-heading index-section-heading--works">
+				<h2 class="index-section-label">works</h2>
+				<p class="index-section-sub-label">作ったもの</p>
+			</hgroup>
+			<div class="index-works__content">
+				<div class="splide">
+					<div class="splide__track">
+						<ul class="splide__list">
+							{
+								recentNewtPosts.map((article) => (
+									<li class="splide__slide">
+										<a
+											href={`/works/${article.slug}`}
+											class="index-work-card hover-item"
+										>
+											<div class="index-work-card__text">
+												{article.tag && article.tag.length > 0 && (
+													<ul class="index-work-card__tags">
+														{article.tag.map((tagName) => (
+															<li class="tag-item">{tagName}</li>
+														))}
+													</ul>
+												)}
+												<h3 class="index-work-card__title">{article.title}</h3>
+											</div>
+											<div class="index-work-card__image">
+												{article.thumbnail && (
+													<Image
+														src={article.thumbnail.src}
+														width={article.thumbnail.width}
+														height={article.thumbnail.height}
+														alt={article.title}
+													/>
+												)}
+											</div>
+											<div class="index-work-card__button">
+												<Button text="詳しく見る" />
+											</div>
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</div>
+					<!-- カスタムarrow -->
+					<div class="splide__arrows">
+						<button class="splide__arrow splide__arrow--prev">
+							<img src="/public/icon_arrow_prev.svg" alt="前へ" />
+						</button>
+						<button class="splide__arrow splide__arrow--next">
+							<img src="/public/icon_arrow_next.svg" alt="次へ" />
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="index-section-button">
+				<MoreButton href="/works/" text="一覧で見る" />
+			</div>
 		</div>
-		<div class="index-latest__content">
-			<time class="latest-date text">2025/3/1</time>
-			<p class="latest-content text">サイトリニューアルを行いました。</p>
+	</section>
+	<section class="index-about">
+		<svg viewBox="0 0 1440 280" preserveAspectRatio="none">
+			<path
+				d="M0,280 
+				 C160,80 480 ,0 720 ,0 
+				 C960,0 1280,80 1440,280 
+				 L1440,0 L0,0 Z"
+				fill="#000"></path>
+		</svg>
+		<div class="index-about__inner">
+			<hgroup class="index-section-heading index-section-heading--about">
+				<h2 class="index-section-label">about</h2>
+				<p class="index-section-sub-label">mifaについて</p>
+			</hgroup>
+			<div class="index-about__content">
+				<div class="index-about-icon">
+					<Image src={aboutPath} alt="about" />
+				</div>
+				<div class="index-about-text text">
+					<p>平成生まれの東京育ち。</p>
+					<p>
+						都内の制作会社でフロントエンドの仕事に携わり、<br
+						/>個人制作活動としてmifaという名前で活動しています。
+					</p>
+				</div>
+			</div>
+			<div class="index-section-button">
+				<MoreButton href="/about/" text="この人について" />
+			</div>
 		</div>
-	</section> -->
-	<!-- // latest -->
-	<!-- index lead -->
+	</section>
+
+	<!-- 
 	<section class="index-lead">
 		<div class="index-lead__inner">
 			<div class="index-lead-text">
 				<p class="text white">
 					<span>はじめまして、いまいです。</span>
-					足元の悪い中、ようこそいらっしゃいました。
-
-					フロントエンド実装を中心に
-					さまざまな制作活動を小さく行っています。
-
-					何かご一緒できる機会があれば嬉しいです。
-					不束者ですが、何卒。</p>
+					足元の悪い中、ようこそいらっしゃいました。 フロントエンド実装を中心に さまざまな制作活動を小さく行っています。
+					何かご一緒できる機会があれば嬉しいです。 不束者ですが、何卒。
+				</p>
 				<p class="index-lead-label">about</p>
 			</div>
 		</div>
@@ -68,133 +158,123 @@ const metadata = generateMetadata('index');
 			<OtherButton href="/about" text="VIEW MORE" />
 		</div>
 	</section>
-	<!-- // index lead -->
 	<div class="bg-wrapper">
-		<!-- <div class="motif-circle border-block">
-
-		</div> -->
-		<!-- works -->
 		<section class="index-section index-section--works">
 			<div class="">
-				<IndexHeadline label="works" title="作ったもの" class='white'>
+				<IndexHeadline label="works" title="作ったもの" class="white" />
 			</div>
-
+			<section class="index-section index-section--work">
+				<div class="works-wrap">
+					{recentNewtPosts.map((article) => <WorkBlock article={article} />)}
+				</div>
+				<OtherButton href="/works" text="VIEW MORE" />
+			</section>
+			<div class="column-img-wrap">
+				<div class="column-bubble">I'll snap some pictures too!</div>
+				<div class="column-img">
+					<Image src={columnImg01} alt="logo" class="image-fit-cover" />
+				</div>
+				<div class="column-img">
+					<Image src={columnImg02} alt="logo" class="image-fit-cover" />
+				</div>
+				<div class="column-img">
+					<Image src={columnImg03} alt="logo" class="image-fit-cover" />
+				</div>
+			</div>
 		</section>
-		<!-- // works -->
-		<!-- <ReadButton href="/works" text="続きを読む" /> -->
-		<section class="index-section index-section--work">
-			<div class="works-wrap">
-				{recentNewtPosts.map((article) => (
-					<WorkBlock article={article} />
-				))}
+		<section
+			transition:animate="slide"
+			class="index-section index-section--memo"
+		>
+			<div class="">
+				<IndexHeadline label="memo" title="備忘録" />
+				<div class="post-list">
+					{
+						recentPosts.map((post, index) => (
+							<MemoBlock
+								title={post.title}
+								dateString={post.datepick}
+								thumbnail={post.thumbnail}
+								id={post.id}
+								isEven={index % 2 === 0}
+							/>
+						))
+					}
+				</div>
+				<OtherButton href="/memo/" text="VIEW MORE" />
 			</div>
-			<OtherButton href="/works" text="VIEW MORE" />
 		</section>
-		<!-- つなぎの写真 -->
-		<div class="column-img-wrap">
-			<div class="column-bubble">I'll snap some pictures too! </div>
-			<div class="column-img">
-				<Image src={columnImg01} alt="logo" class="image-fit-cover" />
-			</div>
-			<div class="column-img">
-				<Image src={columnImg02} alt="logo" class="image-fit-cover" />
-			</div>
-			<div class="column-img">
-				<Image src={columnImg03} alt="logo" class="image-fit-cover" />
-			</div>
-		</div>
-
-	</div>
-	<section transition:animate="slide" class="index-section index-section--memo">
-		<div class="">
-			<IndexHeadline label="memo" title='備忘録'>
-			</div>
-			<div class="post-list">
-				{recentPosts.map((post,index) => (
-				<MemoBlock
-					title={post.title}
-					dateString={post.datepick}
-					thumbnail={post.thumbnail}
-					id={post.id}
-					isEven={index % 2 === 0}
-				/>
-			))}
-		</div>
-		<OtherButton href="/memo/" text="VIEW MORE" />
-	</section>
-	<!-- <div class="threshold-fig">
-
 	</div> -->
 </Layout>
-<style lang="scss">
-  @use '../styles/_variables' as *;
-  @use '../styles/_mixins' as *;
-	.index-kv{
+
+<style lang="scss" is:global>
+	.index-kv {
 		display: grid;
 		place-content: center;
 		height: 100dvh;
+		@include mq {
+			height: calc(100vh - 2rem);
+		}
 	}
-	.index-kv-plate{
+	.index-kv-plate {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		gap: 4cqi;
 	}
-	.index-kv-plate__label{
-		font-size: $text28;
+	.index-kv-plate__label {
+		font-size: $size-md28;
 		font-weight: 900;
 		white-space: pre-line;
 	}
-	.index-kv-plate__logo{
+	.index-kv-plate__logo {
 		width: 34cqi;
 	}
 	// Latest
-	.index-latest{
+	.index-latest {
 		background: $black;
 		display: grid;
-		grid-template-columns:  auto 1fr;
+		grid-template-columns: auto 1fr;
 		align-items: center;
 		padding: 2cqi 0;
 	}
-	.index-latest__label{
-		padding: 0 2cqi ;
+	.index-latest__label {
+		padding: 0 2cqi;
 	}
-	.latest-text{
+	.latest-text {
 		color: $white;
-		&:first-letter{
+		&:first-letter {
 			text-transform: uppercase;
 		}
 	}
-	.index-latest__content{
+	.index-latest__content {
 		border-radius: 10cqi 0 0 10cqi;
 		padding: 2cqi 4cqi;
 		display: grid;
 		justify-content: end;
-		grid-template-columns:  auto 1fr;
+		grid-template-columns: auto 1fr;
 		gap: 6cqi;
 		background: $white;
 	}
-	.latest-date{
-
+	.latest-date {
 	}
-	.latest-content{
-
+	.latest-content {
 	}
 	// // Latest
 	// about
 	.index-lead {
 	}
-	.index-lead__inner{
+	.index-lead__inner {
 		background: $black;
 		position: relative;
 		z-index: 1;
 		display: grid;
 		padding: 3cqi 2cqi;
-		border-radius:4cqi ;
-		&:before{
-			content: '';
+		border-radius: 4cqi;
+		&:before {
+			content: "";
 			background: $black;
-			border-radius:3cqi;
+			border-radius: 3cqi;
 			position: absolute;
 			height: 100%;
 			width: 100%;
@@ -206,15 +286,15 @@ const metadata = generateMetadata('index');
 		// text-align: center;
 		padding: 6cqi;
 		border: 6px solid $white;
-		border-radius:3cqi ;
+		border-radius: 3cqi;
 		overflow: hidden;
 	}
-	.index-lead-label{
+	.index-lead-label {
 		font-weight: 900;
-		letter-spacing: -.05em;
+		letter-spacing: -0.05em;
 		font-size: 25cqi;
 		color: $white;
-		line-height: .8;
+		line-height: 0.8;
 		width: fit-content;
 		margin: 8cqi -6cqi -9cqi auto;
 		filter: drop-shadow(2px 4px 0px #aaa);
@@ -224,11 +304,11 @@ const metadata = generateMetadata('index');
 		position: relative;
 		z-index: 2;
 	}
-	.index-lead-bg{
+	.index-lead-bg {
 		display: block;
 		width: 100%;
 	}
-	.index-lead-bg__path{
+	.index-lead-bg__path {
 		display: block;
 		width: 100%;
 		height: fit-content;
@@ -237,17 +317,17 @@ const metadata = generateMetadata('index');
 	}
 	// // about
 	// works
-	.works-wrap{
+	.works-wrap {
 		position: relative;
 		z-index: 2;
 		display: grid;
 	}
 
 	// // works
-	.threshold-fig{
+	.threshold-fig {
 		overflow: hidden;
 
-		border-radius:  100cqi 0 0 100cqi ;
+		border-radius: 100cqi 0 0 100cqi;
 		border: 8px solid #030014;
 		border-right: none;
 		margin: 8cqi 0 20cqi;
@@ -255,91 +335,270 @@ const metadata = generateMetadata('index');
 		aspect-ratio: 2/1;
 		width: 90cqi;
 	}
-	.index-section{
+	.index-section {
 		padding: 6cqi 0;
 	}
 	.index-section--memo,
-	.index-section--work{
+	.index-section--work {
 		display: grid;
 		gap: 8cqi;
 	}
-	.post-list{
-    display: grid;
-    gap: 8cqi;
-  }
-	.index-section-button{
+	.post-list {
 		display: grid;
-		justify-content: center;
-		margin-top:8cqi;
+		gap: 8cqi;
 	}
-	.column-img-wrap{
-		display: grid;
-		grid-template-columns: repeat(3,1fr);
-		margin: 18cqi -4px 20cqi;
-		position: relative;
-	}
-	.column-bubble{
-		position: absolute;
-		font-size: $text14;
-		color: $black;
-		background: $white;
-		border-radius: 1.2rem;
-		padding: 2cqi 3cqi 1.4cqi;
-		z-index: 4;
-		// border: 4px solid ;
-		left: auto;
-		right: 4cqi;
-		top: -10cqi;
-		letter-spacing: .1em;
-		-webkit-text-stroke: .5px $black;
-		@include mq {
-			-webkit-text-stroke: 1.5px $black;
+	// .index-section-button {
+	// 	display: grid;
+	// 	justify-content: center;
+	// 	margin-top: 8cqi;
+	// }
 
-		}
-		&:before{
-			content: '';
-			clip-path: polygon(0 0, 50% 100%, 100% 0);
-			background: $white;
-			aspect-ratio: 1;
-			position: absolute;
-			width: 3cqi;
-			top: 97%;
-			right: 4cqi;
-		}
-	}
-	.column-img{
-		aspect-ratio: 210/300;
-		border: var(--default-border);
-		margin: 0 -1px;
-		rotate: 15deg;
-		border-radius: 2rem;
-		overflow: hidden;
-		position: relative;
-		background: $white;
-		background: $black;
-		img{
-			transform-origin: left center;
-			scale: 1.05;
-		}
-	}
-	.bg-wrapper{
+	.bg-wrapper {
 		margin-top: 16cqi;
 		position: relative;
-		&:before{
-			content: '';
+		&:before {
+			content: "";
 			width: 100%;
 			height: 100%;
 			background: $black;
 			z-index: 0;
 			position: absolute;
 			height: 100%;
-    	top: -30cqi;
+			top: -30cqi;
 		}
 	}
-	.motif-circle{
+	.motif-circle {
 		aspect-ratio: 1;
 		border-radius: 50%;
 		margin-bottom: 6cqi;
 		background: $white;
 	}
+	.index-section-heading--about {
+	}
+	.index-section-heading {
+		display: grid;
+	}
+	.index-section-label {
+		margin-block: calc((1em - 1lh) / 2);
+		font-size: $size-md88;
+		line-height: 1;
+	}
+	.index-section-sub-label {
+		margin-block: calc((1em - 1lh) / 2);
+		font-size: $size-md24;
+		font-weight: 500;
+		line-height: 1;
+	}
+	// work
+	.index-works {
+		background-color: $black;
+	}
+	.index-works__inner {
+		padding: 0 0 $size-smp96;
+		@include mq {
+			padding: 0 0 $size-md96;
+		}
+	}
+	.index-section-heading--works {
+		text-align: center;
+		color: $white;
+	}
+	.index-works__content {
+		padding: $size-md80 0;
+	}
+	.splide__track {
+		padding: 0 0 3cqi;
+	}
+	.splide__slide {
+		display: grid;
+		opacity: 0.5;
+		transition: opacity 0.1s easing("in-out-sine");
+		pointer-events: none;
+		&.is-active {
+			pointer-events: all;
+			opacity: 1;
+		}
+	}
+	button.splide__arrow {
+		opacity: 1;
+		border: var(--default-border);
+		background-color: $white;
+		border-radius: 0.8rem;
+		aspect-ratio: 80/60;
+		width: $size-smp64;
+		height: auto;
+		display: grid;
+		@include mq {
+			transition: all 0.26s easing("in-out-sine");
+			width: $size-md80;
+		}
+		img {
+			transition: all 0.26s easing("in-out-sine");
+			width: 80%;
+			margin: auto;
+			@include mq {
+				width: 90%;
+			}
+		}
+		@include hover {
+			border-color: $white;
+			background-color: $black;
+			img {
+				filter: brightness(0) invert(1);
+			}
+		}
+	}
+	button.splide__arrow--next {
+		translate: -50% 0;
+		left: 92%;
+		@include mq {
+			left: 76%;
+		}
+	}
+	button.splide__arrow--prev {
+		translate: -50% 0;
+		left: 8%;
+		@include mq {
+			left: 24%;
+		}
+	}
+	.index-work-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		background-color: $white;
+		border: var(--default-border);
+		border-radius: 1.2rem;
+		position: relative;
+		// grid-template-rows: subgrid;
+		// grid-row: span 2;
+		min-inline-size: 0;
+		padding: $size-smp24 $size-smp12;
+		gap: $size-smp16;
+		@include mq {
+			gap: $size-md24;
+			padding: $size-md40 $size-md24;
+		}
+	}
+	.index-work-card__text {
+		display: grid;
+		gap: $size-md10;
+		grid-template-rows: subgrid;
+		grid-row: span 2;
+	}
+	.index-work-card__tags {
+		list-style-type: none;
+	}
+	.tag-item {
+		font-size: $size-smp12;
+		display: flex;
+		align-items: center;
+		gap: 0.2em;
+		@include mq {
+			font-size: $size-md14;
+		}
+		&:before {
+			content: ":";
+			display: block;
+		}
+	}
+	.index-work-card__title {
+		min-inline-size: 0;
+		display: grid;
+		font-size: $size-smp14;
+		overflow-wrap: break-word;
+		word-break: keep-all;
+		@include mq {
+			word-break: auto-phrase;
+			font-size: $size-md18;
+		}
+	}
+	.index-work-card__image {
+		display: grid;
+		min-inline-size: 0;
+		aspect-ratio: 324/216;
+		border-radius: 0.8rem;
+		overflow: hidden;
+		border: var(--default-border);
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+	.index-work-card__button {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: -3cqi;
+		width: 100%;
+	}
+	.index-section-button {
+		padding: 0 $size-smp24;
+		@include mq {
+			padding: 0;
+		}
+	}
+	// about
+	.index-about {
+	}
+	.index-about__inner {
+		padding: 0 $size-smp12;
+		display: grid;
+		gap: $size-smp24;
+		@include mq {
+			gap: $size-md40;
+			padding: 0 $size-md80;
+		}
+	}
+	.index-about__content {
+		gap: $size-smp24;
+		width: fit-content;
+		display: grid;
+		@include mq {
+			gap: $size-md24;
+			align-items: center;
+			display: flex;
+			justify-content: center;
+			// display: grid;
+			// grid-template-columns: 2fr 8fr;
+		}
+	}
+	.index-about-icon {
+		aspect-ratio: 1;
+		border-radius: 50%;
+		width: 35%;
+		margin: 0 auto;
+		overflow: hidden;
+		@include mq {
+			margin: 0;
+			width: 25%;
+		}
+	}
+	.index-about-text {
+		// font-size: $size-md16;
+		width: fit-content;
+		line-height: 1.75;
+	}
+	//
 </style>
+<script>
+	import Splide from "@splidejs/splide";
+	import "@splidejs/splide/css";
+	new Splide(".splide", {
+		mediaQuery: "min",
+		rewind: true,
+		type: "loop",
+		gap: "5%",
+		pagination: false,
+		padding: "18%",
+		breakpoints: {
+			768: {
+				padding: "30%",
+			},
+		},
+	}).mount();
+</script>

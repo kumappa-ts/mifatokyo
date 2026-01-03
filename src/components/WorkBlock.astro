@@ -1,0 +1,163 @@
+---
+import { Image } from "astro:assets";
+import Button from "./Button.astro";
+import type { Article } from "../library/newt";
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+---
+
+<a href={`/works/${article.slug}`} class="work-block hover-item">
+  <div class="work-block-head">
+    {
+      article.thumbnail && (
+        <div class="work-block-head__figure">
+          <Image
+            src={article.thumbnail.src}
+            width={article.thumbnail.width || 300}
+            height={article.thumbnail.height || 200}
+            alt={article.thumbnail.altText || article.title}
+            class="image-fit-cover"
+          />
+        </div>
+      )
+    }
+  </div>
+  <div class="work-block-detail">
+    <div class="work-block-detail__inner">
+      <div class="work-block-head__tags">
+        {
+          article.tag && article.tag.length > 0 && (
+            <ul class="tags">
+              {article.tag.map((tagName) => (
+                <li class="tag-item">{tagName}</li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+      <h3 class="work-block-title">{article.title}</h3>
+    </div>
+
+    <div class="work-block-button">
+      <Button text="詳しく見る" />
+    </div>
+  </div>
+</a>
+
+<style lang="scss">
+  .work-block {
+    border: var(--default-border);
+    border-radius: 0.8rem;
+    position: relative;
+    overflow: hidden;
+    background: $white;
+    display: grid;
+    // align-items: flex-start;
+    margin: 0 -3px;
+    grid-template-columns: 4fr 6fr;
+    @include mq {
+      align-items: unset;
+      grid-template-columns: 1fr 1fr;
+    }
+    @include hover {
+      .work-block-head__figure {
+        img {
+          scale: 1.15;
+          rotate: -3deg;
+          filter: grayscale(0);
+        }
+      }
+    }
+  }
+  .work-block-head {
+    display: grid;
+  }
+  .work-block-head__figure {
+    background: $white;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 45/35;
+    border-bottom: var(--default-border);
+    border-right: var(--default-border);
+    border-radius: 0 0 8cqi 0;
+    margin-bottom: -4px;
+    width: 100%;
+    @include mq {
+      margin-bottom: -3px;
+      aspect-ratio: 45/25;
+    }
+    img {
+      transition:
+        scale 0.2s easing("in-out-sine"),
+        filter 0.2s easing("in-out-sine"),
+        rotate 0.2s easing("in-out-sine");
+      // filter: grayscale(1);
+    }
+  }
+  .work-block-head__tags {
+    // padding: 1.2cqi;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .work-block-detail {
+    padding: $size-smp12 $size-smp12;
+    // backdrop-filter: blur(10px);
+
+    display: flex;
+    gap: 2cqi;
+    flex-direction: column;
+    justify-content: space-between;
+    @include mq {
+      padding: $size-md16 $size-md24;
+      gap: 3cqi;
+    }
+  }
+  .work-block-detail__inner {
+    display: grid;
+    gap: 1.4cqi;
+    @include mq {
+      gap: 2cqi;
+    }
+  }
+  .tags {
+    display: grid;
+    gap: 0.6rem;
+    list-style: none;
+  }
+  .tag-item {
+    font-size: $size-smp10;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+    &:before {
+      content: ":";
+      display: block;
+    }
+    @include mq {
+      font-size: $size-md16;
+    }
+  }
+  .work-block-title {
+    font-size: $size-smp12;
+    word-break: auto-phrase;
+    margin-block: calc((1em - 1lh) / 2);
+    font-weight: 500;
+    font-family: "M PLUS Rounded 1c", serif;
+    @include mq {
+      font-size: $size-md18;
+    }
+  }
+  .work-block-button {
+    display: flex;
+    justify-content: end;
+  }
+</style>
+<!-- <script>
+  console.log('Thumbnail data:', article.thumbnail);
+</script> -->

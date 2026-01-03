@@ -1,0 +1,135 @@
+---
+import { Image } from "astro:assets";
+import Button from "./Button.astro";
+import { formatDate } from "../library/microcms";
+interface Props {
+  title: string;
+  dateString: string;
+  thumbnail: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  id: string;
+  isEven?: boolean; // 偶数かどうかを示すプロパティを追加
+}
+const { title, dateString, thumbnail, id, isEven = true } = Astro.props;
+
+const optimizedImageUrl = thumbnail
+  ? `${thumbnail.url}?w=800&fm=webp&q=80`
+  : "";
+---
+
+<a
+  href={`/memo/${id}`}
+  class={`memo-block hover-item ${isEven ? "memo-block--even" : "memo-block--odd"}`}
+>
+  {
+    thumbnail && (
+      <div class="memo-block-figure">
+        <Image
+          src={optimizedImageUrl}
+          width={thumbnail.width}
+          height={thumbnail.height}
+          alt={title}
+          class="image-fit-cover"
+        />
+      </div>
+    )
+  }
+  <div class="memo-block-detail">
+    <div class="memo-block-detail__inner">
+      <time class="memo-block-date" datetime={dateString}>
+        {formatDate(dateString)}
+      </time>
+      <h3 class="memo-block-title">{title}</h3>
+      <div class="memo-block-button">
+        <Button text="続きを読む" />
+      </div>
+    </div>
+  </div>
+</a>
+<style lang="scss">
+  .memo-block {
+    pointer-events: none;
+    display: grid;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    align-items: flex-start;
+    gap: 0;
+    @include hover {
+      .memo-block-figure {
+        img {
+          filter: grayscale(0);
+          scale: 1.1;
+        }
+      }
+    }
+  }
+  .memo-block-figure {
+    pointer-events: auto;
+    aspect-ratio: 56/33;
+    overflow: hidden;
+    border: var(--default-border);
+    position: relative;
+    border-radius: 0.8rem 0.8rem 4rem 0.8rem;
+    @include mq {
+      border-radius: 0.8rem 0.8rem 8rem 0.8rem;
+      img {
+        filter: grayscale(1);
+        transition: all 0.3s easing("in-out-sine");
+      }
+    }
+  }
+  .memo-block-detail {
+    pointer-events: auto;
+    overflow: hidden;
+    position: relative;
+    padding: $size-md16 $size-md10;
+    display: grid;
+  }
+  .memo-block:not(:has(.memo-block-figure)) .memo-block-detail {
+    border-radius: 4cqi;
+    border: var(--default-border);
+    width: 100%;
+    margin-top: 0;
+    @include mq {
+      border-radius: 6cqi;
+    }
+  }
+  .memo-block-detail__inner {
+    position: relative;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    gap: 0;
+  }
+  .memo-block-date {
+    display: flex;
+    font-size: $size-smp10;
+    font-weight: 500;
+    font-family: "M PLUS Rounded 1c", serif;
+    @include mq {
+      font-size: $size-md12;
+    }
+  }
+  .memo-block-title {
+    font-size: $size-smp12;
+    font-weight: 500;
+    font-family: "M PLUS Rounded 1c", serif;
+    @include mq {
+      font-size: $size-md16;
+    }
+  }
+  .memo-block-button {
+    display: flex;
+    justify-content: end;
+    margin-top: $size-smp16;
+    @include mq {
+      margin-top: $size-md10;
+    }
+  }
+</style>

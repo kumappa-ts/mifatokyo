@@ -1,0 +1,73 @@
+---
+import MoreButton from "./MoreButton.astro";
+---
+
+<section class="memo-link-block">
+  <a href="/memo/" class="link-memo hover-item">
+    <hgroup class="link-memo-inner">
+      <h2 class="link-memo-label">memo</h2>
+      <p class="link-memo-sub-label">
+        備忘録として、<br />制作の過程で気付いた事などを<br
+        />書き留めていきます。
+      </p>
+    </hgroup>
+    <div class="link-memo-button">
+      <MoreButton text="一覧で見る" size="small" />
+    </div>
+  </a>
+</section>
+
+<style lang="scss">
+  .memo-link-block {
+    overflow: hidden;
+    background-image:
+      linear-gradient(
+        0deg,
+        transparent calc(100% - 1px),
+        #f0f0f0 calc(100% - 1px)
+      ),
+      linear-gradient(
+        90deg,
+        transparent calc(100% - 1px),
+        #f0f0f0 calc(100% - 1px)
+      );
+    background-size: $size-smp12 $size-smp12;
+    background-repeat: repeat;
+    background-position: center center;
+    @include mq {
+      background-size: $size-md16 $size-md16;
+    }
+  }
+  .link-memo {
+    border-radius: 0.8rem;
+    display: grid;
+    border: var(--default-border);
+    position: relative;
+    padding: $size-smp12 $size-smp96 $size-smp12 $size-smp12;
+    @include mq {
+      padding: $size-md20;
+    }
+  }
+  .link-memo-button {
+    position: absolute;
+    bottom: $size-md16;
+    right: $size-md16;
+  }
+  .link-memo-inner {
+    text-align: center;
+  }
+  .link-memo-label {
+    margin-block: calc((1em - 1lh) / 2);
+    font-size: $size-smp40;
+    @include mq {
+      font-size: $size-md64;
+    }
+  }
+  .link-memo-sub-label {
+    font-size: $size-smp10;
+    line-height: 1.75;
+    @include mq {
+      font-size: $size-md16;
+    }
+  }
+</style>

@@ -1,0 +1,266 @@
+---
+import { siteConfig } from "../config/site";
+import { Image } from "astro:assets";
+import logo from "../../public/mifa.svg";
+interface Props {
+  jaLabel?: string;
+  enLabel?: string;
+  pageName?: keyof typeof siteConfig.pages;
+}
+
+const { jaLabel, enLabel, pageName } = Astro.props;
+
+// 現在のパスを取得
+const pathname = Astro.url.pathname;
+// ルートパスの場合は "index"、それ以外は最初のパスセグメントを取得
+const firstSegment =
+  pathname === "/" ? "index" : pathname.split("/").filter(Boolean)[0];
+
+// firstSegmentがsiteConfig.pagesのキーとして存在するか確認
+const pageKey =
+  firstSegment in siteConfig.pages ? firstSegment : pageName || "index";
+
+// siteConfigから情報を取得
+const pageInfo = siteConfig.pages[pageKey as keyof typeof siteConfig.pages];
+
+// propsが提供されていればそれを使用、なければページ情報から取得
+const displayJaLabel = jaLabel || pageInfo.jaLabel;
+const displayEnLabel = enLabel || pageInfo.label;
+---
+
+<div class="page-header">
+  <div class="page-header__logo">
+    <Image src={logo} alt="logo" />
+  </div>
+  <h1 class="page-header__en split-type" data-text={displayEnLabel}>
+    {displayEnLabel}
+  </h1>
+  <div class="page-header__ja">
+    <p>{displayJaLabel}</p>
+  </div>
+</div>
+
+<style lang="scss" is:global>
+  .page-header {
+    position: relative;
+    // padding-left: 5cqi;
+    padding-top: 20cqi;
+    overflow: hidden;
+  }
+
+  .page-header__logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    rotate: 0deg;
+    scale: 1;
+    opacity: 0;
+  }
+
+  .page-header__ja {
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+    transition: clip-path 0.36s ease-in-out;
+    background: $black;
+    width: 100%;
+    padding: 2.5cqi 2cqi 1.5cqi;
+    text-align: center;
+    // opacity: 0;
+    @include mq {
+      padding: 1.5cqi 2cqi 1cqi;
+    }
+    p {
+      opacity: 0;
+      font-size: $size-smp16;
+      color: $white;
+      margin-block: calc((1em - 1lh) / 2);
+      letter-spacing: 0.05em;
+      @include mq {
+        font-size: $size-md24;
+      }
+    }
+  }
+
+  .page-header__en {
+    overflow: hidden;
+    text-align: center;
+    margin-block: calc((1em - 1lh) / 2);
+    font-weight: 900;
+    font-size: $size-smp80;
+    letter-spacing: 0;
+    color: $white;
+    -webkit-text-stroke: 6px $black;
+    paint-order: stroke;
+    line-height: 1;
+    opacity: 0;
+    margin-bottom: -4cqi;
+    position: relative;
+    z-index: 10;
+    @include mq {
+      font-size: $size-md96;
+      -webkit-text-stroke: 8px $black;
+      margin-bottom: -3cqi;
+    }
+  }
+
+  /* SplitTypeによって動的に生成される要素のスタイル */
+  .page-header__en .char {
+    line-height: 0.75;
+    transition: clip-path 0.36s ease-in-out;
+    display: inline-block;
+    transform-origin: bottom center;
+    opacity: 0;
+    // paint-order: stroke;
+    // -webkit-text-fill-color: transparent;
+    // background-size: 100% 200%;
+    // background-position: 50% 0%;
+    // background-image: linear-gradient(
+    //   0deg,
+    //   rgba(0, 0, 0, 1) 0%,
+    //   rgba(0, 0, 0, 1) 50%,
+    //   rgba(255, 255, 255, 1) 50%,
+    //   rgba(255, 255, 255, 1) 100%
+    // );
+    // -webkit-background-clip: text;
+    // transform: rotateY(90deg) scale(0);
+    // background: linear-gradient(
+    //   0deg,
+    //   $black 0%
+    //   $black 50%,
+    //   rgba(255, 255, 255, 1) 50%,
+    //   rgba(255, 255, 255, 1) 100%,
+    // );
+    // background-size: 50% 200%;
+    // background-position: 50% 0%;
+    // background-clip: text;
+    // -webkit-background-clip: text;
+    // color: transparent;
+    // -webkit-text-stroke: 14px $black;
+    // paint-order: stroke;
+  }
+
+  .page-lead {
+    padding: 0 5cqi;
+  }
+
+  .post-list {
+    display: grid;
+    gap: 6cqi;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import SplitType from "split-type";
+
+  // SplitTypeの適用とアニメーションのセットアップ
+  function initializeAnimation() {
+    // 要素の取得
+    const headingEn = document.querySelector(".page-header__en");
+    const headingJa = document.querySelector(".page-header__ja");
+    const headingJaPrg = document.querySelector(".page-header__ja p");
+    const pageLogo = document.querySelector(".page-header__logo");
+    const pageLabel = document.querySelector(".page-label");
+
+    if (!headingEn || !headingJa) {
+      console.warn(
+        "Required elements not found for animation, retrying in 100ms",
+      );
+      setTimeout(initializeAnimation, 100);
+      return;
+    }
+
+    // SplitTypeを適用
+    // すでに適用済みかチェック
+    if (!headingEn.querySelector(".char")) {
+      console.log("Applying SplitType to:", headingEn);
+      new SplitType(headingEn, {
+        types: "chars",
+        tagName: "span",
+      });
+    }
+
+    // 文字要素を取得
+    const letters = headingEn.querySelectorAll(".char");
+    console.log("Letters found:", letters.length, letters);
+
+    if (letters.length > 0) {
+      // 初期状態を明示的に設定
+      gsap.set(letters, {
+        // rotateX: "90deg",
+        translate: "0 100%",
+        // scale: 0,
+        opacity: 0,
+        // backgroundPosition: "50% 0%"
+        // clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)",
+      });
+
+      // アニメーションタイムライン
+      const tl = gsap.timeline();
+
+      // 文字のアニメーション
+      tl.to(headingJa, {
+        duration: 0.36,
+        // ease: "none",
+        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+      })
+        .to(headingEn, {
+          opacity: 1,
+        })
+        .to(letters, {
+          // rotateX: "0deg",
+          // clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+          translate: "0 0",
+          // scale: 1,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out",
+        })
+        // 日本語ラベルのアニメーション
+        .to(
+          headingJaPrg,
+          {
+            opacity: 1,
+            translate: "0 0",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "<",
+        )
+        .to(
+          pageLogo,
+          {
+            opacity: 2,
+            rotate: "-10deg",
+            scale: 1.1,
+            duration: 1,
+            // ease: "power2.inOut",
+          },
+          "<=.5",
+        );
+    } else {
+      console.error(
+        "No letters found for animation after SplitType application",
+      );
+    }
+  }
+
+  // 複数のタイミングで初期化を試行
+  // 1. 即時実行（早期ロード用）
+  setTimeout(initializeAnimation, 10);
+
+  // 2. DOMContentLoaded時（標準ロード用）
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded fired");
+    initializeAnimation();
+  });
+
+  // 3. window.load時（遅延ロード用）
+  window.addEventListener("load", () => {
+    console.log("Window load fired");
+    initializeAnimation();
+  });
+</script>

@@ -1,0 +1,211 @@
+---
+import { siteConfig } from "../config/site";
+
+interface Props {
+  currentTitle?: string;
+  useJaLabel?: boolean;
+}
+
+const { currentTitle, useJaLabel = true } = Astro.props;
+const pathname = Astro.url.pathname;
+const normalizedPath = pathname.endsWith("/")
+  ? pathname.slice(0, -1)
+  : pathname;
+const pathSegments = normalizedPath.split("/").filter(Boolean);
+
+const breadcrumbItems = [
+  {
+    label: useJaLabel
+      ? siteConfig.pages.index.jaLabel
+      : siteConfig.pages.index.label,
+    path: "/",
+  },
+];
+
+let currentPath = "";
+
+// パスセグメントごとにパンくずを構築
+pathSegments.forEach((segment, index) => {
+  currentPath += `/${segment}`;
+
+  // パスに一致するページを探す
+  const pageEntry = Object.entries(siteConfig.pages).find(
+    ([_, page]) => page.path === `/${segment}`,
+  );
+
+  if (pageEntry) {
+    breadcrumbItems.push({
+      label: useJaLabel ? pageEntry[1].jaLabel : pageEntry[1].label,
+      path: pageEntry[1].path,
+    });
+  }
+});
+
+// 記事タイトルがある場合は最後に追加
+if (currentTitle) {
+  breadcrumbItems.push({
+    label: currentTitle,
+    path: "",
+  });
+}
+---
+
+<nav class="breadcrumb" aria-label="パンくず">
+  <ol class="breadcrumb-list">
+    {
+      breadcrumbItems.map((item, index) => (
+        <li class="breadcrumb-item">
+          {index !== breadcrumbItems.length - 1 ? (
+            <>
+              <a href={item.path}>{item.label}</a>
+              <span class="breadcrumb-separator">
+                <svg
+                  viewBox="0 0 12 4"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.46387 2L-0.000235256 4L-0.000235081 -1.51421e-07L3.46387 2Z"
+                    fill="#fff"
+                  />
+                  <path
+                    d="M7.46387 2L3.99976 4L3.99976 -1.51421e-07L7.46387 2Z"
+                    fill="#fff"
+                  />
+                  <path
+                    d="M11.4639 2L7.99976 4L7.99976 -1.51421e-07L11.4639 2Z"
+                    fill="#fff"
+                  />
+                </svg>
+              </span>
+            </>
+          ) : currentTitle ? (
+            <p
+              class="breadcrumb-current page-title"
+              data-text={item.label}
+              aria-current="page"
+            >
+              <span class="page-title__text">{item.label}</span>
+            </p>
+          ) : (
+            <p
+              class="breadcrumb-current page-title"
+              data-text={item.label}
+              aria-current="page"
+            >
+              <span class="page-title__text">{item.label}</span>
+            </p>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style lang="scss">
+  .breadcrumb {
+    border: 1px solid $white;
+    margin: 2cqi 0;
+    background: rgba($color: $black, $alpha: 0.8);
+    padding: $size-md12 $size-md20 1cqi;
+    border-radius: 1.5cqi;
+    width: fit-content;
+    position: absolute;
+    z-index: 9;
+    top: $size-md20;
+    left: $size-md20;
+    @include mq {
+      top: $size-md16;
+      left: $size-md16;
+      margin: 0;
+    }
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1cqi;
+    list-style: none;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 1cqi;
+    font-size: calc($size-smp10 * 0.75);
+    color: $white;
+    line-height: 1;
+    @include mq {
+      font-size: $size-md10;
+    }
+    a {
+      // color: $gray;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      margin-block: calc((1em - 1lh) / 2);
+      // &:hover {
+      //   color: $black;
+      // }
+    }
+    // &:last-child{
+    //   display: block;
+    //   width: 100%;
+    // }
+    &:not(:last-child) {
+      a {
+        line-height: 1;
+      }
+    }
+  }
+
+  .breadcrumb-separator {
+    aspect-ratio: 11/4;
+    color: $gray;
+    width: 3cqi;
+    @include mq {
+      width: 2cqi;
+    }
+    svg {
+      aspect-ratio: 11/4;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .breadcrumb-current {
+    // color: $black;
+  }
+  // .page-title{
+  //   position: relative;
+  //   width: fit-content;
+  //   &:before{
+  //     content: attr(data-text)"";
+  //     -webkit-text-stroke: 6px $black;
+  //     font-size: 6cqi;
+  //     position: absolute;
+  //     inset: 0;
+  //     margin: auto;
+  //     z-index: 0;
+  //     letter-spacing: 0.1em;
+  //   }
+  // }
+  // .page-title--small{
+  //   &:before{
+  //     font-size: 5cqi;
+
+  //   }
+  // }
+  .page-title__text {
+    // letter-spacing: 0.1em;
+    display: block;
+    // color: $white;
+    // font-size: 6cqi;
+    position: relative;
+    z-index: 2;
+    // font-size: $size-smp10;
+  }
+  .page-title__text--small {
+    font-size: 5cqi;
+  }
+</style>

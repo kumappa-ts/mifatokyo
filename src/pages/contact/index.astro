@@ -1,0 +1,296 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+// import Layout from '../layouts/Layout.astro';
+// import Breadcrumb from '../components/common/Breadcrumb.astro';
+import PageHeader from "../../components/PageHeader.astro";
+import Page from "../../components/page.astro";
+import { generateMetadata } from "../../config/site";
+
+const metadata = generateMetadata("contact");
+---
+
+<Page>
+  <div class="">
+    <PageHeader />
+    <div class="contact-content">
+      <div class="page-lead">
+        <p class="text">
+          可能な限り早めにお返事します。<br />お気軽にお声がけください。<br
+          />※SNSからのお声がけも大歓迎です
+        </p>
+      </div>
+      <form action="https://ssgform.com/s/tUGCWDZka3C5" method="post">
+        <div
+          class="g-recaptcha"
+          data-sitekey="6LeYh_0qAAAAAHOgRd3MhYbasImu3V0p79DXITiN"
+        >
+        </div>
+        <div class="contact-wrap">
+          <div class="contact-line text">
+            <label class="contact-label text" for="name"
+              >お名前<span class="required-mark">※必須項目です</span></label
+            >
+            <input
+              type="text"
+              name="お名前"
+              required="required"
+              id="name"
+              placeholder="ここにお名前をお願いします。"
+            />
+          </div>
+          <div class="contact-line text">
+            <label class="contact-label text" for="mail"
+              >ご返信先メールアドレス<span class="required-mark"
+                >※必須項目です</span
+              ></label
+            >
+            <input
+              type="email"
+              name="メールアドレス"
+              required="required"
+              id="mail"
+              placeholder="ここにメールアドレスをお願いします。"
+            />
+          </div>
+          <div class="contact-line text">
+            <!-- textarea: 複数行 -->
+            <label class="contact-label text" for="main-text"
+              >ご連絡の内容<span class="required-mark">※必須項目です</span
+              ></label
+            >
+            <textarea
+              name="お問い合わせ内容"
+              id="main-text"
+              required="required"
+              placeholder="ここにご連絡の内容をご入力ください。"></textarea>
+          </div>
+        </div>
+        <div class="contact-policy">
+          <h2 class="contact-policy-label">個人情報の取り扱いについて</h2>
+          <ul class="contact-policy-content">
+            <li>
+              当サイトの問い合わせフォームでご入力いただいた個人情報は、お問い合わせへの回答および今後の連絡のためにのみ使用いたします。
+            </li>
+            <li>
+              お預かりした情報は適切に管理し、ご本人の同意なく第三者に提供することはありません。
+            </li>
+            <li>
+              取得する情報は、お名前、メールアドレス、お問い合わせ内容です。
+            </li>
+            <li>
+              これらの情報は、お問い合わせ対応が完了してから一定期間保管した後、適切に削除いたします。
+            </li>
+          </ul>
+        </div>
+      </form>
+      <!-- submit: 送信ボタン -->
+      <button
+        type="submit"
+        class="contact-button btn__md--effect"
+        data-text="クリックすると送信されます。"
+      >
+        <span class="button-text-line">
+          <span
+            class="button-text-line__item button-text-line__item--default text"
+            >以上で送ってよろしいですか？</span
+          >
+          <span
+            class="button-text-line__item button-text-line__item--hover text"
+            >クリックすると送信されます。</span
+          >
+        </span>
+        <!-- <span class="button-text-line button-text-line--complete text">送信しました！</span> -->
+        <span class="contact-button-icon">
+          <svg width="28" height="22" viewBox="0 0 28 22" fill="none">
+            <path
+              d="M0 8.98021L1.14368 9.79105L7.64624 14.402V21.5094L13.3011 18.4126L18.3608 22L28 0L0 8.98021ZM3.13502 9.45955L24.2166 2.69853L8.56455 13.3105L3.13502 9.45955ZM9.08917 19.1019V15.4249L12.0146 17.4996L9.08917 19.1019ZM17.7458 19.8213L9.44869 13.9378L24.9205 3.44732L17.7458 19.8213Z"
+              fill="#030014"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</Page>
+
+<style lang="scss">
+  .page-lead {
+    text-align: center;
+    // padding: 0 5cqi;
+    margin-bottom: 8cqi;
+  }
+  .contact-content {
+    padding: 0 5cqi;
+    background: rgba($white, 0.95);
+    @include mq {
+    }
+  }
+  .contact-wrap {
+    display: grid;
+    gap: 12cqi;
+    margin-bottom: 8cqi;
+    @include mq {
+      gap: 8cqi;
+    }
+  }
+  .contact-line {
+    display: grid;
+    gap: 2cqi;
+    @include mq {
+      gap: 1cqi;
+    }
+  }
+  input,
+  textarea {
+    resize: vertical;
+    padding: 1cqi 2cqi;
+    appearance: none;
+    background: $white;
+    border-radius: 1cqi;
+    border: 2px solid $black;
+    font-size: 1.6rem;
+    &:focus {
+      outline: 0;
+      border-color: #777;
+    }
+    &::placeholder {
+      opacity: 0.5;
+      font-size: 1.2rem;
+    }
+  }
+  .contact-label {
+    display: flex;
+    align-items: center;
+    gap: 2cqi;
+    font-weight: 500;
+  }
+  .required-mark {
+    background-color: red;
+    color: $white;
+    font-size: 0.65em;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    @include mq {
+    }
+  }
+  .contact-button {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    border-radius: 0.8rem;
+    background-color: $white;
+    border: 2px solid $black;
+    width: 100%;
+    margin: auto;
+    padding: $size-smp14 10cqi $size-smp14;
+    @include mq {
+      transition: all 0.3s easing("in-out-sine");
+      padding: $size-md16 10cqi $size-md16 2cqi;
+      max-width: 382px;
+    }
+    @include hover {
+      background-color: $black;
+      .button-text-line__item--default {
+        translate: 0 -100%;
+      }
+      .button-text-line__item--hover {
+        color: $white;
+        translate: 0 0;
+      }
+      .contact-button-icon {
+        translate: 0 0;
+      }
+    }
+  }
+  .button-text-line {
+    line-height: 1;
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    height: fit-content;
+  }
+  .button-text-line__item {
+    line-height: 1;
+    transition: all 0.3s easing("in-out-sine");
+    grid-column: 1/2;
+    grid-row: 1/2;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: grid;
+    color: $black;
+    min-inline-size: 0;
+  }
+
+  .button-text-line__item--default {
+    z-index: 1;
+    translate: 0 -101%;
+    @include mq {
+      translate: 0 0%;
+    }
+  }
+  .button-text-line__item--hover {
+    z-index: 2;
+    translate: 0 0%;
+    @include mq {
+      translate: 0 101%;
+    }
+  }
+  // .button-text-line--complete{
+  //   z-index: 3;
+  // }
+  .contact-button-icon {
+    position: absolute;
+    aspect-ratio: 28/22;
+    top: 2.5cqi;
+    right: 3.5cqi;
+    svg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      path {
+        fill: $white;
+      }
+    }
+    @include mq {
+      top: 1.5cqi;
+      right: 2.5cqi;
+      transition: all 0.3s easing("in-out-sine");
+      translate: -150% 150%;
+    }
+  }
+  // プライバシーポリシー
+  .contact-policy {
+    max-width: 620px;
+    margin: $size-md40 auto;
+    background-color: #f9f9f9;
+    padding: $size-smp14 $size-smp14 $size-smp14 calc($size-smp14 + 1em);
+    border-radius: 0.8rem;
+    position: relative;
+    overflow: hidden;
+    @include mq {
+      padding: $size-md40 $size-md40 $size-md40 calc($size-md40 + 1em);
+    }
+  }
+  .contact-policy-label {
+    text-align: center;
+    font-size: $size-smp12;
+    font-weight: 500;
+    @include mq {
+      font-size: $size-md16;
+    }
+  }
+  .contact-policy-content {
+    margin-top: $size-md20;
+    p {
+      font-size: $size-smp10;
+      line-height: 1.75;
+      word-break: auto-phrase;
+      @include mq {
+        font-size: $size-md12;
+      }
+    }
+  }
+</style>

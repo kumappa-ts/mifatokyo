@@ -49,19 +49,41 @@ $black: #030014;
 $gray: #7c7c7c;
 
 // フォントサイズ
-$text10: 2cqi; // 10pxくらいのサイズ
-$text12: 2.4cqi; // 12pxくらいのサイズ
-$text14: 2.7cqi; // 14pxくらいのサイズ
-$text16: 3cqi; // 16pxくらいのサイズ
-$text18: 3.5cqi; // 18pxくらいのサイズ
-$text20: 3.6cqi; // 32pxくらいのサイズ
-$text22: 3.9cqi; // 32pxくらいのサイズ
-$text24: 4.2cqi; // 32pxくらいのサイズ
-$text26: 4.5cqi; // 32pxくらいのサイズ
-$text28: 4.8cqi; // 32pxくらいのサイズ
-$text30: 5.1cqi; // 32pxくらいのサイズ
-$text32: 5.5cqi; // 32pxくらいのサイズ
-$text96: 15.5cqi; // 32pxくらいのサイズ
+$size-md10: 1.2cqi; // 10pxくらいのサイズ
+$size-md12: 1.5cqi; // 12pxくらいのサイズ
+$size-md14: 1.8cqi; // 14pxくらいのサイズ
+$size-md16: 2cqi; // 16pxくらいのサイズ
+$size-md18: 2.3cqi; // 18pxくらいのサイズ
+$size-md20: 2.6cqi; // 32pxくらいのサイズ
+$size-md22: 2.9cqi; // 32pxくらいのサイズ
+$size-md24: 3.2cqi; // 32pxくらいのサイズ
+$size-md26: 3.5cqi; // 32pxくらいのサイズ
+$size-md28: 3.8cqi; // 32pxくらいのサイズ
+$size-md30: 3.1cqi; // 32pxくらいのサイズ
+$size-md32: 3.5cqi; // 32pxくらいのサイズ
+$size-md40: 5cqi; // 40pxくらいのサイズ
+$size-md64: 8cqi; // 64pxくらいのサイズ
+$size-md80: 10.2cqi; // 80pxくらいのサイズ
+$size-md88: 11cqi; // 88pxくらいのサイズ
+$size-md96: 15.5cqi; // 96pxくらいのサイズ
+
+$size-smp10: 2.8cqi; // 10pxくらいのサイズ
+$size-smp12: 3.2cqi; // 12pxくらいのサイズ
+$size-smp14: 3.8cqi; // 14pxくらいのサイズ
+$size-smp16: 4.4cqi; // 16pxくらいのサイズ
+$size-smp18: 5cqi; // 18pxくらいのサイズ
+$size-smp20: 5.6cqi; // 32pxくらいのサイズ
+$size-smp22: 6.2cqi; // 32pxくらいのサイズ
+$size-smp24: 6.8cqi; // 32pxくらいのサイズ
+$size-smp26: 7.4cqi; // 32pxくらいのサイズ
+$size-smp28: 8cqi; // 32pxくらいのサイズ
+$size-smp30: 8.6cqi; // 32pxくらいのサイズ
+$size-smp32: 9.2cqi; // 32pxくらいのサイズ
+$size-smp40: 10.4cqi; // 40pxくらいのサイズ
+$size-smp64: 16cqi; // 64pxくらいのサイズ
+$size-smp80: 20.2cqi; // 80pxくらいのサイズ
+$size-smp88: 22cqi; // 88pxくらいのサイズ
+$size-smp96: 24.5cqi; // 96pxくらいのサイズ
 
 // イージング https://easings.net/
 $easings: (
@@ -90,10 +112,12 @@ $easings: (
   'out-back': cubic-bezier(0.175, 0.885, 0.32, 1.275),
   'in-out-back': cubic-bezier(0.68, -0.55, 0.265, 1.55),
 );
+
 // イージング取得用関数
 @function easing($name) {
   @return map.get($easings, $name);
 }
+
 // こう使う
 // .element {
 //   transition: all 0.3s easing('out-expo');
@@ -103,5 +127,5 @@ $easings: (
 
 :root {
   --black: #{$black};
-  --default-border: 8px solid #{$black};
+  --default-border: 4px solid #{$black};
 }

@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import aboutPath from "../../assets/about.png";
+import MoreButton from "../../components/MoreButton.astro";
+---
+
+<section class="index-about">
+  <hgroup class="index-section-heading index-section-heading--about">
+    <h2 class="index-section-label">about</h2>
+    <p class="index-section-sub-label">mifaについて</p>
+  </hgroup>
+  <div class="index-about__content">
+    <div class="index-about-icon">
+      <Image src={aboutPath} alt="about" />
+    </div>
+    <div class="index-about-text text">
+      <p>平成生まれの東京育ち。</p>
+      <p>
+        都内の制作会社でフロントエンドの仕事に携わり、<br
+        />個人制作活動としてmifaという名前で活動しています。
+      </p>
+    </div>
+  </div>
+  <MoreButton href="/about/" text="この人について" />
+</section>
+<style lang="scss">
+  // about
+  .index-about {
+    padding: 0 $size-smp12;
+    display: grid;
+    gap: $size-smp24;
+    @include mq {
+      gap: $size-md40;
+      padding: 0 $size-md80;
+    }
+  }
+  .index-about__content {
+    gap: $size-smp24;
+    width: fit-content;
+    display: grid;
+    @include mq {
+      gap: $size-md24;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      // display: grid;
+      // grid-template-columns: 2fr 8fr;
+    }
+  }
+  .index-about-icon {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    width: 35%;
+    margin: 0 auto;
+    overflow: hidden;
+    @include mq {
+      margin: 0;
+      width: 25%;
+    }
+  }
+  .index-about-text {
+    // font-size: $size-md16;
+    width: fit-content;
+    line-height: 1.75;
+  }
+  //
+</style>

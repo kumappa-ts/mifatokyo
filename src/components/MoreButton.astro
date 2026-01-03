@@ -1,0 +1,135 @@
+---
+interface Props {
+  href?: string;
+  text?: string;
+  size?: string;
+  class?: string; // 追加
+}
+
+const {
+  href,
+  text = "other More",
+  size = "large",
+  class: className,
+} = Astro.props;
+const Tag = href ? "a" : "div";
+---
+
+<Tag
+  href={href}
+  class={`other-button other-button--${size} ${className || ""}`}
+>
+  <span></span>
+  <span class="other-button__text">{text}</span>
+  <span class="other-button__icon"></span>
+</Tag>
+
+<style lang="scss">
+  .other-button {
+    width: 100%;
+    display: grid;
+    // justify-content: center;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2cqi;
+    padding: $size-smp10;
+    border: var(--default-border);
+    border-radius: 0.8rem;
+    overflow: hidden;
+    background: $white;
+    position: relative;
+    text-align: left;
+    margin: 0 auto;
+    @include mq {
+      padding: 4cqi 2cqi;
+      transition: all 0.3s easing("in-out-sine");
+      outline-offset: -1px;
+      padding: $size-md10;
+    }
+    @include hover {
+      // width: 100cqi;
+      // .other-button__text {
+      //   letter-spacing: 0.1em;
+      //   // translate: 2.8rem 0;
+      //   // color: $white;
+      // }
+    }
+  }
+  .other-button--large {
+    max-width: 480px;
+  }
+  .other-button--mideum {
+  }
+  .other-button--small {
+    border-width: 3px;
+    padding: 0.6rem;
+    @include mq {
+      padding: $size-md10;
+      max-width: 200px;
+    }
+    .other-button__text {
+      font-size: $size-smp10;
+      @include mq {
+        font-size: $size-md16;
+      }
+    }
+    .other-button__icon {
+      width: $size-md32;
+    }
+  }
+  .other-button__text {
+    text-align: center;
+    font-size: $size-smp14;
+    font-weight: 500;
+    line-height: 1;
+    // -webkit-text-stroke: 1px $black;
+    @include mq {
+      transition: all 0.3s easing("in-out-sine");
+      font-size: $size-md20;
+      // -webkit-text-stroke: 2px $white;
+      // -webkit-text-stroke: 2px $black;
+    }
+  }
+  .other-button__icon {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.1rem;
+    align-items: center;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: $black;
+    place-self: end;
+    width: $size-smp24;
+    @include mq {
+      transition: all 0.3s easing("in-out-sine");
+      width: $size-md40;
+    }
+    // &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      background-image: url(/public/icon_arrow_next.svg);
+      background-size: contain;
+      background-position: center;
+      // clip-path: polygon(0 0, 0% 100%, 100% 50%);
+      // aspect-ratio: 1 / 1.5;
+      width: 40%;
+      filter: invert(1);
+      // background: $white;
+      // top: 50%;
+      // left: 50%;
+      // transform: translate(-50%, -50%);
+    }
+    // &:before {
+    //   z-index: 2;
+    //   left: 60%;
+    // }
+    // &:after {
+    //   opacity: 0.75;
+    //   left: 45%;
+    // }
+  }
+</style>

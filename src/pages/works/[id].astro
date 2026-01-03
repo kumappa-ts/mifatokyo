@@ -1,9 +1,9 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 import "highlight.js/styles/vs2015.css";
-import Page from '../../components/common/page.astro';
-import { getArticle, getArticles, formatDate } from '../../library/newt';
+import Page from "../../components/page.astro";
+import { getArticle, getArticles, formatDate } from "../../library/newt";
 
 export async function getStaticPaths() {
   const articles = await getArticles();
@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
     return {
       params: { id: urlParam },
-      props: { articleId: article._id } // 実際の記事IDをpropsとして渡す
+      props: { articleId: article._id }, // 実際の記事IDをpropsとして渡す
     };
   });
 }
@@ -31,72 +31,88 @@ const publishedAt = article._sys.raw.publishedAt;
 const isClose = Boolean(article.close);
 ---
 
-
 <Page currentTitle={article.title}>
   <article class="article">
-    {article.thumbnail && (
-      <div class="article-thumbnail">
-        <Image
-          src={article.thumbnail.src}
-          width={article.thumbnail.width}
-          height={article.thumbnail.height}
-          alt={article.thumbnail.altText || article.title}
-        />
-        <p class="article-category text">{article.category}</p>
-      </div>
-    )}
-    <header class="article-header border-block">
-      <div class="article-block-label">Overview</div>
-      <div class="article-meta">
-        <h1 class="article-title">{article.title}</h1>
-        {article.url && (
-          <>
-            {!isClose ? (
-              <div class="article-url article-url--close">
-                <p class="text">{article.url}</p>
-                <span class="close-icon">Already Closed</span>
+    <div class="article-head">
+      <header class="article-head__text">
+        <div class="article-meta">
+          <p class="article-category text text--small">{article.category}</p>
+          <h1 class="article-title">{article.title}</h1>
+          {
+            article.url && (
+              <>
+                {!isClose ? (
+                  <div class="article-url article-url--close">
+                    <p class="text text--small">{article.url}</p>
+                    <span class="close-icon">Already Closed</span>
+                  </div>
+                ) : (
+                  <a
+                    href={`${article.url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="article-url"
+                  >
+                    <p class="text text--small">{article.url}</p>
+                  </a>
+                )}
+              </>
+            )
+          }
+          {
+            article.tag && article.tag.length > 0 && (
+              <div class="article-tags">
+                {article.tag.map((tagName) => (
+                  <span class="article-tag text text--small">{tagName}</span>
+                ))}
               </div>
-            ) : (
-              <a href={`${article.url}`} target="_blank" rel="noopener noreferrer" class="article-url">
-                <p class="text">{article.url}</p>
-              </a>
-            )}
-          </>
-        )}
-        {article.tag && article.tag.length > 0 && (
-          <div class="article-tags">
-            {article.tag.map((tagName) => (
-              <span class="article-tag text">{tagName}</span>
-            ))}
+            )
+          }
+        </div>
+      </header>
+      {
+        article.thumbnail && (
+          <div class="article-thumbnail">
+            <Image
+              src={article.thumbnail.src}
+              width={article.thumbnail.width}
+              height={article.thumbnail.height}
+              alt={article.thumbnail.altText || article.title}
+            />
           </div>
-        )}
-      </div>
-
-    </header>
-
-
-    <div class="border-block">
-      <div class="article-block-label">Content</div>
-      <div class="article-content" set:html={article.content} />
+        )
+      }
     </div>
-
+    <div class="article-body">
+      <div class="article-body__content">
+        <div class="article-block-label">Overview</div>
+        <div class="article-content text" set:html={article.content} />
+      </div>
+    </div>
   </article>
 </Page>
 
 <style lang="scss">
-  @use '../../styles/variables' as *;
-  @use '../../styles/_mixins' as *;
-
+  .article-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: $size-smp12;
+    align-items: center;
+    gap: $size-smp16;
+    @include mq {
+      padding: $size-md24;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
   .article-thumbnail {
-    margin-bottom: -.8rem;
+    margin-bottom: -0.8rem;
     aspect-ratio: 530/295;
-    width: 94cqi;
+    width: 100%;
     overflow: hidden;
     position: relative;
-    border-radius: 0 4rem 4rem 0;
-    border-top: var(--default-border);
-    border-right: var(--default-border);
-    border-bottom: var(--default-border);
+
+    border: var(--default-border);
+    border-radius: 0.4rem;
     background: $white;
     img {
       width: 100%;
@@ -105,17 +121,27 @@ const isClose = Boolean(article.close);
       object-position: center;
     }
   }
-  .article-block-label{
-    position: absolute;
+  .article-block-label {
+    position: relative;
     z-index: 8;
-    background: $black;
-    font-size: $text24;
-    border-radius: 0 0 4rem 0;
-    color: $white;
+    // background: $black;
+    font-size: $size-smp20;
+    border-radius: 1.2rem 0 0 0;
+    border: var(--default-border);
+    border-bottom: none;
+    border-right: none;
+    color: #ccc;
+    margin-block: calc((1em - 1lh) / 2);
+    line-height: 1;
     font-weight: 900;
-    padding: 1cqi 8cqi 1cqi 4cqi;
+    padding: $size-smp16 $size-smp12;
+    margin: 0 -4px;
+    @include mq {
+      font-size: $size-md24;
+      padding: $size-md24 $size-md24 $size-md12;
+    }
   }
-  .page-headline{
+  .page-headline {
     font-weight: 900;
     -webkit-text-stroke: 10px $black;
     paint-order: stroke;
@@ -127,184 +153,201 @@ const isClose = Boolean(article.close);
     top: 0;
     left: -4cqi;
     line-height: 1;
-    opacity: .8;
+    opacity: 0.8;
   }
   .article {
     position: relative;
     min-inline-size: 0;
     display: grid;
+    padding-top: calc($size-md80 + $size-md24);
   }
-  .article-inner{
+  .article-inner {
     min-inline-size: 0;
   }
-  .article-url{
+  a.article-url {
     text-decoration: underline;
+  }
+  .article-url {
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
-    &:before{
-      content: '';
-      background: url(../../assets/images/common/icon_link.svg) center center /contain no-repeat;
+    &:before {
+      content: "";
+      background: url(/public/icon_link.svg) center center / contain no-repeat;
       aspect-ratio: 1;
-      width: 4cqi;
-      height: 4cqi;
+      width: $size-smp14;
+      height: $size-smp14;
       filter: contrast(0);
       display: flex;
+      @include mq {
+        width: $size-md20;
+        height: $size-md20;
+      }
     }
   }
-  .article-url--close{
-    text-decoration: line-through;
+  .article-url--close {
     position: relative;
     width: fit-content;
+    p.text {
+      text-decoration: line-through;
+    }
+    .close-icon {
+      text-decoration: none;
+    }
   }
-  .close-icon{
-    background:$black;
+  .close-icon {
+    background: $black;
     color: $white;
     text-decoration: none;
-    position: absolute;
-    top: -1cqi;
-    left: calc(100% + 2cqi);
+    position: relative;
+    z-index: 4;
+    // top: -1cqi;
+    // left: calc(100% + 2cqi);
     font-weight: bold;
     width: fit-content;
     white-space: pre;
     display: flex;
     align-items: center;
-    font-size: $text10;
-    padding: .8cqi 2cqi .8cqi;
+    padding: 0.6cqi 1.2cqi 0.6cqi;
+    font-size: 0.8rem;
     gap: 1cqi;
     border-radius: 4rem;
-    &:after{
-      content: '';
-      background: url(../../assets/images/common/icon_sad.svg) center center /contain no-repeat;
+    @include mq {
+      font-size: $size-md10;
+    }
+    &:after {
+      content: "";
+      background: url(/public/icon_sad.svg) center center / contain no-repeat;
       aspect-ratio: 1;
-      width: 4cqi;
-      height: 4cqi;
+      width: $size-smp12;
+      height: $size-smp12;
       display: flex;
+      @include mq {
+        width: $size-md14;
+        height: $size-md14;
+      }
     }
   }
-  .article-header{
+  .article-header {
     position: relative;
     z-index: 3;
-    padding: 12cqi 6cqi 6cqi;
-    background: rgba($white, .95);
-    // border: var(--default-border);
+    background: rgba($white, 0.95);
     display: grid;
-    gap: 1rem;
   }
-  .article-meta{
+  .article-meta {
     display: grid;
-    gap: 3cqi;
+    gap: $size-smp12;
+    @include mq {
+      gap: $size-md12;
+      padding: $size-md24;
+    }
   }
-  .article-category{
-    position: absolute;
-    bottom: 0;
+  .article-category {
     z-index: 9;
     background: $black;
     color: $white;
-    padding: 1cqi 3cqi .6cqi;
+    padding: 1cqi 2cqi 0.6cqi;
     border-radius: 2rem;
     display: block;
-    bottom: 1rem;
-    left: 1rem;
     line-height: 1;
+    width: fit-content;
   }
-  // .article-date {
-  //   display: block;
-  //   font-size: $text14;
-  //   font-weight: 900;
-  // }
+
   .article-title {
-    font-size: $text24;
+    margin-block: calc((1em - 1lh) / 2);
+    line-height: 1.6;
+    word-break: auto-phrase;
+    font-size: $size-smp18;
     font-weight: 500;
-  }
-  .article-tags{
-    display: flex;
-    gap: 1rem;
-    &:before{
-      content: '';
-      background: url(../../assets/images/common/icon_tag.svg) center center /contain no-repeat;
-      aspect-ratio: 1;
-      width: 4cqi;
-      height: 4cqi;
-      filter: contrast(0);
-      display: flex;
+    font-family: "M PLUS Rounded 1c", serif;
+    letter-spacing: 0.06em;
+    @include mq {
+      font-size: $size-md20;
     }
   }
-  .article-tag{
+  .article-tags {
+    display: flex;
+    gap: 1rem;
+    &:before {
+      content: "";
+      background: url(/public/icon_tag.svg) center center / contain no-repeat;
+      aspect-ratio: 1;
+      width: $size-smp12;
+      height: $size-smp12;
+      filter: contrast(0);
+      display: flex;
+      @include mq {
+        width: $size-md18;
+        height: $size-md18;
+      }
+    }
+  }
+  .article-tag {
     position: relative;
     display: flex;
     align-items: center;
-    &:before{
-      content: '#';
-
+    &:before {
+      content: "#";
     }
   }
   .article {
     display: grid;
     gap: 6cqi;
-    padding-top: 14cqi;
+    // padding-top: 14cqi;
     line-height: 1.75;
     .article-content {
-      background: rgba($white, .95);
+      background: rgba($white, 0.95);
       position: relative;
       z-index: 5;
-      padding: 14cqi 6cqi 6cqi;
-      margin-top:-.8rem;
+      margin-top: -0.8rem;
+
+      padding: $size-smp12;
+      @include mq {
+        padding: $size-md40 $size-md24;
+      }
       :global(h2) {
-        font-size: $text24;
-        margin: 3rem 0 2rem;
+        font-size: $size-smp16;
+        // margin-block: calc((1em - 1lh) / 2);
+        margin: 3rem 0 0rem;
         position: relative;
         display: flex;
         align-items: center;
+        line-height: 1;
         // padding: 0 2em;
-        &:first-letter{
+        &:first-letter {
           font-size: 1.6em;
         }
-        // &:before{
-        //   content: '';
-        //   aspect-ratio: 1;
-        //   border-radius: 50%;
-        //   background: $black;
-        //   display: block;
-        //   width: 1.5em;
-        //   height: 1.5em;
-        //   position: absolute;
-        //   left: 0;
-        //   bottom: 0;
-        // }
-        // &:after{
-        //   content: '';
-        //   background: $black;
-        //   position: absolute;
-        //   bottom: 0;
-        //   right: 0;
-        //   height: 2px;
-        //   width: calc(100% - .9em);
-        // }
+        @include mq {
+          font-size: $size-md18;
+        }
       }
       :global(h3) {
-        font-size: $text20;
-        margin: 3rem 0 2rem;
+        font-size: $size-smp14;
+        margin: 1em 0 0;
+        // margin-block: calc((1em - 1lh) / 2);
         position: relative;
-        // padding-left: 1.2em;
-        // &:before{
-        //   content: '';
-        //   aspect-ratio: 1;
-        //   clip-path: polygon(0 0, 0% 100%, 100% 0);
-        //   background: $gray;
-        //   display: block;
-        //   position: absolute;
-        //   left: 0;
-        //   top: 0;
-        //   width: 1em;
-        //   height: 1em;
-        // }
+        @include mq {
+          font-size: $size-md16;
+        }
       }
       :global(p) {
-        margin: 1em 0 ;
-        font-size: $text16;
+        margin-block: calc((1em - 1lh) / 2);
+        font-size: $size-smp12;
+        @include mq {
+          font-size: $size-md14;
+        }
       }
-      :global(p a){
-        color: #F9A620;
+      :global(* + p) {
+        margin: 0.5em 0;
+        font-size: $size-smp12;
+        @include mq {
+          margin: 1em 0;
+          font-size: $size-md14;
+        }
+      }
+      :global(p a) {
+        color: #f9a620;
         text-decoration: underline;
       }
       :global(ul) {
@@ -329,23 +372,22 @@ const isClose = Boolean(article.close);
       }
       :global(blockquote) {
         padding: 0.8em 1em;
-        background: rgba($gray,.1);
+        background: rgba($gray, 0.1);
         position: relative;
         &:before,
-        &:after{
-          content: '';
+        &:after {
+          content: "";
           position: absolute;
           aspect-ratio: 1;
-          width: $text16;
+          width: $size-md16;
           background: $gray;
-
         }
-        &:before{
+        &:before {
           clip-path: polygon(0 0, 0% 100%, 100% 0);
           top: 1cqi;
           left: 1cqi;
         }
-        &:after{
+        &:after {
           clip-path: polygon(100% 100%, 0% 100%, 100% 0);
           bottom: 1cqi;
           right: 1cqi;
@@ -353,43 +395,42 @@ const isClose = Boolean(article.close);
       }
     }
   }
-  .aside-articles{
+  .aside-articles {
     position: relative;
     z-index: 0;
-    padding: 6cqi 0 ;
+    padding: 6cqi 0;
     margin-top: -1rem;
     background: $black;
-    .treat svg{
+    .treat svg {
       width: 100%;
       height: auto;
       object-fit: contain;
       display: block;
     }
   }
-  .aside-title{
+  .aside-title {
     position: relative;
     text-align: center;
     display: grid;
     align-items: baseline;
     margin: 4cqi 0;
   }
-  .aside-title__en{
+  .aside-title__en {
     grid-column: 1/2;
     grid-row: 1/2;
     line-height: 1;
     font-size: 12cqi;
     color: $white;
   }
-  .aside-title__ja{
+  .aside-title__ja {
     grid-column: 1/2;
     grid-row: 1/2;
     background: $black;
     width: fit-content;
     margin: 0 auto;
     color: $white;
-    font-size: $text18;
+    font-size: $size-md18;
     font-weight: bold;
-    -webkit-text-stroke: .5px $black;
-
+    -webkit-text-stroke: 0.5px $black;
   }
 </style>

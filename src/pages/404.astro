@@ -1,10 +1,11 @@
 ---
-import { Image } from 'astro:assets';
-import figure from '../assets/images/notfound/img-404.png';
-import Page from '../components/common/page.astro';
-import { generateMetadata } from '../config/site';
-const metadata = generateMetadata('notFound');
+import { Image } from "astro:assets";
+import figure from "../assets/images/notfound/img-404.png";
+import Page from "../components/page.astro";
+import { generateMetadata } from "../config/site";
+const metadata = generateMetadata("notFound");
 ---
+
 <Page title="404 Not Found" pageName="notFound">
 	<div class="inner">
 		<div class="num">404</div>
@@ -12,60 +13,61 @@ const metadata = generateMetadata('notFound');
 			<Image src={figure} alt="40433344421344533314" />
 		</div> -->
 		<div class="border-block">
-			<p class="lead-text">ページが...ページが
-				見つからなかったようです...。</p>
-			<p class="text">アクセスしたページのURLが間違っているか、
-				すでにページが削除されてしまった可能性があります。</p>
-		</xdiv>
-
+			<p class="lead-text">ページが...ページが 見つからなかったようです...。</p>
+			<p class="text">
+				アクセスしたページのURLが間違っているか、
+				すでにページが削除されてしまった可能性があります。
+			</p>
+		</div>
 	</div>
-
 </Page>
 <style lang="scss">
-  @use '../styles/_variables' as *;
-  @use '../styles/_mixins' as *;
-	.num{
+	.num {
 		font-size: 65cqi;
-		letter-spacing: -.06em;
+		letter-spacing: -0.06em;
 		color: $white;
 		font-weight: bold;
-    line-height: 1;
+		line-height: 1;
 		z-index: 3;
-    -webkit-text-stroke: 12px $black;
-    paint-order: stroke;
+		-webkit-text-stroke: 12px $black;
+		paint-order: stroke;
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%) rotate(-15deg);
 	}
-	.border-block{
-		margin-top:50cqi;
+	.border-block {
+		margin-top: 50cqi;
 		padding: 16cqi 5cqi 8cqi;
-    background: $white;
+		background: $white;
 	}
-	.lead-text{
-		font-size: $text32;
+	.lead-text {
+		font-size: $size-smp18;
+		word-break: auto-phrase;
 		font-weight: bold;
 		letter-spacing: 0.04em;
 		white-space: pre-line;
 		margin-bottom: 5cqi;
+		@include mq {
+			font-size: $size-md32;
+		}
 	}
-	.face-figure{
-		img{
-			animation:faceApproaching 1s steps(3) infinite;
+	.face-figure {
+		img {
+			animation: faceApproaching 1s steps(3) infinite;
 			@keyframes faceApproaching {
-				0%{
+				0% {
 					scale: 0;
 				}
-				25%{
-					scale: .25;
+				25% {
+					scale: 0.25;
 				}
-				50%{
-					scale: .5;
+				50% {
+					scale: 0.5;
 				}
-				75%{
-					scale: .75;
+				75% {
+					scale: 0.75;
 				}
-				100%{
+				100% {
 					scale: 1;
 				}
 			}
