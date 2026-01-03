@@ -1,34 +1,55 @@
 ---
 // src/components/navigation/Navigation.astro
-import { Image } from 'astro:assets';
-import { getNavigationItems,siteConfig } from '../../config/site.ts';
-import contactOutline from '../../assets/images/common/contact_outline.svg';
+import { Image } from "astro:assets";
+import { getNavigationItems, siteConfig } from "../../config/site.ts";
+import contactOutline from "../../assets/images/common/contact_outline.svg";
 const navItems = getNavigationItems();
 ---
+
 <footer class="footer">
   <div class="footer-inner">
     <a href="./contact/" class="footer-contact">
       <div class="footer-contact__head">
         <p class="footer-contact-label split-type">Contact</p>
-        <p class="footer-contact-text">ご相談や雑談など、<br>お気軽にお声がけください</p>
+        <p class="footer-contact-text">
+          ご相談や雑談など、<br />お気軽にお声がけください
+        </p>
       </div>
       <div class="footer-contact__body">
         <span class="footer-contact-icon">
           <Image src={contactOutline} alt="" class="footer-contact-icon__bg" />
-          <svg class="footer-contact-icon__path" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.7699 20.882L1 15.1516L46 1L31.8484 46L22.5837 24.4163" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg
+            class="footer-contact-icon__path"
+            viewBox="0 0 47 47"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.7699 20.882L1 15.1516L46 1L31.8484 46L22.5837 24.4163"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
           </svg>
         </span>
       </div>
     </a>
     <div class="footer-flow">
       <div class="footer-marquee">
-        <p class="footer-marquee__item footer-marquee__item--left">Feel free to reach out!&nbsp;</p>
-        <p class="footer-marquee__item footer-marquee__item--left">Feel free to reach out&nbsp;</p>
+        <p class="footer-marquee__item footer-marquee__item--left">
+          Feel free to reach out!&nbsp;
+        </p>
+        <p class="footer-marquee__item footer-marquee__item--left">
+          Feel free to reach out&nbsp;
+        </p>
       </div>
       <div class="footer-marquee">
-        <p class="footer-marquee__item footer-marquee__item--right">Feel free to reach out&nbsp;</p>
-        <p class="footer-marquee__item footer-marquee__item--right">Feel free to reach out&nbsp;</p>
+        <p class="footer-marquee__item footer-marquee__item--right">
+          Feel free to reach out&nbsp;
+        </p>
+        <p class="footer-marquee__item footer-marquee__item--right">
+          Feel free to reach out&nbsp;
+        </p>
       </div>
     </div>
   </div>
@@ -38,24 +59,21 @@ const navItems = getNavigationItems();
 </footer>
 
 <style lang="scss">
-  @use '../../styles/_variables' as *;
-  @use '../../styles/_mixins' as *;
-  .footer{
+  .footer {
     position: relative;
     overflow: hidden;
     background: $black;
-    border-radius: 0 30% 0 0 ;
+    border-radius: 0 30% 0 0;
     overflow: hidden;
     margin-top: 24cqi;
     @include mq {
-
-      border-radius: 0 40% 0 0 ;
+      border-radius: 0 40% 0 0;
     }
   }
-  .footer-inner{
+  .footer-inner {
     display: grid;
   }
-  .footer-contact{
+  .footer-contact {
     position: relative;
     z-index: 2;
     grid-column: 1/2;
@@ -68,45 +86,45 @@ const navItems = getNavigationItems();
     justify-content: center;
     width: 100%;
     // margin: auto;
-    @include hover{
-      .footer-contact-label{
+    @include hover {
+      .footer-contact-label {
         color: $white;
       }
-      .footer-contact-icon{
+      .footer-contact-icon {
         background: $white;
       }
-      .footer-contact-icon__bg{
+      .footer-contact-icon__bg {
         filter: contrast(1);
       }
     }
   }
-  .footer-contact__head{
+  .footer-contact__head {
     // text-align: center;
 
     display: grid;
     gap: $text16;
   }
-  .footer-contact-label{
+  .footer-contact-label {
     font-size: 15cqi;
     color: $white;
     font-weight: 900;
     margin-block: calc((1em - 1lh) / 2);
-    letter-spacing: -.06em;
+    letter-spacing: -0.06em;
     line-height: 1;
     -webkit-text-stroke: 2px $white;
     paint-order: stroke;
     @include mq {
       -webkit-text-stroke: 4px $white;
       color: $black;
-      transition: color .2s easing('in-out-sine');
+      transition: color 0.2s easing("in-out-sine");
     }
   }
-  .footer-contact-text{
+  .footer-contact-text {
     font-size: $text16;
     color: $white;
     line-height: 1.75;
   }
-  .footer-contact-icon{
+  .footer-contact-icon {
     display: grid;
     align-items: center;
     justify-content: center;
@@ -116,28 +134,28 @@ const navItems = getNavigationItems();
     margin-left: auto;
     background: $white;
     @include mq {
-      transition: background .2s easing('in-out-sine');
+      transition: background 0.2s easing("in-out-sine");
       background: $black;
     }
   }
-  .footer-contact-icon__bg{
+  .footer-contact-icon__bg {
     grid-column: 1/2;
     grid-row: 1/2;
     aspect-ratio: 1;
     width: 90%;
     margin: auto;
-    animation:rotationInf 10s linear infinite;
+    animation: rotationInf 10s linear infinite;
     @include mq {
       filter: contrast(0);
-      transition: filter .2s easing('in-out-sine');
+      transition: filter 0.2s easing("in-out-sine");
     }
     @keyframes rotationInf {
-      to{
+      to {
         rotate: -360deg;
       }
     }
   }
-  .footer-contact-icon__path{
+  .footer-contact-icon__path {
     margin: auto;
     grid-column: 1/2;
     grid-row: 1/2;
@@ -145,7 +163,7 @@ const navItems = getNavigationItems();
     aspect-ratio: 1;
     width: 7cqi;
   }
-  .footer-flow{
+  .footer-flow {
     grid-column: 1/2;
     grid-row: 1/2;
     // background: $white;
@@ -154,18 +172,18 @@ const navItems = getNavigationItems();
     gap: 4cqi;
     overflow: hidden;
   }
-  .footer-marquee{
+  .footer-marquee {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     // padding: vw(12) 0;
     z-index: 1;
-    &:first-child{
+    &:first-child {
       transform: rotateX(180deg);
       transform-origin: center center;
     }
   }
-  .footer-marquee__item{
+  .footer-marquee__item {
     filter: contrast(0.5);
     font-size: 18cqi;
     word-break: keep-all;
@@ -173,16 +191,21 @@ const navItems = getNavigationItems();
     white-space: pre;
     font-weight: bold;
     line-height: 0.75;
-    letter-spacing: -.05em;
-    text-shadow:1px 1px 0 $black, -1px -1px 0 $black,
-              -1px 1px 0 $black, 1px -1px 0 $black,
-              0px 1px 0 $black,  0-1px 0 $black,
-              -1px 0 0 $black, 1px 0 0 $black;
+    letter-spacing: -0.05em;
+    text-shadow:
+      1px 1px 0 $black,
+      -1px -1px 0 $black,
+      -1px 1px 0 $black,
+      1px -1px 0 $black,
+      0px 1px 0 $black,
+      0-1px 0 $black,
+      -1px 0 0 $black,
+      1px 0 0 $black;
   }
-  .footer-marquee__item--right{
+  .footer-marquee__item--right {
     transform: translateX(-100%);
   }
-  .footer-copy{
+  .footer-copy {
     position: relative;
     overflow: hidden;
     display: flex;
@@ -195,38 +218,37 @@ const navItems = getNavigationItems();
       padding: calc(2cqi + 6px) 0 2cqi;
     }
   }
-  .footer-copy__text{
+  .footer-copy__text {
     color: $white;
     // font-family: 'Comfortaa-Regular';
     font-size: $text12;
-    letter-spacing: .05em;
+    letter-spacing: 0.05em;
   }
 </style>
 <script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   function initMarquee() {
     gsap.registerPlugin(ScrollTrigger);
 
     const wrapper = document.querySelectorAll(".footer-marquee");
-    wrapper.forEach((wrapperItem)=>{
-
+    wrapper.forEach((wrapperItem) => {
       if (!wrapper) return;
 
       const marqueeConfig = [
         {
-          selector: '.footer-marquee__item--left',
+          selector: ".footer-marquee__item--left",
           direction: -100,
           duration: 30,
-          ease: "none"
+          ease: "none",
         },
         {
-          selector: '.footer-marquee__item--right',
+          selector: ".footer-marquee__item--right",
           direction: 100,
           duration: 30,
-          ease: "none"
-        }
+          ease: "none",
+        },
       ];
 
       marqueeConfig.forEach(({ selector, direction, duration, ease }) => {
@@ -244,9 +266,9 @@ const navItems = getNavigationItems();
             // end: "bottom top",  // 必要に応じて
             toggleActions: "play none none none", // 画面内に入ったら開始
             // markers: true, // デバッグ用（本番では削除）
-          }
+          },
         });
-    })
+      });
     });
   }
 

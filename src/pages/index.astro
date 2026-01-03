@@ -11,6 +11,8 @@ import MoreButton from "../components/MoreButton.astro";
 // import IndexHeadline from "../components/headline/IndexHeadline.astro";
 import logo from "../../public/mifa.svg";
 import aboutPath from "../../public/icon_about.svg";
+import arrowPrevPath from "../../public/icon_arrow_prev.svg";
+import arrowNextPath from "../../public/icon_arrow_next.svg";
 
 import { generateMetadata } from "../config/site";
 // import { getBlogs, type Post, formatDate } from "../library/microcms";
@@ -97,10 +99,10 @@ const metadata = generateMetadata("index");
 					<!-- カスタムarrow -->
 					<div class="splide__arrows">
 						<button class="splide__arrow splide__arrow--prev">
-							<img src="/public/icon_arrow_prev.svg" alt="前へ" />
+							<Image src={arrowPrevPath} alt="" />
 						</button>
 						<button class="splide__arrow splide__arrow--next">
-							<img src="/public/icon_arrow_next.svg" alt="次へ" />
+							<Image src={arrowNextPath} alt="" />
 						</button>
 					</div>
 				</div>

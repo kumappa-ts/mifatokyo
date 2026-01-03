@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
-import ReadButton from '../buttons/ReadButton.astro';
-import type { Article } from '../../library/newt';
+import { Image } from "astro:assets";
+import ReadButton from "../buttons/ReadButton.astro";
+import type { Article } from "../../library/newt";
 
 interface Props {
   article: Article;
@@ -12,25 +12,29 @@ const { article } = Astro.props;
 
 <a href={`/works/${article.slug}`} class="work-block border-block hover-item">
   <div class="work-block-head">
-    {article.thumbnail && (
-      <div class="work-block-head__figure">
-        <Image
-          src={article.thumbnail.src}
-          width={article.thumbnail.width || 300}
-          height={article.thumbnail.height || 200}
-          alt={article.thumbnail.altText || article.title}
-          class="image-fit-cover"
-        />
-      </div>
-    )}
+    {
+      article.thumbnail && (
+        <div class="work-block-head__figure">
+          <Image
+            src={article.thumbnail.src}
+            width={article.thumbnail.width || 300}
+            height={article.thumbnail.height || 200}
+            alt={article.thumbnail.altText || article.title}
+            class="image-fit-cover"
+          />
+        </div>
+      )
+    }
     <div class="work-block-head__tags">
-      {article.tag && article.tag.length > 0 && (
-        <ul class="tags">
-          {article.tag.map((tagName) => (
-            <li class="tag-item">{tagName}</li>
-          ))}
-        </ul>
-      )}
+      {
+        article.tag && article.tag.length > 0 && (
+          <ul class="tags">
+            {article.tag.map((tagName) => (
+              <li class="tag-item">{tagName}</li>
+            ))}
+          </ul>
+        )
+      }
     </div>
   </div>
   <div class="work-block-detail">
@@ -41,32 +45,28 @@ const { article } = Astro.props;
   </div>
 </a>
 
-
 <style lang="scss">
-  @use '../../styles/_variables' as *;
-  @use '../../styles/_mixins' as *;
-  .work-block{
+  .work-block {
     background: $white;
     display: grid;
     margin-top: -8px;
     @include mq {
     }
-    @include hover{
-      .work-block-head__figure{
-        img{
+    @include hover {
+      .work-block-head__figure {
+        img {
           scale: 1.1;
           rotate: -4deg;
           filter: grayscale(0);
         }
       }
-
     }
   }
-  .work-block-head{
+  .work-block-head {
     display: grid;
     grid-template-columns: 8fr 2fr;
   }
-  .work-block-head__figure{
+  .work-block-head__figure {
     background: $white;
     overflow: hidden;
     position: relative;
@@ -74,42 +74,45 @@ const { article } = Astro.props;
     border-bottom: var(--default-border);
     border-right: var(--default-border);
     border-radius: 0 0 14cqi 0;
-    img{
-      transition: scale .2s easing('in-out-sine'),filter .2s easing('in-out-sine'),rotate .2s easing('in-out-sine');
+    img {
+      transition:
+        scale 0.2s easing("in-out-sine"),
+        filter 0.2s easing("in-out-sine"),
+        rotate 0.2s easing("in-out-sine");
       // filter: grayscale(1);
     }
   }
-  .work-block-head__tags{
+  .work-block-head__tags {
     padding: 3cqi;
   }
-  .work-block-detail{
+  .work-block-detail {
     padding: $text28;
     // backdrop-filter: blur(10px);
     display: grid;
     gap: 3cqi;
   }
-  .tags{
+  .tags {
     display: grid;
-    gap: .6rem;
+    gap: 0.6rem;
     list-style: none;
   }
-  .tag-item{
+  .tag-item {
     font-size: $text16;
     display: flex;
     align-items: center;
-    gap: .4rem;
+    gap: 0.4rem;
     font-weight: 500;
-    &:before{
+    &:before {
       content: ":";
       display: block;
     }
   }
-  .work-block-title{
+  .work-block-title {
     font-size: $text24;
     font-weight: 500;
     font-family: "M PLUS Rounded 1c", serif;
   }
-  .work-block-button{
+  .work-block-button {
     display: flex;
     justify-content: end;
   }

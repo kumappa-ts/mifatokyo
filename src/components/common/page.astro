@@ -1,7 +1,7 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Breadcrumb from '../../components/common/Breadcrumb.astro';
-import { generateMetadata, siteConfig } from '../../config/site';
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/common/Breadcrumb.astro";
+import { generateMetadata, siteConfig } from "../../config/site";
 
 interface Props {
   title?: string;
@@ -14,20 +14,23 @@ const { title, currentTitle, pageName } = Astro.props;
 // 現在のパスを取得
 const pathname = Astro.url.pathname;
 // ルートパスの場合は "index"、それ以外は最初のパスセグメントを取得
-const firstSegment = pathname === '/' ? 'index' : pathname.split('/').filter(Boolean)[0];
+const firstSegment =
+  pathname === "/" ? "index" : pathname.split("/").filter(Boolean)[0];
 
 // firstSegmentがsiteConfig.pagesのキーとして存在するか確認
 // 存在する場合はそれを使用、存在しない場合は指定されたpageNameまたはデフォルト'index'を使用
-const pageKey = (firstSegment in siteConfig.pages)
-  ? firstSegment
-  : (pageName || 'index');
+const pageKey =
+  firstSegment in siteConfig.pages ? firstSegment : pageName || "index";
 
 const metadata = generateMetadata(pageKey as keyof typeof siteConfig.pages);
 ---
+
 <Layout title={title || metadata.title} description={metadata.description}>
   <div class="page">
     <!-- <div class="page-label">{metadata.label}</div> -->
-    <div class="page-label">{siteConfig.pages[pageKey as keyof typeof siteConfig.pages].label}</div>
+    <div class="page-label">
+      {siteConfig.pages[pageKey as keyof typeof siteConfig.pages].label}
+    </div>
     <Breadcrumb currentTitle={currentTitle} />
     <div class="page-content">
       <slot />
@@ -35,13 +38,11 @@ const metadata = generateMetadata(pageKey as keyof typeof siteConfig.pages);
   </div>
 </Layout>
 <style lang="scss">
-  @use '../../styles/_variables' as *;
-  @use '../../styles/_mixins' as *;
-  .page{
+  .page {
     position: relative;
     flex: 1;
   }
-  .page-label{
+  .page-label {
     writing-mode: vertical-lr;
     height: fit-content;
     width: fit-content;
@@ -58,12 +59,11 @@ const metadata = generateMetadata(pageKey as keyof typeof siteConfig.pages);
     pointer-events: none;
     font-weight: 900;
     -webkit-text-stroke: 8px $black;
-
   }
-  .page-content{
+  .page-content {
     position: relative;
     // padding: 8cqi 0 14cqi ;
     display: grid;
-    gap: 8cqi ;
+    gap: 8cqi;
   }
 </style>

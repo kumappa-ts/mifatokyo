@@ -1,5 +1,5 @@
 ---
-import { siteConfig } from '../../config/site';
+import { siteConfig } from "../../config/site";
 
 interface Props {
   jaLabel?: string;
@@ -12,12 +12,12 @@ const { jaLabel, enLabel, pageName } = Astro.props;
 // 現在のパスを取得
 const pathname = Astro.url.pathname;
 // ルートパスの場合は "index"、それ以外は最初のパスセグメントを取得
-const firstSegment = pathname === '/' ? 'index' : pathname.split('/').filter(Boolean)[0];
+const firstSegment =
+  pathname === "/" ? "index" : pathname.split("/").filter(Boolean)[0];
 
 // firstSegmentがsiteConfig.pagesのキーとして存在するか確認
-const pageKey = (firstSegment in siteConfig.pages)
-  ? firstSegment
-  : (pageName || 'index');
+const pageKey =
+  firstSegment in siteConfig.pages ? firstSegment : pageName || "index";
 
 // siteConfigから情報を取得
 const pageInfo = siteConfig.pages[pageKey as keyof typeof siteConfig.pages];
@@ -28,16 +28,15 @@ const displayEnLabel = enLabel || pageInfo.label;
 ---
 
 <div class="page-header">
-  <h1 class="page-header__en split-type" data-text={displayEnLabel}>{displayEnLabel}</h1>
+  <h1 class="page-header__en split-type" data-text={displayEnLabel}>
+    {displayEnLabel}
+  </h1>
   <div class="page-header__ja">
     <p>{displayJaLabel}</p>
   </div>
 </div>
 
 <style lang="scss" is:global>
-  @use '../../styles/_variables' as *;
-  @use '../../styles/_mixins' as *;
-
   .page-header {
     position: relative;
     padding-left: 5cqi;
@@ -109,7 +108,7 @@ const displayEnLabel = enLabel || pageInfo.label;
 
 <script>
   import { gsap } from "gsap";
-  import SplitType from 'split-type';
+  import SplitType from "split-type";
 
   // SplitTypeの適用とアニメーションのセットアップ
   function initializeAnimation() {
@@ -119,18 +118,20 @@ const displayEnLabel = enLabel || pageInfo.label;
     const pageLabel = document.querySelector(".page-label");
 
     if (!headingEn || !headingJa) {
-      console.warn("Required elements not found for animation, retrying in 100ms");
+      console.warn(
+        "Required elements not found for animation, retrying in 100ms",
+      );
       setTimeout(initializeAnimation, 100);
       return;
     }
 
     // SplitTypeを適用
     // すでに適用済みかチェック
-    if (!headingEn.querySelector('.char')) {
+    if (!headingEn.querySelector(".char")) {
       console.log("Applying SplitType to:", headingEn);
       new SplitType(headingEn, {
-        types: 'chars',
-        tagName: 'span'
+        types: "chars",
+        tagName: "span",
       });
     }
 
@@ -151,30 +152,32 @@ const displayEnLabel = enLabel || pageInfo.label;
       const tl = gsap.timeline();
 
       // 文字のアニメーション
-      tl
-      .to(headingEn,{
-        opacity:1
-      })
-      .to(letters, {
-        rotateY: "0deg",
-        // scale: 1,
+      tl.to(headingEn, {
         opacity: 1,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: "power2.out"
       })
-      // 日本語ラベルのアニメーション
-      .to(
-        headingJa,
-        {
-          opacity:1,
-          translate:'0 0',
-          duration: 1,
-          ease: "power2.inOut",
-        },"<"
-      )
+        .to(letters, {
+          rotateY: "0deg",
+          // scale: 1,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out",
+        })
+        // 日本語ラベルのアニメーション
+        .to(
+          headingJa,
+          {
+            opacity: 1,
+            translate: "0 0",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "<",
+        );
     } else {
-      console.error("No letters found for animation after SplitType application");
+      console.error(
+        "No letters found for animation after SplitType application",
+      );
     }
   }
 

@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
-import ReadButton from '../buttons/ReadButton.astro';
-import { formatDate } from '../../library/microcms';
+import { Image } from "astro:assets";
+import ReadButton from "../buttons/ReadButton.astro";
+import { formatDate } from "../../library/microcms";
 interface Props {
   title: string;
   dateString: string;
@@ -12,24 +12,31 @@ interface Props {
   };
   id: string;
   isEven?: boolean; // 偶数かどうかを示すプロパティを追加
- }
-const { title, dateString, thumbnail, id ,isEven = true} = Astro.props;
+}
+const { title, dateString, thumbnail, id, isEven = true } = Astro.props;
 
-const optimizedImageUrl = thumbnail ? `${thumbnail.url}?w=800&fm=webp&q=80` : '';
+const optimizedImageUrl = thumbnail
+  ? `${thumbnail.url}?w=800&fm=webp&q=80`
+  : "";
 ---
 
-<a href={`/memo/${id}`} class={`memo-block hover-item ${isEven ? 'memo-block--even' : 'memo-block--odd'}`}>
-  {thumbnail && (
-    <div class="memo-block-figure">
-      <Image
-        src={optimizedImageUrl}
-        width={thumbnail.width}
-        height={thumbnail.height}
-        alt={title}
-        class="image-fit-cover"
-      />
-    </div>
-  )}
+<a
+  href={`/memo/${id}`}
+  class={`memo-block hover-item ${isEven ? "memo-block--even" : "memo-block--odd"}`}
+>
+  {
+    thumbnail && (
+      <div class="memo-block-figure">
+        <Image
+          src={optimizedImageUrl}
+          width={thumbnail.width}
+          height={thumbnail.height}
+          alt={title}
+          class="image-fit-cover"
+        />
+      </div>
+    )
+  }
   <div class="memo-block-detail">
     <div class="memo-block-detail__inner">
       <time class="memo-block-date" datetime={dateString}>
@@ -43,43 +50,41 @@ const optimizedImageUrl = thumbnail ? `${thumbnail.url}?w=800&fm=webp&q=80` : ''
   </div>
 </a>
 <style lang="scss">
-  @use '../../styles/_variables' as *;
-  @use '../../styles/_mixins' as *;
-  .memo-block{
+  .memo-block {
     pointer-events: none;
     display: grid;
     position: relative;
     width: 100%;
-    @include hover{
-      .memo-block-figure{
-        img{
+    @include hover {
+      .memo-block-figure {
+        img {
           filter: grayscale(0);
           scale: 1.1;
         }
       }
     }
   }
-  .memo-block--odd{
-    .memo-block-detail{
-      border-radius:  6cqi 0 0 6cqi ;
+  .memo-block--odd {
+    .memo-block-detail {
+      border-radius: 6cqi 0 0 6cqi;
       margin-left: auto;
       border: var(--default-border);
       border-right: none;
     }
   }
-  .memo-block-figure{
+  .memo-block-figure {
     pointer-events: auto;
     aspect-ratio: 56/33;
     overflow: hidden;
     border-top: var(--default-border);
     border-bottom: var(--default-border);
     position: relative;
-    img{
+    img {
       filter: grayscale(1);
-      transition: all 0.3s easing('in-out-sine');
+      transition: all 0.3s easing("in-out-sine");
     }
   }
-  .memo-block-detail{
+  .memo-block-detail {
     pointer-events: auto;
     overflow: hidden;
     position: relative;
@@ -91,29 +96,29 @@ const optimizedImageUrl = thumbnail ? `${thumbnail.url}?w=800&fm=webp&q=80` : ''
     width: 75%;
     margin-top: -16cqi;
   }
-  .memo-block:not(:has(.memo-block-figure)) .memo-block-detail{
+  .memo-block:not(:has(.memo-block-figure)) .memo-block-detail {
     border-radius: 6cqi;
     border: var(--default-border);
     width: 100%;
     margin-top: 0;
   }
-  .memo-block-detail__inner{
+  .memo-block-detail__inner {
     position: relative;
     display: grid;
     gap: 4cqi;
   }
-  .memo-block-date{
+  .memo-block-date {
     display: flex;
     font-size: $text16;
     font-weight: 500;
     font-family: "M PLUS Rounded 1c", serif;
   }
-  .memo-block-title{
+  .memo-block-title {
     font-size: $text24;
     font-weight: 500;
     font-family: "M PLUS Rounded 1c", serif;
   }
-  .memo-block-button{
+  .memo-block-button {
     display: flex;
     justify-content: end;
   }
