@@ -19,12 +19,39 @@ const Tag = href ? "a" : "div";
   href={href}
   class={`other-button other-button--${size} ${className || ""}`}
 >
-  <span></span>
+  <span class="other-button__icon other-button__icon--in"></span>
   <span class="other-button__text">{text}</span>
-  <span class="other-button__icon"></span>
+  <span class="other-button__icon other-button__icon--out"></span>
 </Tag>
 
 <style lang="scss">
+  .hover-item {
+    @include hover {
+      // width: 100cqi;
+      // .other-button__text {
+      //   letter-spacing: 0.1em;
+      //   // translate: 2.8rem 0;
+      //   // color: $white;
+      // }
+      border-color: $white;
+      background: $black;
+      .other-button__text {
+        color: $white;
+      }
+      .other-button__icon {
+        background: $white;
+        &:after {
+          filter: invert(0);
+        }
+      }
+      .other-button__icon--in {
+        translate: 0% 0;
+      }
+      .other-button__icon--out {
+        translate: 230% 0;
+      }
+    }
+  }
   .other-button {
     width: 100%;
     display: grid;
@@ -53,6 +80,23 @@ const Tag = href ? "a" : "div";
       //   // translate: 2.8rem 0;
       //   // color: $white;
       // }
+      border-color: $white;
+      background: $black;
+      .other-button__text {
+        color: $white;
+      }
+      .other-button__icon {
+        background: $white;
+        &:after {
+          filter: invert(0);
+        }
+      }
+      .other-button__icon--in {
+        translate: 0% 0;
+      }
+      .other-button__icon--out {
+        translate: 230% 0;
+      }
     }
   }
   .other-button--large {
@@ -131,5 +175,11 @@ const Tag = href ? "a" : "div";
     //   opacity: 0.75;
     //   left: 45%;
     // }
+  }
+  .other-button__icon--in {
+    margin-right: auto;
+    translate: -230% 0;
+  }
+  .other-button__icon--out {
   }
 </style>

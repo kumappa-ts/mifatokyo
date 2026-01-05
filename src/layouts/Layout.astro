@@ -1,10 +1,10 @@
 ---
 import { siteConfig } from "../config/site";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 
 // import "modern-normalize";
 import "../styles/global.scss";
-import logo from '../../public/mifa.svg';
+import logo from "../../public/mifa.svg";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 import WebVitals from "../components/WebVitals.astro";
@@ -22,19 +22,28 @@ const { title, description } = Astro.props;
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VSZJNY04HM"
     ></script>
-    <!-- <script is:inline type="text/partytown">
+    <script is:inline type="text/partytown">
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'G-VSZJNY04HM');
-    </script> -->
+      gtag("config", "G-VSZJNY04HM");
+    </script>
     <!-- Google Tag Manager -->
-    <!-- <script type="text/partytown">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-M6BFQ7G2');</script> -->
+    <script type="text/partytown">
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-M6BFQ7G2");
+    </script>
     <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -53,7 +62,10 @@ const { title, description } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&display=swap"
-      rel="stylesheet" rel="preload" as="style" fetchpriority="high"
+      rel="stylesheet"
+      rel="preload"
+      as="style"
+      fetchpriority="high"
     />
     <!-- ファビコン -->
     <link rel="icon" href={siteConfig.fcImage} />
@@ -69,9 +81,7 @@ const { title, description } = Astro.props;
         style="display:none;visibility:hidden"></iframe></noscript
     >
     <!-- End Google Tag Manager (noscript) -->
-    <div class="container-bg">
-
-    </div>
+    <div class="container-bg"></div>
     <main>
       <div class="main-container">
         <header class="main-container__header">
@@ -94,11 +104,10 @@ const { title, description } = Astro.props;
         </footer>
       </div>
     </main>
-
   </body>
 </html>
 <style lang="scss">
-  .container-bg{
+  .container-bg {
     position: fixed;
     inset: 0;
     margin: auto;
@@ -127,7 +136,7 @@ const { title, description } = Astro.props;
       position: relative;
     }
   }
-  .container-logo{
+  .container-logo {
     display: grid;
     position: relative;
     width: 128px;
@@ -138,7 +147,7 @@ const { title, description } = Astro.props;
       top: 2rem;
     }
   }
-  .site-logo{
+  .site-logo {
     filter: invert(1);
     aspect-ratio: 128/51;
   }
@@ -151,8 +160,8 @@ const { title, description } = Astro.props;
     z-index: 9999;
     padding: 1rem;
     backdrop-filter: blur(10px);
-    background: rgba($white,.5);
-    border-radius: .4rem;
+    background: rgba($white, 0.5);
+    border-radius: 0.4rem;
     overflow: hidden;
     @include mq {
       padding: 0;
@@ -180,7 +189,6 @@ const { title, description } = Astro.props;
       max-width: 800px;
       display: flex;
       flex-direction: column;
-
     }
   }
   .main-container__foot {
@@ -191,7 +199,7 @@ const { title, description } = Astro.props;
       padding: 0 4rem;
     }
   }
-  .container-footer{
+  .container-footer {
     text-align: center;
     display: grid;
     justify-content: center;
@@ -203,21 +211,21 @@ const { title, description } = Astro.props;
       width: 100%;
       position: sticky;
       top: 2rem;
-      p{
+      p {
         writing-mode: vertical-rl;
         text-orientation: mixed;
         rotate: 180deg;
       }
     }
-    p{
+    p {
       color: #fff;
     }
   }
 </style>
 <script>
   const splitType = document.querySelectorAll(
-  ".split-type",
-) as NodeListOf<HTMLElement>;
+    ".split-type",
+  ) as NodeListOf<HTMLElement>;
   const initializeSpanWrap = () => {
     splitType.forEach((type) => {
       new SplitType(type);
@@ -227,34 +235,48 @@ const { title, description } = Astro.props;
     });
   };
 </script>
-<script type="module">
+<script>
+  import Lenis from "lenis";
   import { gsap } from "gsap";
-  import SplitType from "split-type";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import SplitType from "split-type";
 
   // プラグインを登録
   gsap.registerPlugin(ScrollTrigger);
-  import SplitType from "split-type";
-  // import Lenis from 'lenis';
-  const splitType = document.querySelectorAll(
-    ".split-type",
-  ) as NodeListOf<HTMLElement>;
-  // const lenis = new Lenis();
 
-  // function raf(time) {
-  //   lenis.raf(time);
-  //   requestAnimationFrame(raf);
-  // }
+  // Lenis初期化
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    // smooth: true,  // デフォルトでtrue
+    // smoothTouch: false,  // スマホでの挙動
+  });
 
-  // requestAnimationFrame(raf);
+  // LenisとScrollTriggerを連携
+  lenis.on("scroll", ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000); // GSAPのtickerを使う方が効率的
+  });
+
+  gsap.ticker.lagSmoothing(0);
+
+  // SplitType初期化
   const initializeSpanWrap = () => {
-    splitType.forEach((type) => {
-      new SplitType(type);
+    const splitElements = document.querySelectorAll(
+      ".split-type",
+    ) as NodeListOf<HTMLElement>;
+
+    splitElements.forEach((element) => {
+      new SplitType(element, {
+        types: "chars, words, lines", // 必要なものだけ
+      });
     });
   };
+
+  // DOMContentLoaded
   document.addEventListener("DOMContentLoaded", () => {
     initializeSpanWrap();
-    // console.log('ページが読み込まれました');
-    // 初期化処理など
+    // console.log('Lenis & SplitType initialized');
   });
 </script>

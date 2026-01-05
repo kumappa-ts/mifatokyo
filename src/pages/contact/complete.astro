@@ -1,0 +1,226 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+// import Layout from '../layouts/Layout.astro';
+// import Breadcrumb from '../components/common/Breadcrumb.astro';
+import MoreButton from "../../components/MoreButton.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Page from "../../components/page.astro";
+import { generateMetadata } from "../../config/site";
+
+const metadata = generateMetadata("contact");
+---
+
+<Page>
+  <div class="">
+    <PageHeader />
+    <div class="contact-content">
+      <div class="complete-content">
+        <h2 class="complete-content__title">ご連絡を受け付けました！</h2>
+        <p class="complete-content__text text">
+          この度は、ご連絡をいただきありがとうございました。<br
+          />可能な限り早めに返信させていただきますので、今しばらくお待ちください。
+        </p>
+        <div class="complete-content__button">
+          <MoreButton href="/" text="トップページへ" />
+        </div>
+      </div>
+    </div>
+  </div>
+</Page>
+
+<style lang="scss">
+  .complete-content {
+    padding: 8cqi 0;
+    display: grid;
+    gap: 8cqi;
+    @include mq {
+      gap: 2cqi;
+      padding: 8cqi 2cqi;
+    }
+  }
+  .complete-content__title {
+    text-align: center;
+    font-size: $size-smp20;
+    // margin-bottom: 8cqi;
+    @include mq {
+      // margin-bottom: 2cqi;
+      font-size: $size-md24;
+    }
+  }
+  .contact-content {
+    padding: 0 5cqi;
+    background: rgba($white, 0.95);
+    @include mq {
+      text-align: center;
+    }
+  }
+  .contact-wrap {
+    display: grid;
+    gap: 12cqi;
+    margin-bottom: 8cqi;
+    @include mq {
+      gap: 8cqi;
+    }
+  }
+  .contact-line {
+    display: grid;
+    gap: 2cqi;
+    @include mq {
+      gap: 1cqi;
+    }
+  }
+  input,
+  textarea {
+    resize: vertical;
+    padding: 1cqi 2cqi;
+    appearance: none;
+    background: $white;
+    border-radius: 1cqi;
+    border: 2px solid $black;
+    font-size: 1.6rem;
+    &:focus {
+      outline: 0;
+      border-color: #777;
+    }
+    &::placeholder {
+      opacity: 0.5;
+      font-size: 1.2rem;
+    }
+  }
+  .contact-label {
+    display: flex;
+    align-items: center;
+    gap: 2cqi;
+    font-weight: 500;
+  }
+  .required-mark {
+    background-color: red;
+    color: $white;
+    font-size: 0.65em;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    @include mq {
+    }
+  }
+  .contact-button {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    border-radius: 0.8rem;
+    background-color: $white;
+    border: 2px solid $black;
+    width: 100%;
+    margin: auto;
+    padding: $size-smp14 10cqi $size-smp14;
+    @include mq {
+      transition: all 0.3s easing("in-out-sine");
+      padding: $size-md16 10cqi $size-md16 2cqi;
+      max-width: 382px;
+    }
+    @include hover {
+      background-color: $black;
+      .button-text-line__item--default {
+        translate: 0 -100%;
+      }
+      .button-text-line__item--hover {
+        color: $white;
+        translate: 0 0;
+      }
+      .contact-button-icon {
+        translate: 0 0;
+      }
+    }
+  }
+  .button-text-line {
+    line-height: 1;
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    height: fit-content;
+  }
+  .button-text-line__item {
+    line-height: 1;
+    transition: all 0.3s easing("in-out-sine");
+    grid-column: 1/2;
+    grid-row: 1/2;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: grid;
+    color: $black;
+    min-inline-size: 0;
+  }
+
+  .button-text-line__item--default {
+    z-index: 1;
+    translate: 0 -101%;
+    @include mq {
+      translate: 0 0%;
+    }
+  }
+  .button-text-line__item--hover {
+    z-index: 2;
+    translate: 0 0%;
+    @include mq {
+      translate: 0 101%;
+    }
+  }
+  // .button-text-line--complete{
+  //   z-index: 3;
+  // }
+  .contact-button-icon {
+    position: absolute;
+    aspect-ratio: 28/22;
+    top: 2.5cqi;
+    right: 3.5cqi;
+    svg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      path {
+        fill: $white;
+      }
+    }
+    @include mq {
+      top: 1.5cqi;
+      right: 2.5cqi;
+      transition: all 0.3s easing("in-out-sine");
+      translate: -150% 150%;
+    }
+  }
+  // プライバシーポリシー
+  .contact-policy {
+    max-width: 620px;
+    margin: $size-md40 auto;
+    background-color: #f9f9f9;
+    padding: $size-smp14 $size-smp14 $size-smp14 calc($size-smp14 + 1em);
+    border-radius: 0.8rem;
+    position: relative;
+    overflow: hidden;
+    @include mq {
+      padding: $size-md40 $size-md40 $size-md40 calc($size-md40 + 1em);
+    }
+  }
+  .contact-policy-label {
+    text-align: center;
+    font-size: $size-smp12;
+    font-weight: 500;
+    @include mq {
+      font-size: $size-md16;
+    }
+  }
+  .contact-policy-content {
+    margin-top: $size-md20;
+    p {
+      font-size: $size-smp10;
+      line-height: 1.75;
+      word-break: auto-phrase;
+      @include mq {
+        font-size: $size-md12;
+      }
+    }
+  }
+</style>

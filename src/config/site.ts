@@ -45,7 +45,7 @@ export const siteConfig = {
     },
     contact: {
       path: '/contact',
-      jaLabel: 'ご連絡',
+      jaLabel: 'ご連絡について',
       label: 'Contact',
       title: 'mifaへのお問い合わせ、ご連絡はこちら',
       description: 'mifa tokyoのポートフォリオサイトへようこそ。mifaへのお問い合わせ、ご連絡はこちらからどうぞ。可能な限り早めに返信しますので、お気軽にお声がけください。',
