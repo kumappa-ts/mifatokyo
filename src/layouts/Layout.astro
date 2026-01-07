@@ -38,7 +38,10 @@ const ga4TrackingCode = `
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={siteConfig.ogImage} />
+    <meta
+      property="og:image"
+      content={siteConfig.siteDomain + siteConfig.ogImage}
+    />
     <meta property="og:site_name" content={siteConfig.name} />
     <meta property="twitter:card" content="summary_large_image" />
     <!-- テーマカラー -->

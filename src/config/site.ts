@@ -2,7 +2,7 @@
 export const siteConfig = {
   name: 'mifa tokyo',
   siteDomain: 'https://mifa.tokyo',
-  ogImage: '/assets/images/common/ogp.jpg',
+  ogImage: '/ogp.jpg',
   fcImage: '/favicon.svg',
   siteCopy: `©mifa all right reserved.`,
 
