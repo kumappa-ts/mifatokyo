@@ -125,9 +125,13 @@ const { article } = Astro.props;
     }
   }
   .tags {
-    display: grid;
-    gap: 0.6rem;
     list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $size-smp12;
+    @include mq {
+      gap: $size-md12;
+    }
   }
   .tag-item {
     font-size: $size-smp10;
@@ -136,7 +140,7 @@ const { article } = Astro.props;
     gap: 0.4rem;
     font-weight: 500;
     &:before {
-      content: ":";
+      content: "#";
       display: block;
     }
     @include mq {

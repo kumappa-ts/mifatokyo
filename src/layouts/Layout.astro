@@ -30,24 +30,6 @@ const ga4TrackingCode = `
 
 <html lang="ja">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-VSZJNY04HM"
-    ></script> -->
-    <!-- <script is:inline type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-VSZJNY04HM');
-    </script> -->
-    <!-- Google Tag Manager -->
-    <!-- <script type="text/partytown">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-M6BFQ7G2');</script> -->
-    <!-- End Google Tag Manager -->
-    {/* ★ GA4コードをhead内のできるだけ上部に設置 */}
     <Fragment set:html={ga4TrackingCode} />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -157,7 +139,7 @@ const ga4TrackingCode = `
   }
   .container-header {
     position: fixed;
-    width: 96%;
+    width: 92%;
     left: 50%;
     translate: -50% 0;
     bottom: 3cqi;
@@ -167,7 +149,9 @@ const ga4TrackingCode = `
     background: rgba($white, 0.5);
     border-radius: 0.4rem;
     overflow: hidden;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
     @include mq {
+      box-shadow: none;
       padding: 0;
       border-radius: none;
       backdrop-filter: none;

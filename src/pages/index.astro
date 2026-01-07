@@ -485,6 +485,12 @@ const metadata = generateMetadata("index");
 	}
 	.index-work-card__tags {
 		list-style-type: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: $size-smp12;
+		@include mq {
+			gap: $size-md12;
+		}
 	}
 	.tag-item {
 		font-size: $size-smp12;
@@ -495,7 +501,7 @@ const metadata = generateMetadata("index");
 			font-size: $size-md14;
 		}
 		&:before {
-			content: ":";
+			content: "#";
 			display: block;
 		}
 	}
