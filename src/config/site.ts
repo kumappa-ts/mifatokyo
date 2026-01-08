@@ -1,6 +1,6 @@
 // src/config/site.ts
 export const siteConfig = {
-  name: 'mifa tokyo',
+  name: 'mifa.tokyo',
   siteDomain: 'https://mifa.tokyo',
   ogImage: '/ogp.jpg',
   fcImage: '/favicon.svg',
@@ -11,7 +11,7 @@ export const siteConfig = {
       path: '/',
       jaLabel: 'トップページ',
       label: 'Home',
-      title: 'Portfolio Site',
+      title: 'masahiro imai Portfolio Site',
       description: 'mifa tokyoのポートフォリオサイトへようこそ。個人でお受けしたプロジェクトやメモブログなどを掲載しています。',
       inNav: true, // ナビゲーションに表示するかどうか
       order: 1, // ナビゲーションの順序
@@ -60,6 +60,14 @@ export const siteConfig = {
       description: 'ページが見つかりませんでした。',
       inNav: false,
       order: 6,
+    },
+    deviceInfo: {
+      path: '/tools/device-info',
+      label: 'ブラウザ情報取得ツール',
+      title: 'ブラウザ情報取得ツール',
+      description: 'クライアントワークなどのデバッグ時に必要な、ブラウザの種類やOSなど一覧で確認ができるツールです。テキストコピーか画像での書き出しが可能です。',
+      inNav: false,
+      order: 7,
     },
   },
   // SNSリンク

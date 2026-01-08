@@ -1,0 +1,446 @@
+---
+import { Image } from "astro:assets";
+import ToolsPage from "../../../components/ToolsPage.astro";
+import { generateMetadata } from "../../../config/site";
+
+const metadata = generateMetadata("deviceInfo");
+// console.log(metadata);
+---
+
+<ToolsPage
+  title={metadata.title}
+  label={metadata.label}
+  description={metadata.description}
+>
+  <div id="info-display">
+    <div class="info-grid">
+      <div class="info-section">
+        <h3 class="info-section-title">画面・レイアウト情報</h3>
+        <div class="info-group" id="screen-info"></div>
+      </div>
+
+      <div class="info-section">
+        <h3 class="info-section-title">ブラウザ・デバイス情報</h3>
+        <div class="info-group" id="device-info"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button class="btn" onclick="copyInfo()">テキストをコピー</button>
+    <button class="btn btn-secondary" onclick="saveAsImage()"
+      >画像として保存</button
+    >
+    <button class="btn btn-secondary" onclick="updateAllInfo()">更新</button>
+  </div>
+
+  <div class="timestamp" id="timestamp"></div>
+</ToolsPage>
+<style lang="scss">
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    @include mq {
+      // padding: 4rem;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .info-section-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+  }
+
+  .info-group {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    // @include mq {
+    //   gap: 1.2rem;
+    // }
+  }
+  :global(.info-item) {
+    padding: 8px 0;
+    display: grid;
+    gap: 1.2rem;
+    @include mq {
+      gap: 0;
+      display: flex;
+      border-bottom: 1px dashed #ddd;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+  }
+
+  :global(.info-label) {
+    font-weight: 600;
+    color: #6c757d;
+    font-size: 1.6rem;
+    border-bottom: 1px dashed #111;
+    padding: 0.8rem 0;
+    @include mq {
+      font-size: 1.4rem;
+      padding: 0;
+      border-bottom: none;
+    }
+  }
+
+  :global(.info-value) {
+    color: #2c3e50;
+    font-size: 1.4rem;
+    @include mq {
+      text-align: right;
+      word-break: break-word;
+      max-width: 60%;
+    }
+  }
+
+  .button-group {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 2rem 0;
+    flex-direction: column;
+    @include mq {
+      flex-direction: unset;
+      margin: 3.2rem 0;
+      gap: 1.6rem;
+    }
+  }
+
+  .btn {
+    padding: 12px 30px;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 0.8rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: 100%;
+    @include mq {
+      transition: all 0.2s ease;
+      font-size: 1.2rem;
+      width: auto;
+    }
+    &:hover:not(:disabled) {
+      background: #34495e;
+    }
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+  .btn-secondary {
+    background: #6c757d;
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: #5a6268;
+  }
+
+  .timestamp {
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.85rem;
+  }
+
+  .status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 8px;
+  }
+
+  .status-online {
+    background-color: #48bb78;
+  }
+
+  .status-offline {
+    background-color: #f56565;
+  }
+
+  .ua-text {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  // @media (max-width: 768px) {
+  //   .button-group {
+  //     flex-direction: column;
+  //   }
+
+  //   .btn {
+  //     width: 100%;
+  //   }
+
+  //   .info-item {
+  //     flex-direction: column;
+  //     align-items: flex-start;
+  //     gap: 5px;
+  //   }
+
+  //   .info-value {
+  //     text-align: left;
+  //     max-width: 100%;
+  //   }
+  // }
+</style>
+<script is:inline>
+  function getScreenInfo() {
+    const vw = window.innerWidth / 100;
+    const vh = window.innerHeight / 100;
+
+    // 新しいビューポート単位の取得（dvh, svh, lvh）
+    const testDiv = document.createElement("div");
+    testDiv.style.position = "fixed";
+    testDiv.style.top = "-9999px";
+    testDiv.style.width = "100vw";
+    testDiv.style.height = "100vh";
+    document.body.appendChild(testDiv);
+
+    const result = {
+      画面解像度: `${screen.width} × ${screen.height}`,
+      ビューポートサイズ: `${window.innerWidth} × ${window.innerHeight}`,
+      "1vw": `${vw.toFixed(2)}px`,
+      "1vh": `${vh.toFixed(2)}px`,
+      "100vw": `${window.innerWidth}px`,
+      "100vh": `${window.innerHeight}px`,
+    };
+
+    // dvh（Dynamic Viewport Height）のサポート確認
+    testDiv.style.height = "100dvh";
+    const dvhSupported = getComputedStyle(testDiv).height !== "0px";
+    if (dvhSupported) {
+      const dvhValue = parseFloat(getComputedStyle(testDiv).height);
+      result["100dvh"] = `${dvhValue.toFixed(2)}px`;
+    }
+
+    // svh（Small Viewport Height）のサポート確認
+    testDiv.style.height = "100svh";
+    const svhSupported = getComputedStyle(testDiv).height !== "0px";
+    if (svhSupported) {
+      const svhValue = parseFloat(getComputedStyle(testDiv).height);
+      result["100svh"] = `${svhValue.toFixed(2)}px`;
+    }
+
+    // lvh（Large Viewport Height）のサポート確認
+    testDiv.style.height = "100lvh";
+    const lvhSupported = getComputedStyle(testDiv).height !== "0px";
+    if (lvhSupported) {
+      const lvhValue = parseFloat(getComputedStyle(testDiv).height);
+      result["100lvh"] = `${lvhValue.toFixed(2)}px`;
+    }
+
+    document.body.removeChild(testDiv);
+
+    result["画面の向き"] = screen.orientation
+      ? screen.orientation.type
+      : window.innerWidth > window.innerHeight
+        ? "landscape"
+        : "portrait";
+    result["デバイスピクセル比"] = window.devicePixelRatio || 1;
+
+    return result;
+  }
+
+  function getDeviceInfo() {
+    const ua = navigator.userAgent;
+    let browserName = "Unknown";
+    let browserVersion = "Unknown";
+
+    if (
+      ua.indexOf("Chrome") > -1 &&
+      ua.indexOf("Edge") === -1 &&
+      ua.indexOf("Edg") === -1
+    ) {
+      browserName = "Chrome";
+      browserVersion = ua.match(/Chrome\/([0-9.]+)/)?.[1] || "Unknown";
+    } else if (ua.indexOf("Firefox") > -1) {
+      browserName = "Firefox";
+      browserVersion = ua.match(/Firefox\/([0-9.]+)/)?.[1] || "Unknown";
+    } else if (ua.indexOf("Safari") > -1 && ua.indexOf("Chrome") === -1) {
+      browserName = "Safari";
+      browserVersion = ua.match(/Version\/([0-9.]+)/)?.[1] || "Unknown";
+    } else if (ua.indexOf("Edg") > -1) {
+      browserName = "Edge";
+      browserVersion = ua.match(/Edg\/([0-9.]+)/)?.[1] || "Unknown";
+    }
+
+    let deviceType = "Desktop";
+    if (/Mobi|Android/i.test(ua)) {
+      deviceType = "Mobile";
+    } else if (/Tablet|iPad/i.test(ua)) {
+      deviceType = "Tablet";
+    }
+
+    return {
+      ブラウザ: `${browserName} ${browserVersion}`,
+      デバイスタイプ: deviceType,
+      "OS/プラットフォーム": navigator.platform,
+      Cookie有効: navigator.cookieEnabled ? "有効" : "無効",
+      タッチスクリーン: "ontouchstart" in window ? "あり" : "なし",
+      言語: navigator.language,
+      オンライン状態: navigator.onLine ? "オンライン" : "オフライン",
+      ユーザーエージェント: ua,
+    };
+  }
+
+  function createInfoItems(data) {
+    return Object.entries(data)
+      .map(([key, value]) => {
+        const isUA = key === "ユーザーエージェント";
+        const statusClass =
+          key === "オンライン状態"
+            ? value === "オンライン"
+              ? "status-online"
+              : "status-offline"
+            : "";
+
+        return `
+                    <div class="info-item">
+                        <span class="info-label">${key}</span>
+                        <span class="info-value ${isUA ? "ua-text" : ""}">
+                            ${value}
+                            ${statusClass ? `<span class="status-indicator ${statusClass}"></span>` : ""}
+                        </span>
+                    </div>
+                `;
+      })
+      .join("");
+  }
+
+  function updateAllInfo() {
+    document.getElementById("screen-info").innerHTML =
+      createInfoItems(getScreenInfo());
+    document.getElementById("device-info").innerHTML =
+      createInfoItems(getDeviceInfo());
+
+    const now = new Date();
+    document.getElementById("timestamp").textContent =
+      `最終更新: ${now.toLocaleString("ja-JP")}`;
+  }
+
+  function copyInfo() {
+    const screenInfo = getScreenInfo();
+    const deviceInfo = getDeviceInfo();
+
+    let text = "【デバイス情報】\n\n";
+    text += "■ 画面・レイアウト情報\n";
+    Object.entries(screenInfo).forEach(([key, value]) => {
+      text += `${key}: ${value}\n`;
+    });
+
+    text += "\n■ ブラウザ・デバイス情報\n";
+    Object.entries(deviceInfo).forEach(([key, value]) => {
+      text += `${key}: ${value}\n`;
+    });
+
+    text += `\n取得日時: ${new Date().toLocaleString("ja-JP")}`;
+
+    const btn = event.target;
+    const originalText = btn.textContent;
+
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        btn.textContent = "コピーしました！";
+        btn.style.background = "#48bb78";
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = "#2c3e50";
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error("コピーに失敗しました:", err);
+        btn.textContent = "コピー失敗";
+        btn.style.background = "#f56565";
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = "#2c3e50";
+        }, 2000);
+      });
+  }
+
+  function saveAsImage() {
+    const element = document.getElementById("info-display");
+    const btn = event.target;
+    const originalText = btn.textContent;
+
+    btn.textContent = "処理中...";
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+
+    // html2canvasがロードされているか確認
+    if (typeof html2canvas === "undefined") {
+      btn.textContent = "読み込みエラー";
+      btn.style.background = "#f56565";
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = "#6c757d";
+        btn.disabled = false;
+        btn.style.opacity = "1";
+      }, 2000);
+      return;
+    }
+
+    html2canvas(element, {
+      backgroundColor: "#ffffff",
+      scale: 2,
+    })
+      .then((canvas) => {
+        const link = document.createElement("a");
+        const timestamp = new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace(/:/g, "-");
+        link.download = `device-info_${timestamp}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        btn.textContent = "保存しました！";
+        btn.style.background = "#48bb78";
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = "#6c757d";
+          btn.disabled = false;
+          btn.style.opacity = "1";
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error("画像保存に失敗しました:", err);
+        btn.textContent = "保存失敗";
+        btn.style.background = "#f56565";
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = "#6c757d";
+          btn.disabled = false;
+          btn.style.opacity = "1";
+        }, 2000);
+      });
+  }
+
+  window.addEventListener("resize", () => {
+    setTimeout(updateAllInfo, 100);
+  });
+
+  window.addEventListener("online", updateAllInfo);
+  window.addEventListener("offline", updateAllInfo);
+
+  updateAllInfo();
+</script>

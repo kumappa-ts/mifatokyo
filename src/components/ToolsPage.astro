@@ -1,0 +1,89 @@
+---
+import ToolsLayout from "../layouts/ToolsLayout.astro";
+// import Breadcrumb from "../components/Breadcrumb.astro";
+import { generateMetadata, siteConfig } from "../config/site";
+
+interface Props {
+  title?: string;
+  currentTitle?: string;
+  label?: string;
+  description?: string;
+  pageName?: keyof typeof siteConfig.pages;
+}
+
+const { title, currentTitle, label, description, pageName } = Astro.props;
+
+// propsで渡された値を優先、渡されていない場合のみパスから自動生成
+let metadata;
+if (title && description) {
+  // 親コンポーネントからtitleとdescriptionが渡されている場合はそれを使用
+  metadata = { title, description };
+} else {
+  // 渡されていない場合はパスから自動生成
+  const pathname = Astro.url.pathname;
+  const firstSegment =
+    pathname === "/" ? "index" : pathname.split("/").filter(Boolean)[0];
+  const pageKey =
+    firstSegment in siteConfig.pages ? firstSegment : pageName || "index";
+  metadata = generateMetadata(pageKey as keyof typeof siteConfig.pages);
+}
+console.log(metadata);
+---
+
+<ToolsLayout title={metadata.title} description={metadata.description}>
+  <div class="tools-page">
+    <hgroup class="tools-content-headline">
+      <h1 class="tools-content-headline__title">{label}</h1>
+      <p class="tools-content-headline__subtitle">
+        {description}
+      </p>
+    </hgroup>
+    <div class="tools-content">
+      <slot />
+    </div>
+  </div>
+</ToolsLayout>
+<style lang="scss">
+  .tools-page {
+    position: relative;
+
+    display: grid;
+    gap: 2rem;
+  }
+  .tools-content-headline {
+    padding: 2rem;
+    background-color: $white;
+    border-radius: 0.8rem;
+    display: grid;
+    gap: 1rem;
+    @include mq {
+      padding: 4rem;
+    }
+  }
+  .tools-content-headline__title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-decoration-style: wavy;
+    @include mq {
+      font-size: 2.4rem;
+    }
+  }
+  .tools-content-headline__subtitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    @include mq {
+      word-break: keep-all;
+      font-size: 1.6rem;
+    }
+  }
+  .tools-content {
+    position: relative;
+    padding: 2rem;
+    border-radius: 0.8rem;
+    background-color: $white;
+    display: grid;
+    @include mq {
+      padding: 4rem;
+    }
+  }
+</style>
