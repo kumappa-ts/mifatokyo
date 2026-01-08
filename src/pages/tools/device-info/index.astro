@@ -27,8 +27,8 @@ const metadata = generateMetadata("deviceInfo");
   </div>
 
   <div class="button-group">
-    <button class="btn" onclick="copyInfo()">テキストをコピー</button>
-    <button class="btn btn-secondary" onclick="saveAsImage()"
+    <button class="btn" onclick="copyInfo(event)">テキストをコピー</button>
+    <button class="btn btn-secondary" onclick="saveAsImage(event)"
       >画像として保存</button
     >
     <button class="btn btn-secondary" onclick="updateAllInfo()">更新</button>
@@ -42,7 +42,7 @@ const metadata = generateMetadata("deviceInfo");
     grid-template-columns: 1fr;
     gap: 4rem;
     @include mq {
-      // padding: 4rem;
+      padding: 2rem;
       grid-template-columns: 1fr 1fr;
     }
   }
@@ -201,8 +201,10 @@ const metadata = generateMetadata("deviceInfo");
   //   }
   // }
 </style>
-<script is:inline>
-  function getScreenInfo() {
+<script>
+  import html2canvas from "html2canvas";
+
+  function getScreenInfo(): Record<string, string | number> {
     const vw = window.innerWidth / 100;
     const vh = window.innerHeight / 100;
 
@@ -214,7 +216,7 @@ const metadata = generateMetadata("deviceInfo");
     testDiv.style.height = "100vh";
     document.body.appendChild(testDiv);
 
-    const result = {
+    const result: Record<string, string | number> = {
       画面解像度: `${screen.width} × ${screen.height}`,
       ビューポートサイズ: `${window.innerWidth} × ${window.innerHeight}`,
       "1vw": `${vw.toFixed(2)}px`,
@@ -259,7 +261,7 @@ const metadata = generateMetadata("deviceInfo");
     return result;
   }
 
-  function getDeviceInfo() {
+  function getDeviceInfo(): Record<string, string> {
     const ua = navigator.userAgent;
     let browserName = "Unknown";
     let browserVersion = "Unknown";
@@ -301,7 +303,7 @@ const metadata = generateMetadata("deviceInfo");
     };
   }
 
-  function createInfoItems(data) {
+  function createInfoItems(data: Record<string, string | number>): string {
     return Object.entries(data)
       .map(([key, value]) => {
         const isUA = key === "ユーザーエージェント";
@@ -313,30 +315,37 @@ const metadata = generateMetadata("deviceInfo");
             : "";
 
         return `
-                    <div class="info-item">
-                        <span class="info-label">${key}</span>
-                        <span class="info-value ${isUA ? "ua-text" : ""}">
-                            ${value}
-                            ${statusClass ? `<span class="status-indicator ${statusClass}"></span>` : ""}
-                        </span>
-                    </div>
-                `;
+          <div class="info-item">
+            <span class="info-label">${key}</span>
+            <span class="info-value ${isUA ? "ua-text" : ""}">
+              ${value}
+              ${statusClass ? `<span class="status-indicator ${statusClass}"></span>` : ""}
+            </span>
+          </div>
+        `;
       })
       .join("");
   }
 
-  function updateAllInfo() {
-    document.getElementById("screen-info").innerHTML =
-      createInfoItems(getScreenInfo());
-    document.getElementById("device-info").innerHTML =
-      createInfoItems(getDeviceInfo());
+  function updateAllInfo(): void {
+    const screenInfoEl = document.getElementById("screen-info");
+    const deviceInfoEl = document.getElementById("device-info");
+    const timestampEl = document.getElementById("timestamp");
+
+    if (screenInfoEl) {
+      screenInfoEl.innerHTML = createInfoItems(getScreenInfo());
+    }
+    if (deviceInfoEl) {
+      deviceInfoEl.innerHTML = createInfoItems(getDeviceInfo());
+    }
 
     const now = new Date();
-    document.getElementById("timestamp").textContent =
-      `最終更新: ${now.toLocaleString("ja-JP")}`;
+    if (timestampEl) {
+      timestampEl.textContent = `最終更新: ${now.toLocaleString("ja-JP")}`;
+    }
   }
 
-  function copyInfo() {
+  function copyInfo(event: Event): void {
     const screenInfo = getScreenInfo();
     const deviceInfo = getDeviceInfo();
 
@@ -353,8 +362,8 @@ const metadata = generateMetadata("deviceInfo");
 
     text += `\n取得日時: ${new Date().toLocaleString("ja-JP")}`;
 
-    const btn = event.target;
-    const originalText = btn.textContent;
+    const btn = event.target as HTMLButtonElement;
+    const originalText = btn.textContent || "";
 
     navigator.clipboard
       .writeText(text)
@@ -377,18 +386,17 @@ const metadata = generateMetadata("deviceInfo");
       });
   }
 
-  function saveAsImage() {
+  function saveAsImage(event: Event): void {
     const element = document.getElementById("info-display");
-    const btn = event.target;
-    const originalText = btn.textContent;
+    const btn = event.target as HTMLButtonElement;
+    const originalText = btn.textContent || "";
 
     btn.textContent = "処理中...";
     btn.disabled = true;
     btn.style.opacity = "0.6";
 
-    // html2canvasがロードされているか確認
-    if (typeof html2canvas === "undefined") {
-      btn.textContent = "読み込みエラー";
+    if (!element) {
+      btn.textContent = "要素が見つかりません";
       btn.style.background = "#f56565";
       setTimeout(() => {
         btn.textContent = originalText;
@@ -435,6 +443,12 @@ const metadata = generateMetadata("deviceInfo");
       });
   }
 
+  // グローバルに公開（HTMLのonclick属性用）
+  (window as any).copyInfo = copyInfo;
+  (window as any).saveAsImage = saveAsImage;
+  (window as any).updateAllInfo = updateAllInfo;
+
+  // イベントリスナーの設定
   window.addEventListener("resize", () => {
     setTimeout(updateAllInfo, 100);
   });
@@ -442,5 +456,6 @@ const metadata = generateMetadata("deviceInfo");
   window.addEventListener("online", updateAllInfo);
   window.addEventListener("offline", updateAllInfo);
 
+  // 初期化
   updateAllInfo();
 </script>

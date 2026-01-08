@@ -15,6 +15,7 @@
     "cheerio": "^1.0.0",
     "gsap": "^3.12.0",
     "highlight.js": "^11.11.1",
+    "html2canvas": "^1.4.1",
     "lenis": "^1.3.17",
     "microcms-js-sdk": "^3.2.0",
     "newt-client-js": "^3.3.11",
