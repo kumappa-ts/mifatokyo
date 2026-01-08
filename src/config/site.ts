@@ -63,8 +63,8 @@ export const siteConfig = {
     },
     deviceInfo: {
       path: '/tools/device-info',
-      label: 'ブラウザ情報取得ツール',
-      title: 'ブラウザ情報取得ツール',
+      label: 'デバイス情報チェッカー',
+      title: 'デバイス情報チェッカー',
       description: 'クライアントワークなどのデバッグ時に必要な、ブラウザの種類やOSなど一覧で確認ができるツールです。テキストコピーか画像での書き出しが可能です。',
       inNav: false,
       order: 7,
