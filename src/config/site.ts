@@ -69,6 +69,14 @@ export const siteConfig = {
       inNav: false,
       order: 7,
     },
+    imageConverter: {
+      path: '/tools/image-converter',
+      label: '画像変換ツール',
+      title: '画像変換ツール',
+      description: '画像の形式変換、リサイズ、フィルター適用、回転・反転が可能です。PNG、JPG、WebP、AVIFに対応。',
+      inNav: false,
+      order: 7,
+    },
   },
   // SNSリンク
   socialLinks: {

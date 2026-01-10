@@ -1,0 +1,28 @@
+---
+// import { Image } from "astro:assets";
+import ToolsPage from "../../../components/ToolsPage.astro";
+import ImageConverter from "../../../components/ImageConverter";
+import "../../../styles/tailwind.css";
+import { generateMetadata } from "../../../config/site";
+// import "tailwindcss/base.css";
+// import "tailwindcss/components.css";
+// import "tailwindcss/utilities.css";
+
+const metadata = generateMetadata("imageConverter");
+---
+
+<ToolsPage
+  title={metadata.title}
+  label={metadata.label}
+  description={metadata.description}
+>
+  <ImageConverter client:load />
+</ToolsPage>
+<style is:inline>
+  /* @import "tailwindcss/base";
+  @import "tailwindcss/components";
+  @import "tailwindcss/utilities"; */
+  canvas {
+    max-width: 100%;
+  }
+</style>

@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^4.4.2",
     "@qwik.dev/partytown": "^0.11.0",
     "@splidejs/splide": "^4.1.4",
     "astro": "^5.16.6",
@@ -21,19 +22,26 @@
     "newt-client-js": "^3.3.11",
     "prettier": "^3.0.0",
     "prettier-plugin-astro": "^0.12.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "sass": "^1.69.0",
     "sharp": "^0.32.0",
     "split-type": "^0.3.4",
+    "tailwind": "^4.0.0",
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
     "@astrojs/partytown": "^2.1.2",
     "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "autoprefixer": "^10.4.23",
     "lightningcss": "^1.30.2",
+    "postcss": "^8.5.6",
     "sass": "^1.83.0",
     "sass-embedded": "^1.97.1",
     "stylelint": "^16.12.0",
     "stylelint-config-recess-order": "^5.1.1",
-    "stylelint-config-standard-scss": "^14.0.0"
+    "stylelint-config-standard-scss": "^14.0.0",
+    "tailwindcss": "^3.4.0"
   }
 }

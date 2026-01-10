@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-
+import react from '@astrojs/react';
+import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
@@ -24,7 +25,9 @@ export default defineConfig({
   // Viteの設定をカスタマイズ
   vite: {
     css: {
-      transformer: 'lightningcss',
+      // transformer: 'lightningcss',
+      postcss: './postcss.config.mjs',
+
       preprocessorOptions: {
         scss: {
           additionalData: `
@@ -43,7 +46,19 @@ export default defineConfig({
     }
   },
   integrations: [
-    sitemap()
+    react(),
+    sitemap(),
+    tailwind({
+      applyBaseStyles: false,
+      config: {
+        // Lightning CSSを使わない
+        vite: {
+          css: {
+            transformer: undefined  // TailwindはPostCSSで処理
+          }
+        }
+      }
+    })
   ],
   server: {
     host: true,
