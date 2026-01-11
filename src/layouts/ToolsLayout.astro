@@ -40,7 +40,12 @@ const ga4TrackingCode = `
       content={siteConfig.siteDomain + siteConfig.ogImage}
     />
     <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:url" content={siteConfig.siteDomain} />
     <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      name="canonical"
+      content={siteConfig.siteDomain + Astro.url.pathname + "/"}
+    />
     <!-- テーマカラー -->
     <meta name="theme-color" content="#030014" />
     <!-- フォント読み込み -->
