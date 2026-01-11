@@ -78,7 +78,10 @@ const ga4TrackingCode = `
             <p class="tools-header-nav-item__text">mifa.tokyo Home</p>
           </a>
           <a class="tools-header-nav-item" href="/tools/device-info">
-            <p class="tools-header-nav-item__text">デバイス情報</p>
+            <p class="tools-header-nav-item__text">デバイス情報取得</p>
+          </a>
+          <a class="tools-header-nav-item" href="/tools/image-converter">
+            <p class="tools-header-nav-item__text">画像変換・編集</p>
           </a>
         </nav>
       </header>
@@ -156,6 +159,20 @@ const ga4TrackingCode = `
         padding: 0 2rem;
         @include mq {
           padding: 0;
+        }
+      }
+      .tools-footer {
+        position: relative;
+
+        padding: 2rem;
+        text-align: center;
+      }
+      .tools-footer__copy {
+        p {
+          font-size: 1rem;
+          letter-spacing: 0.1em;
+          font-weight: 500;
+          color: $white;
         }
       }
     </style>

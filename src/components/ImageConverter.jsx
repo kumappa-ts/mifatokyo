@@ -380,7 +380,7 @@ export default function ImageConverter() {
       </header>
 
       <div
-        className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-white'
+        className={`border-2 border-dashed rounded-lg text-center transition-colors ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-white'
           }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -395,7 +395,7 @@ export default function ImageConverter() {
           accept="image/*"
           onChange={handleFileInput}
         />
-        <label htmlFor="file-input" className="cursor-pointer">
+        <label htmlFor="file-input" className="cursor-pointer p-12 block">
           <div className="text-gray-500">
             <svg
               className="mx-auto h-12 w-12 mb-4"
