@@ -1,0 +1,28 @@
+---
+// import { Image } from "astro:assets";
+import ToolsPage from "../../../components/ToolsPage.astro";
+import CodeFormatter from "../../../components/CodeFormatter";
+import "../../../styles/tailwind.css";
+import { generateMetadata } from "../../../config/site";
+// import "tailwindcss/base.css";
+// import "tailwindcss/components.css";
+// import "tailwindcss/utilities.css";
+
+const metadata = generateMetadata("CodeFormatter");
+---
+
+<ToolsPage
+  title={metadata.title}
+  label={metadata.label}
+  description={metadata.description}
+>
+  <CodeFormatter client:load />
+</ToolsPage>
+<style is:inline>
+  /* @import "tailwindcss/base";
+  @import "tailwindcss/components";
+  @import "tailwindcss/utilities"; */
+  canvas {
+    max-width: 100%;
+  }
+</style>

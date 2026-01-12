@@ -61,6 +61,7 @@ export const siteConfig = {
       inNav: false,
       order: 6,
     },
+    // tools/
     deviceInfo: {
       path: '/tools/device-info',
       label: 'デバイス情報チェッカー',
@@ -74,6 +75,14 @@ export const siteConfig = {
       label: '画像変換ツール',
       title: '画像変換ツール',
       description: 'mifa.tokyoでの活動の中で、『こんなのがあったらいいな』と思った便利道具を作りました。今回は、画像の変換ツールです。画像の形式変換、リサイズ、フィルター適用、回転・反転が可能です。PNG、JPG、WebP、新進気鋭のAVIFにも対応しています。',
+      inNav: false,
+      order: 7,
+    },
+    CodeFormatter: {
+      path: '/tools/code-formatter',
+      label: 'コード整形ツール',
+      title: 'コード整形ツール',
+      description: 'mifa.tokyoでの活動の中で、『こんなのがあったらいいな』と思った便利道具を作りました。今回は、コードの整形ツールです。HTML、CSS、JavaScriptなどのコードを見やすく整形します。圧縮されたコードやインデントが乱れたコードを綺麗に整えます。',
       inNav: false,
       order: 7,
     },
