@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
-import prettier from 'prettier/standalone';
-import parserHtml from 'prettier/parser-html';
-import parserBabel from 'prettier/parser-babel';
-import parserTypescript from 'prettier/parser-typescript';
-import parserPostcss from 'prettier/parser-postcss';
+import beautify from 'js-beautify';
 
 const LANGUAGES = [
-  { value: 'html', label: 'HTML', parser: 'html' },
-  { value: 'css', label: 'CSS', parser: 'css' },
-  { value: 'javascript', label: 'JavaScript', parser: 'babel' },
-  { value: 'typescript', label: 'TypeScript', parser: 'typescript' },
-  { value: 'json', label: 'JSON', parser: 'json' },
-  { value: 'jsx', label: 'JSX', parser: 'babel' },
-  { value: 'tsx', label: 'TSX', parser: 'typescript' },
+  { value: 'html', label: 'HTML' },
+  { value: 'css', label: 'CSS' },
+  { value: 'javascript', label: 'JavaScript' },
+  { value: 'json', label: 'JSON' },
+  { value: 'jsx', label: 'JSX' },
+  { value: 'typescript', label: 'TypeScript' },
+  { value: 'tsx', label: 'TSX' },
 ];
 
 const INDENT_OPTIONS = [
   { value: 2, label: '2スペース' },
   { value: 4, label: '4スペース' },
-  { value: 'tab', label: 'タブ' },
+  { value: '\t', label: 'タブ' },
 ];
 
 export default function CodeFormatter() {
@@ -91,20 +87,39 @@ export default function CodeFormatter() {
 
     try {
       setError('');
-      const selectedLang = LANGUAGES.find(l => l.value === language);
       
       const options = {
-        parser: selectedLang?.parser || 'html',
-        plugins: [parserHtml, parserBabel, parserTypescript, parserPostcss],
-        tabWidth: indentSize === 'tab' ? 2 : indentSize,
-        useTabs: indentSize === 'tab',
-        printWidth: 80,
-        semi: true,
-        singleQuote: true,
-        trailingComma: 'es5',
+        indent_size: indentSize === '\t' ? 1 : indentSize,
+        indent_char: indentSize === '\t' ? '\t' : ' ',
+        max_preserve_newlines: 2,
+        preserve_newlines: true,
+        keep_array_indentation: false,
+        break_chained_methods: false,
+        indent_scripts: 'normal',
+        brace_style: 'collapse',
+        space_before_conditional: true,
+        unescape_strings: false,
+        jslint_happy: false,
+        end_with_newline: true,
+        wrap_line_length: 0,
+        indent_inner_html: true,
+        comma_first: false,
+        e4x: true,
+        indent_empty_lines: false
       };
 
-      const formatted = prettier.format(inputCode, options);
+      let formatted;
+      
+      if (language === 'html') {
+        formatted = beautify.html(inputCode, options);
+      } else if (language === 'css') {
+        formatted = beautify.css(inputCode, options);
+      } else if (['javascript', 'json', 'jsx', 'typescript', 'tsx'].includes(language)) {
+        formatted = beautify.js(inputCode, options);
+      } else {
+        formatted = beautify.html(inputCode, options);
+      }
+
       setOutputCode(formatted);
     } catch (err) {
       setError(`整形エラー: ${err.message}`);
@@ -169,7 +184,10 @@ export default function CodeFormatter() {
               </label>
               <select
                 value={indentSize}
-                onChange={(e) => setIndentSize(e.target.value === 'tab' ? 'tab' : parseInt(e.target.value))}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setIndentSize(val === '\t' ? '\t' : parseInt(val));
+                }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               >
                 {INDENT_OPTIONS.map(opt => (

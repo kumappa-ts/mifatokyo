@@ -34,7 +34,11 @@ const ga4TrackingCode = `
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta
+      property="og:description"
+      content={"mifa.tokyoでの活動の中で、『こんなのがあったらいいな』と思った便利道具を作りました。今回は、" +
+        description}
+    />
     <meta
       property="og:image"
       content={siteConfig.siteDomain + siteConfig.ogImage}
@@ -87,6 +91,9 @@ const ga4TrackingCode = `
           </a>
           <a class="tools-header-nav-item" href="/tools/image-converter">
             <p class="tools-header-nav-item__text">画像変換・編集</p>
+          </a>
+          <a class="tools-header-nav-item" href="/tools/code-formatter">
+            <p class="tools-header-nav-item__text">コード整形</p>
           </a>
         </nav>
       </header>
