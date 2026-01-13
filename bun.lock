@@ -22,7 +22,6 @@
         "prettier-plugin-astro": "^0.12.0",
         "react": "^19.2.3",
         "react-dom": "^19.2.3",
-        "sass": "^1.69.0",
         "sharp": "^0.32.0",
         "split-type": "^0.3.4",
         "tailwind": "^4.0.0",
@@ -35,7 +34,7 @@
         "autoprefixer": "^10.4.23",
         "lightningcss": "^1.30.2",
         "postcss": "^8.5.6",
-        "sass": "^1.83.0",
+        "sass": "1.83.0",
         "sass-embedded": "^1.97.1",
         "stylelint": "^16.12.0",
         "stylelint-config-recess-order": "^5.1.1",
@@ -1489,7 +1488,7 @@
 
     "safer-buffer": ["safer-buffer@2.1.2", "", {}, "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="],
 
-    "sass": ["sass@1.97.2", "", { "dependencies": { "chokidar": "^4.0.0", "immutable": "^5.0.2", "source-map-js": ">=0.6.2 <2.0.0" }, "optionalDependencies": { "@parcel/watcher": "^2.4.1" }, "bin": { "sass": "sass.js" } }, "sha512-y5LWb0IlbO4e97Zr7c3mlpabcbBtS+ieiZ9iwDooShpFKWXf62zz5pEPdwrLYm+Bxn1fnbwFGzHuCLSA9tBmrw=="],
+    "sass": ["sass@1.83.0", "", { "dependencies": { "chokidar": "^4.0.0", "immutable": "^5.0.2", "source-map-js": ">=0.6.2 <2.0.0" }, "optionalDependencies": { "@parcel/watcher": "^2.4.1" }, "bin": { "sass": "sass.js" } }, "sha512-qsSxlayzoOjdvXMVLkzF84DJFc2HZEL/rFyGIKbbilYtAvlCxyuzUeff9LawTn4btVnLKg75Z8MMr1lxU1lfGw=="],
 
     "sass-embedded": ["sass-embedded@1.97.2", "", { "dependencies": { "@bufbuild/protobuf": "^2.5.0", "buffer-builder": "^0.2.0", "colorjs.io": "^0.5.0", "immutable": "^5.0.2", "rxjs": "^7.4.0", "supports-color": "^8.1.1", "sync-child-process": "^1.0.2", "varint": "^6.0.0" }, "optionalDependencies": { "sass-embedded-all-unknown": "1.97.2", "sass-embedded-android-arm": "1.97.2", "sass-embedded-android-arm64": "1.97.2", "sass-embedded-android-riscv64": "1.97.2", "sass-embedded-android-x64": "1.97.2", "sass-embedded-darwin-arm64": "1.97.2", "sass-embedded-darwin-x64": "1.97.2", "sass-embedded-linux-arm": "1.97.2", "sass-embedded-linux-arm64": "1.97.2", "sass-embedded-linux-musl-arm": "1.97.2", "sass-embedded-linux-musl-arm64": "1.97.2", "sass-embedded-linux-musl-riscv64": "1.97.2", "sass-embedded-linux-musl-x64": "1.97.2", "sass-embedded-linux-riscv64": "1.97.2", "sass-embedded-linux-x64": "1.97.2", "sass-embedded-unknown-all": "1.97.2", "sass-embedded-win32-arm64": "1.97.2", "sass-embedded-win32-x64": "1.97.2" }, "bin": { "sass": "dist/bin/sass.js" } }, "sha512-lKJcskySwAtJ4QRirKrikrWMFa2niAuaGenY2ElHjd55IwHUiur5IdKu6R1hEmGYMs4Qm+6rlRW0RvuAkmcryg=="],
 
@@ -1950,6 +1949,10 @@
     "safe-array-concat/isarray": ["isarray@2.0.5", "", {}, "sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw=="],
 
     "safe-push-apply/isarray": ["isarray@2.0.5", "", {}, "sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw=="],
+
+    "sass-embedded-all-unknown/sass": ["sass@1.97.2", "", { "dependencies": { "chokidar": "^4.0.0", "immutable": "^5.0.2", "source-map-js": ">=0.6.2 <2.0.0" }, "optionalDependencies": { "@parcel/watcher": "^2.4.1" }, "bin": { "sass": "sass.js" } }, "sha512-y5LWb0IlbO4e97Zr7c3mlpabcbBtS+ieiZ9iwDooShpFKWXf62zz5pEPdwrLYm+Bxn1fnbwFGzHuCLSA9tBmrw=="],
+
+    "sass-embedded-unknown-all/sass": ["sass@1.97.2", "", { "dependencies": { "chokidar": "^4.0.0", "immutable": "^5.0.2", "source-map-js": ">=0.6.2 <2.0.0" }, "optionalDependencies": { "@parcel/watcher": "^2.4.1" }, "bin": { "sass": "sass.js" } }, "sha512-y5LWb0IlbO4e97Zr7c3mlpabcbBtS+ieiZ9iwDooShpFKWXf62zz5pEPdwrLYm+Bxn1fnbwFGzHuCLSA9tBmrw=="],
 
     "send/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
 
