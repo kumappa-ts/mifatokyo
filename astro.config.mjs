@@ -43,6 +43,14 @@ export default defineConfig({
           assetFileNames: '_assets/[name].[hash][extname]'
         }
       }
+    },
+    optimizeDeps: {
+      exclude: ['@jsquash/avif']
+    },
+    server: {
+      fs: {
+        allow: ['..']
+      }
     }
   },
   integrations: [

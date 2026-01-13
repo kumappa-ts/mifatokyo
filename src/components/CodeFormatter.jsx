@@ -87,7 +87,7 @@ export default function CodeFormatter() {
 
     try {
       setError('');
-      
+
       const options = {
         indent_size: indentSize === '\t' ? 1 : indentSize,
         indent_char: indentSize === '\t' ? '\t' : ' ',
@@ -109,7 +109,7 @@ export default function CodeFormatter() {
       };
 
       let formatted;
-      
+
       if (language === 'html') {
         formatted = beautify.html(inputCode, options);
       } else if (language === 'css') {
@@ -159,10 +159,10 @@ export default function CodeFormatter() {
         </header>
 
         {/* 設定エリア */}
-        <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
+        <div className="bg-white rounded-lg p-6 shadow-lg mb-6">
           <div className="grid md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-lg font-medium text-gray-700 mb-2">
                 言語
               </label>
               <select
@@ -179,7 +179,7 @@ export default function CodeFormatter() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-lg font-medium text-gray-700 mb-2">
                 インデント
               </label>
               <select
@@ -201,13 +201,13 @@ export default function CodeFormatter() {
             <div className="flex items-end gap-2">
               <button
                 onClick={formatCode}
-                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                className="text-lg flex-1 bg-blue-600 text-white py-4 px-4 rounded-md hover:bg-blue-700 transition-colors"
               >
                 整形する
               </button>
               <button
                 onClick={clearAll}
-                className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                className="text-lg px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
               >
                 クリア
               </button>
@@ -225,7 +225,7 @@ export default function CodeFormatter() {
         {/* コードエリア */}
         <div className="grid md:grid-cols-2 gap-6">
           {/* 入力エリア */}
-          <div className="bg-white rounded-lg p-6 shadow-sm">
+          <div className="bg-white rounded-lg p-6 shadow-lg">
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-lg font-semibold">入力</h2>
               <div className="flex gap-2">
@@ -238,17 +238,16 @@ export default function CodeFormatter() {
                 />
                 <label
                   htmlFor="file-input"
-                  className="text-sm text-blue-600 hover:text-blue-700 cursor-pointer"
+                  className="text-lg text-blue-600 hover:text-blue-700 cursor-pointer"
                 >
                   ファイルを選択
                 </label>
               </div>
             </div>
-            
+
             <div
-              className={`border-2 border-dashed rounded-md transition-colors ${
-                dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-              }`}
+              className={`border-2 border-dashed rounded-md transition-colors ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+                }`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
@@ -258,46 +257,46 @@ export default function CodeFormatter() {
                 value={inputCode}
                 onChange={(e) => setInputCode(e.target.value)}
                 placeholder="コードを入力するか、ファイルをドラッグ&ドロップ..."
-                className="w-full h-96 p-4 font-mono text-sm resize-none focus:outline-none bg-transparent"
+                className="w-full h-96 p-4 font-mono text-lg resize-none focus:outline-none bg-transparent"
               />
             </div>
           </div>
 
           {/* 出力エリア */}
-          <div className="bg-white rounded-lg p-6 shadow-sm">
+          <div className="bg-white rounded-lg p-6 shadow-lg">
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-lg font-semibold">出力</h2>
               {outputCode && (
                 <div className="flex gap-2">
                   <button
                     onClick={copyToClipboard}
-                    className="text-sm text-blue-600 hover:text-blue-700"
+                    className="text-lg text-blue-600 hover:text-blue-700"
                   >
                     コピー
                   </button>
                   <button
                     onClick={downloadCode}
-                    className="text-sm text-blue-600 hover:text-blue-700"
+                    className="text-lg text-blue-600 hover:text-blue-700"
                   >
                     ダウンロード
                   </button>
                 </div>
               )}
             </div>
-            
+
             <div className="border border-gray-300 rounded-md bg-gray-50">
               <textarea
                 value={outputCode}
                 readOnly
                 placeholder="整形されたコードがここに表示されます"
-                className="w-full h-96 p-4 font-mono text-sm resize-none focus:outline-none bg-transparent"
+                className="w-full h-96 p-4 font-mono text-lg resize-none focus:outline-none bg-transparent"
               />
             </div>
           </div>
         </div>
 
         {/* 使い方 */}
-        <div className="mt-8 bg-white rounded-lg p-6 shadow-sm">
+        <div className="mt-8 bg-white rounded-lg p-6 shadow-lg">
           <h3 className="text-lg font-semibold mb-3">使い方</h3>
           <ol className="list-decimal list-inside space-y-2 text-gray-700">
             <li>左側の入力エリアにコードを貼り付けるか、ファイルをドラッグ&ドロップ</li>
