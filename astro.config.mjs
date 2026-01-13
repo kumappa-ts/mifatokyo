@@ -24,6 +24,9 @@ export default defineConfig({
 
   // Viteの設定をカスタマイズ
   vite: {
+    worker: {
+      format: 'es'  // ← これを追加
+    },
     css: {
       // transformer: 'lightningcss',
       postcss: './postcss.config.mjs',
