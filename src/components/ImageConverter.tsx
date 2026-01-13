@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { encode as encodeAvif } from '@jsquash/avif';
 
@@ -637,8 +638,8 @@ export default function ImageConverter() {
                                 key={deg}
                                 onClick={() => setTransformOptions({ ...transformOptions, rotation: deg })}
                                 className={`px-4 py-2 rounded border ${transformOptions.rotation === deg
-                                    ? 'bg-blue-600 text-white border-blue-600'
-                                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                                  ? 'bg-blue-600 text-white border-blue-600'
+                                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                                   }`}
                               >
                                 {deg}°

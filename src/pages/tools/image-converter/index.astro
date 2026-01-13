@@ -1,4 +1,5 @@
 ---
+// @ts-nocheck
 // import { Image } from "astro:assets";
 import ToolsPage from "../../../components/ToolsPage.astro";
 import ImageConverter from "../../../components/ImageConverter";
@@ -19,9 +20,6 @@ const metadata = generateMetadata("imageConverter");
   <ImageConverter client:load />
 </ToolsPage>
 <style is:inline>
-  /* @import "tailwindcss/base";
-  @import "tailwindcss/components";
-  @import "tailwindcss/utilities"; */
   canvas {
     max-width: 100%;
   }

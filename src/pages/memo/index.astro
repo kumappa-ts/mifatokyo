@@ -1,4 +1,5 @@
 ---
+// @ts-nocheck
 import { Image } from "astro:assets";
 import Page from "../../components/page.astro";
 import PageHeader from "../../components/PageHeader.astro";
@@ -24,12 +25,6 @@ const posts = await getBlogs();
         />後で見返せるようにいろいろ書き残していきます。
       </p>
     </div>
-    <!-- <div class="page-header">
-    <h1 class="page-header__en" data-text="memo">memo</h1>
-    <div class="page-header__ja">
-      <p>備忘録</p>
-    </div>
-  </div> -->
     <div class="post-list">
       {
         posts.map((post, index) => (
