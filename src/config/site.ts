@@ -90,8 +90,8 @@ export const siteConfig = {
   // SNSリンク
   socialLinks: {
     twitter: 'https://x.com/_________mashi',
-    github: 'https://github.com/youraccount',
-    note: 'https://github.com/youraccount',
+    // github: 'https://github.com/youraccount',
+    // note: 'https://github.com/youraccount',
     // 他のSNSリンク
   },
 } as const;
