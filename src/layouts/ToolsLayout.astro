@@ -2,6 +2,7 @@
 // @ts-nocheck
 import { siteConfig } from "../config/site";
 import { Image } from "astro:assets";
+import Analytics from "@vercel/analytics/astro";
 
 // import "modern-normalize";
 import "../styles/global.scss";
@@ -111,6 +112,7 @@ const ga4TrackingCode = `
         </footer>
       </div>
     </main>
+    <Analytics />
     <style lang="scss">
       .container-bg {
         position: fixed;

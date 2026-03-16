@@ -60,15 +60,15 @@ export default defineConfig({
     react(),
     sitemap(),
     tailwind({
-      applyBaseStyles: false,
-      config: {
-        // Lightning CSSを使わない
-        vite: {
-          css: {
-            transformer: undefined  // TailwindはPostCSSで処理
-          }
-        }
-      }
+      // applyBaseStyles: false,
+      // config: {
+      //   // Lightning CSSを使わない
+      //   vite: {
+      //     css: {
+      //       transformer: undefined  // TailwindはPostCSSで処理
+      //     }
+      //   }
+      // }
     })
   ],
   server: {

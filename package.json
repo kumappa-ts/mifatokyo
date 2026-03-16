@@ -13,6 +13,7 @@
     "@jsquash/avif": "^2.1.1",
     "@qwik.dev/partytown": "^0.11.0",
     "@splidejs/splide": "^4.1.4",
+    "@vercel/analytics": "^1.6.1",
     "astro": "^5.16.6",
     "cheerio": "^1.0.0",
     "gsap": "^3.12.0",

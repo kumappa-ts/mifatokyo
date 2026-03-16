@@ -1,4 +1,5 @@
 ---
+// @ts-nocheck
 import type { GetStaticPaths } from "astro";
 import { Image } from "astro:assets";
 import "highlight.js/styles/vs2015.css";
@@ -106,7 +107,7 @@ const isClose = Boolean(article.close);
   }
   .article-thumbnail {
     margin-bottom: -0.8rem;
-    aspect-ratio: 530/295;
+    aspect-ratio: 530/350;
     width: 100%;
     overflow: hidden;
     position: relative;
