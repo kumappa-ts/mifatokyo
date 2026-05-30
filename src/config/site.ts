@@ -86,6 +86,14 @@ export const siteConfig = {
       inNav: false,
       order: 7,
     },
+    directoryTreeGenerator: {
+      path: '/tools/directory-tree-generator',
+      label: 'ディレクトリ生成ツール',
+      title: 'ディレクトリ生成ツール',
+      description: 'インデントされたテキストをツリー図に変換します。# で始まる行はコメントとして出力されます。',
+      inNav: false,
+      order: 8,
+    },
   },
   // SNSリンク
   socialLinks: {

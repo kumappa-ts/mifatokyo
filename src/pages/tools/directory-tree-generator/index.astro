@@ -1,0 +1,481 @@
+---
+// import { Image } from "astro:assets";
+import ToolsPage from "../../../components/ToolsPage.astro";
+import "../../../styles/tailwind.css";
+import { generateMetadata } from "../../../config/site";
+// import "tailwindcss/base.css";
+// import "tailwindcss/components.css";
+// import "tailwindcss/utilities.css";
+
+const metadata = generateMetadata("directoryTreeGenerator");
+---
+
+<ToolsPage
+  title={metadata.title}
+  label={metadata.label}
+  description={metadata.description}
+>
+  <section class="tool">
+    <!-- <div class="tool__header">
+      <h1 class="tool__title">Directory tree generator</h1>
+      <p class="tool__desc">
+        インデントされたテキストをツリー図に変換します。<code>#</code> で始まる行はコメントとして出力されます。
+      </p>
+    </div> -->
+
+    <div class="tool__options">
+      <label class="tool__opt">
+        <input type="checkbox" id="opt-slash" />
+        ディレクトリに <code>/</code> を付与
+      </label>
+      <label class="tool__opt">
+        <input type="checkbox" id="opt-root" checked />
+        ルートパス（<code>.</code>）を表示
+      </label>
+      <span class="tool__badge" id="detect-badge">インデント: 検出待ち</span>
+    </div>
+
+    <div class="tool__panes">
+      <div class="tool__pane">
+        <p class="tool__pane-label">入力</p>
+        <textarea
+          id="input"
+          class="tool__textarea"
+          placeholder="src
+  pages
+    index.astro
+  components
+    Header.astro
+    Footer.astro
+  styles
+    global.css
+public
+  favicon.ico
+package.json
+astro.config.ts
+# 設定ファイル
+tsconfig.json"
+        ></textarea>
+      </div>
+      <div class="tool__pane">
+        <p class="tool__pane-label">出力</p>
+        <textarea
+          id="output"
+          class="tool__textarea"
+          readonly
+          placeholder="ツリーがここに表示されます"></textarea>
+      </div>
+    </div>
+
+    <div class="tool__actions">
+      <span class="tool__note"><code>#</code> 行はコメントとして出力</span>
+      <div class="tool__btns">
+        <button class="tool__btn" id="btn-clear">クリア</button>
+        <button class="tool__btn" id="btn-copy">コピー</button>
+        <button class="tool__btn" id="btn-txt">.txt</button>
+        <button class="tool__btn" id="btn-png">PNG</button>
+      </div>
+    </div>
+  </section>
+</ToolsPage>
+
+<style lang="scss">
+  .tool {
+    width: 100%;
+    margin: 0 auto;
+    padding: 2em;
+
+    &__header {
+      margin-bottom: 32px;
+    }
+
+    &__title {
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    &__desc {
+      font-size: 14px;
+      color: #888;
+
+      code {
+        font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+        font-size: 12px;
+      }
+    }
+
+    &__options {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    &__opt {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+
+      input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+      }
+
+      code {
+        font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+        font-size: 11px;
+      }
+    }
+
+    &__badge {
+      font-size: 11px;
+      color: #aaa;
+      padding: 2px 10px;
+      border: 1px solid #e0e0e0;
+      border-radius: 100px;
+    }
+
+    &__panes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    &__pane {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    &__pane-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #aaa;
+      letter-spacing: 0.04em;
+    }
+
+    &__textarea {
+      width: 100%;
+      height: 480px;
+      font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      padding: 16px;
+      background: #f7f7f5;
+      border: 1px solid #e8e8e6;
+      border-radius: 8px;
+      color: inherit;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s;
+
+      &:focus {
+        border-color: #bbb;
+      }
+
+      &[readonly] {
+        cursor: default;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    &__note {
+      font-size: 11px;
+      color: #bbb;
+
+      code {
+        font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+        font-size: 11px;
+      }
+    }
+
+    &__btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    &__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      padding: 6px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      background: transparent;
+      color: #555;
+      cursor: pointer;
+      font-family: inherit;
+      transition:
+        background 0.12s,
+        border-color 0.12s;
+
+      &:hover {
+        background: #f5f5f3;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+
+      &.is-done {
+        color: #4caf50;
+        border-color: #a5d6a7;
+      }
+    }
+  }
+</style>
+
+<script>
+  const inputEl = document.getElementById("input") as HTMLTextAreaElement;
+  const outputEl = document.getElementById("output") as HTMLTextAreaElement;
+  const optSlash = document.getElementById("opt-slash") as HTMLInputElement;
+  const optRoot = document.getElementById("opt-root") as HTMLInputElement;
+  const badge = document.getElementById("detect-badge") as HTMLElement;
+  const btnCopy = document.getElementById("btn-copy") as HTMLButtonElement;
+  const btnClear = document.getElementById("btn-clear") as HTMLButtonElement;
+  const btnTxt = document.getElementById("btn-txt") as HTMLButtonElement;
+  const btnPng = document.getElementById("btn-png") as HTMLButtonElement;
+
+  const PIPE = "│  ";
+  const BLANK = "   ";
+
+  // 全角スペースを半角に正規化（カーソル位置を保持）
+  function normalizeInput(el: HTMLTextAreaElement): void {
+    const normalized = el.value.replace(/　/g, " ");
+    if (normalized === el.value) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    el.value = normalized;
+    el.setSelectionRange(start, end);
+  }
+
+  function branchStr(isLast: boolean, depth: number): string {
+    const b = isLast ? "└─ " : "├─ ";
+    return depth > 1 ? "　" + b : b;
+  }
+
+  // コメント行用：後続に実ノードあり → │ 表示、なし → スペース
+  function commentStr(isLast: boolean, depth: number): string {
+    const pipe = depth > 1 ? "　│  " : "│  ";
+    const blank = depth > 1 ? "　   " : "   ";
+    return isLast ? blank : pipe;
+  }
+
+  type IndentInfo = { type: "space" | "tab"; size: number; label: string };
+
+  function detectIndent(lines: string[]): IndentInfo {
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const m = line.match(/^(\s+)/);
+      if (!m) continue;
+      const ws = m[1];
+      if (ws.includes("\t")) {
+        const tabs = (ws.match(/\t/g) ?? []).length;
+        return { type: "tab", size: tabs, label: `タブ×${tabs}` };
+      }
+      return { type: "space", size: ws.length, label: `スペース×${ws.length}` };
+    }
+    return { type: "space", size: 2, label: "デフォルト (スペース×2)" };
+  }
+
+  function getDepth(line: string, indent: IndentInfo): number {
+    const ws = (line.match(/^(\s*)/) ?? ["", ""])[1];
+    if (!ws) return 0;
+    if (indent.type === "tab")
+      return Math.floor((ws.match(/\t/g) ?? []).length / indent.size);
+    return Math.floor(ws.length / indent.size);
+  }
+
+  function buildTree(
+    text: string,
+    addSlash: boolean,
+    showRoot: boolean,
+  ): string {
+    const valid = text.split("\n").filter((l) => l.trim() !== "");
+    if (!valid.length) return "";
+
+    const indent = detectIndent(valid);
+    badge.textContent = `インデント: ${indent.label}`;
+
+    const nodes = valid.map((line) => ({
+      name: line.trim(),
+      depth: getDepth(line, indent),
+      isComment: line.trim().startsWith("#"),
+    }));
+
+    const result: string[] = [];
+    if (showRoot) result.push(".");
+
+    for (let i = 0; i < nodes.length; i++) {
+      const { name, depth: d, isComment } = nodes[i];
+
+      // isLast: コメント行を除外して判定
+      let isLast = true;
+      for (let j = i + 1; j < nodes.length; j++) {
+        if (nodes[j].depth < d) break;
+        if (nodes[j].depth === d && !nodes[j].isComment) {
+          isLast = false;
+          break;
+        }
+      }
+
+      let prefix = "";
+      for (let pd = 1; pd < d; pd++) {
+        // hasMore: コメント行を除外して判定
+        let hasMore = false;
+        for (let j = i + 1; j < nodes.length; j++) {
+          if (nodes[j].depth < pd) break;
+          if (nodes[j].depth === pd && !nodes[j].isComment) {
+            hasMore = true;
+            break;
+          }
+        }
+        prefix += hasMore ? PIPE : BLANK;
+      }
+
+      if (d > 0) {
+        prefix += isComment ? commentStr(isLast, d) : branchStr(isLast, d);
+      }
+
+      let label = name;
+      if (
+        !isComment &&
+        addSlash &&
+        i + 1 < nodes.length &&
+        nodes[i + 1].depth > d
+      ) {
+        label += "/";
+      }
+
+      result.push(prefix + label);
+    }
+
+    return result.join("\n");
+  }
+
+  function update(): void {
+    normalizeInput(inputEl);
+    const text = inputEl.value;
+    if (!text.trim()) {
+      outputEl.value = "";
+      badge.textContent = "インデント: 検出待ち";
+      return;
+    }
+    outputEl.value = buildTree(text, optSlash.checked, optRoot.checked);
+  }
+
+  function flashBtn(btn: HTMLButtonElement, orig: string): void {
+    btn.classList.add("is-done");
+    btn.textContent = "完了";
+    setTimeout(() => {
+      btn.classList.remove("is-done");
+      btn.innerHTML = orig;
+    }, 1800);
+  }
+
+  function downloadBlob(blob: Blob, filename: string): void {
+    const a = Object.assign(document.createElement("a"), {
+      href: URL.createObjectURL(blob),
+      download: filename,
+    });
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  inputEl.addEventListener("input", update);
+  optSlash.addEventListener("change", update);
+  optRoot.addEventListener("change", update);
+
+  btnClear.addEventListener("click", () => {
+    inputEl.value = "";
+    outputEl.value = "";
+    badge.textContent = "インデント: 検出待ち";
+  });
+
+  btnCopy.addEventListener("click", () => {
+    if (!outputEl.value) return;
+    const orig = btnCopy.innerHTML;
+    navigator.clipboard
+      .writeText(outputEl.value)
+      .then(() => flashBtn(btnCopy, orig));
+  });
+
+  btnTxt.addEventListener("click", () => {
+    const t = outputEl.value;
+    if (!t) return;
+    const orig = btnTxt.innerHTML;
+    downloadBlob(
+      new Blob([t], { type: "text/plain;charset=utf-8" }),
+      "directory-tree.txt",
+    );
+    flashBtn(btnTxt, orig);
+  });
+
+  btnPng.addEventListener("click", () => {
+    const t = outputEl.value;
+    if (!t) return;
+    const orig = btnPng.innerHTML;
+
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const bg = isDark ? "#1a1a1a" : "#ffffff";
+    const fg = isDark ? "#e8e8e8" : "#1a1a1a";
+    const cg = isDark ? "#888888" : "#999999";
+
+    const lines = t.split("\n");
+    const lh = 22,
+      px = 32,
+      py = 28,
+      fs = 14,
+      cw = fs * 0.6;
+    const w = Math.max(
+      480,
+      Math.max(...lines.map((l) => l.length)) * cw + px * 2,
+    );
+    const h = lines.length * lh + py * 2;
+
+    const cvs = document.createElement("canvas");
+    const dpr = window.devicePixelRatio || 2;
+    cvs.width = w * dpr;
+    cvs.height = h * dpr;
+
+    const ctx = cvs.getContext("2d")!;
+    ctx.scale(dpr, dpr);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.font = `${fs}px "SFMono-Regular", "Consolas", "Menlo", monospace`;
+    ctx.textBaseline = "top";
+
+    lines.forEach((line, i) => {
+      ctx.fillStyle = line.trim().startsWith("#") ? cg : fg;
+      ctx.fillText(line, px, py + i * lh);
+    });
+
+    cvs.toBlob((blob) => {
+      if (blob) downloadBlob(blob, "directory-tree.png");
+    });
+
+    flashBtn(btnPng, orig);
+  });
+
+  update();
+</script>
